@@ -174,15 +174,41 @@ namespace Game
         {
             Graphic graphic = new Graphic("Bad command! Click Help for help.");
 
-            if (command == "FORWARD")
+            int where = -1;
+            switch (command) //see if movement command
             {
-                if (!player.move(0))
+                case "FORWARD": where = 0; break;
+                case "RIGHT": where = 1; break;
+                case "BACKWARD": where = 2; break;
+                case "LEFT": where = 3; break;
+                default: where = -1; break;// other command
+            }
+
+            if (where != -1) //It is a move command
+            {
+                if (!player.move(where))
                     graphic.setGraphic("There is wall in front of you!" + System.Environment.NewLine);
-                else{
+                else
+                {
                     Coordinate coord = player.getCoordinates();
                     graphic.setGraphic(player.getName() + " moved to (" + coord.x + "," + coord.y + ")" + System.Environment.NewLine);
                 }
-                }
+
+                return graphic;
+            }
+
+            if (command == "ENTER")
+            {
+                
+            }
+            else if (command == "PICKUP")
+            {
+
+            }
+            else if (command == "INVT")
+            {
+
+            }
 
             return graphic;
         }

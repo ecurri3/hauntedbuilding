@@ -76,7 +76,7 @@ namespace hauntedBuildinggrp3
         //TODO Enter button & error check
         private void button2_Click(object sender, EventArgs e)
         {
-            Game.Graphic graphic = hb.enterCommand(textBox2.Text);
+            Game.Graphic graphic = hb.enterCommand(listBox1.Text);
             textBox1.Text = graphic.getGraphic();
 
             currentGraphic.setGraphic(textBox1.Text);
