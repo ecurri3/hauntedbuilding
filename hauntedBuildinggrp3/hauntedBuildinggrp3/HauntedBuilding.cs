@@ -117,7 +117,7 @@ namespace Game
                 case 1: if (yPos + 1 > 9 ) return false;
                         yPos++; break;
                 //BACKWARD
-                case 2: if (xPos + 1 < 9) return false;
+                case 2: if (xPos + 1 > 9) return false;
                         xPos++; break;
                 //LEFT
                 case 3: if (yPos - 1 < 0) return false;
