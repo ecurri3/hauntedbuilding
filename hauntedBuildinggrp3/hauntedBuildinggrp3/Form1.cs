@@ -33,20 +33,20 @@ namespace hauntedBuildinggrp3
         //Start button
         private void button1_Click(object sender, EventArgs e)
         {
-            if(state == 0) //first time they click "Start"
-            {
-                textBox1.Text = hb.getTitle() + System.Environment.NewLine +
-                                "Press start to begin.";
+            //if(state == 0) //first time they click "Start"
+            //{
+            //    textBox1.Text = hb.getTitle() + System.Environment.NewLine +
+            //                    "Press start to begin.";
 
-                currentGraphic.setGraphic(textBox1.Text);
+            //    currentGraphic.setGraphic(textBox1.Text);
 
-                state = 1;
-            }
+            //    state = 1;
+            //}
 
             //TODO startGame will need parameters like loading a saved file 
             //call startGame() 
             //If they keep clicking "Start" restart the game
-            else
+            //else
             {
                Game.Graphic graphic = hb.startGame();
                textBox1.Text = graphic.getGraphic();
@@ -78,6 +78,14 @@ namespace hauntedBuildinggrp3
         {
             Game.Graphic graphic = hb.enterCommand(listBox1.Text);
             textBox1.Text = graphic.getGraphic();
+
+            currentGraphic.setGraphic(textBox1.Text);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = hb.getTitle() + System.Environment.NewLine +
+                                "Press start to begin.";
 
             currentGraphic.setGraphic(textBox1.Text);
         }
