@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace Game
 {
+    static class Constants
+    {
+        public const int FLOOR_LENGTH = 10;
+        public const int FLOOR_WIDTH = 10;
+    }
+
     class Graphic //simulate graphics (for now just text)
     {
-        private String graphic;
+        private String text;
 
-        public Graphic(String graphic)
+        public Graphic(String text)
         {
-            this.graphic = graphic;
+            this.text = text;
         }
 
-        public String getGraphic()
+        public String Text
         {
-            return graphic;
-        }
-
-        public void setGraphic(String graphic)
-        {
-            this.graphic = graphic;
+            set { this.text = value; }
+            get { return text; }
         }
     }
     
@@ -34,6 +36,7 @@ namespace Game
 
     // Coordinate (9,4) is marked as [x]. We use (x,y) format.
     //Johnny starts on the 10th floor at coordinate (9,4)
+    // Y is width, X is length
 
     /*   0        Y         9
      * 0 [][][][][][][][][][]
@@ -50,14 +53,13 @@ namespace Game
 
     //TODO need constructor that initializes floor with a 10x10 matrix of tiles
     class Floor{
-        private const int FLOOR_LENGTH = 10;
-        private const int FLOOR_WIDTH = 10;
+        
 
         //might have an x,y position for the floor
         private int xPos;
         private int yPos;
 
-        private Tile[,] floor = new Tile[FLOOR_LENGTH, FLOOR_WIDTH];
+        private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
 
         public Floor()
         {
@@ -90,59 +92,106 @@ namespace Game
         }
     }
 
+    enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT};
+
     class Player{
         private Floor floor; //what floor are they on
-        private int xPos; //Coordinates
-        private int yPos;
-        private Item inventory; // should be an ArrayList
+        private Coordinate coord; //may need to init to something
+        private Item inventory = null; // should be an ArrayList
         private String name; //their name
 
-        public void setFloor(Floor floor){
-            this.floor = floor;
-        }
-
-        public void setName(String name)
+        public String stringCoord()
         {
-            this.name = name;
+            return "(" + coord.x + "," + coord.y + ")";
         }
 
-        public string getName()
+        public Floor Floor{
+            set { this.floor = value; }
+            get { return this.floor; }
+        }
+
+        public Coordinate Coord //getter and setter for coordinate
         {
-            return this.name;
+            set { this.coord = value;}
+            get { return this.coord; }
         }
 
-        public void setCoord(Coordinate coord)
+        public Item Inventory
         {
-            this.xPos = coord.x;
-            this.yPos = coord.y;
+            set {this.inventory = value;}
+            get { return inventory; }
         }
 
-        public bool move(int where)
+        public String Name
+        {
+            set { this.name = value; }
+            get { return this.name; }
+        }
+
+        public bool move(Move where)
         {
             switch (where)
             {
-                    //TODO write an enum
-                //FORWARD
-                case 0: if(xPos - 1 < 0) return false; //they hit boundary 
-                        xPos--; break;
-                //RIGHT
-                case 1: if (yPos + 1 > 9 ) return false;
-                        yPos++; break;
-                //BACKWARD
-                case 2: if (xPos + 1 > 9) return false;
-                        xPos++; break;
-                //LEFT
-                case 3: if (yPos - 1 < 0) return false;
-                        yPos--; break;
+                case Move.FORWARD: if(coord.x - 1 < 0) return false; //they hit boundary 
+                        coord.x--; break;
+
+                case Move.RIGHT: if (coord.y + 1 > Constants.FLOOR_WIDTH-1) return false;
+                        coord.y++; break;
+
+                case Move.BACKWARD: if (coord.x + 1 > Constants.FLOOR_LENGTH-1) return false;
+                        coord.x++; break;
+
+                case Move.LEFT: if (coord.y - 1 < 0) return false;
+                        coord.y--; break;
                 default:
                     return false; //bad direction
-                
             }
 
             return true; //success!
         }
 
-        public Coordinate getCoordinates() { return new Coordinate(xPos, yPos); }
+        //TODO
+        public bool enterElevator()
+        {
+            /*
+            if (floor.elevatorAt(Coord))
+            {
+                floor.takeElevator(ref this);
+                return true;
+            }
+             * */
+
+            return false;
+        }
+
+        //TODO
+        public String pickup()
+        {
+            /*
+            if (floor.itemAt(Coord))
+            {
+                Item item = floor.pickupItem(Coord);
+             *  inventory.add(item);
+                return item.Name;
+            }
+             * */
+
+            return "nothing";
+        }
+
+        //TODO
+        public String showInventory()
+        {
+            if(inventory == null) return "nothing";
+
+            String invtList = "";
+            /* for each item in inventory
+             * append to invtList
+             * */
+
+            return invtList;
+        }
+
 
     }
 
@@ -166,11 +215,11 @@ namespace Game
 
         public Graphic startGame()
         {
-            player.setFloor(floors[9]); //start at the roof
-            player.setName("Johnny"); //for now we call him Johnny
-            player.setCoord(new Coordinate(9,4)); //Floor matrix is zero indexed!! so 10th tile is 9
+            player.Floor = floors[9]; //start at the roof
+            player.Name = "Johnny"; //for now we call him Johnny
+            player.Coord = new Coordinate(9,4); //Floor matrix is zero indexed!! so 10th tile is 9
 
-            Graphic graphic = new Graphic(player.getName() + " is on the roof. (10th floor)");
+            Graphic graphic = new Graphic(player.Name + " is on the roof. (10th floor)");
 
             currentGraphic = graphic;
             return graphic;
@@ -186,40 +235,48 @@ namespace Game
         {
             Graphic graphic = new Graphic("Bad command! Click Help for help.");
 
-            int where = -1;
+            Move where = Move.STALL;
             switch (command) //see if movement command
             {
-                case "FORWARD": where = 0; break;
-                case "RIGHT": where = 1; break;
-                case "BACKWARD": where = 2; break;
-                case "LEFT": where = 3; break;
-                default: where = -1; break;// other command
+                case "FORWARD": where = Move.FORWARD; break;
+                case "RIGHT": where = Move.RIGHT; break;
+                case "BACKWARD": where = Move.BACKWARD; break;
+                case "LEFT": where = Move.LEFT; break;
             }
 
-            if (where != -1) //It is a move command
+            if (where != Move.STALL) //It is a move command
             {
+                //TODO not just a wall but maybe an elevator.
                 if (!player.move(where))
-                    graphic.setGraphic("There is wall in front of you!" + System.Environment.NewLine);
+                    graphic.Text = "Your trying to move into a wall!" + System.Environment.NewLine +
+                                        player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
+                else
+                    graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
+
+            }
+            else if (command == "ENTER")
+            {
+                //TODO
+                if (player.enterElevator())
+                {
+                    /*
+                    graphic.setGraphic("Taking Elevator..." + System.Environment.NewLine +
+                                        player.Name + " is on floor " + player.Floor.Number + " at " +
+                                        player.stringCoord() + System.Environment.NewLine);
+                     */
+                }
                 else
                 {
-                    Coordinate coord = player.getCoordinates();
-                    graphic.setGraphic(player.getName() + " moved to (" + coord.x + "," + coord.y + ")" + System.Environment.NewLine);
+                    graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
                 }
-
-                return graphic;
-            }
-
-            if (command == "ENTER")
-            {
-                
             }
             else if (command == "PICKUP")
             {
-
+                graphic.Text = "You picked up " + player.pickup() + " at " + player.stringCoord() + System.Environment.NewLine;
             }
             else if (command == "INVT")
             {
-
+                graphic.Text = "You are carrying: " + player.showInventory() + System.Environment.NewLine;
             }
 
             return graphic;

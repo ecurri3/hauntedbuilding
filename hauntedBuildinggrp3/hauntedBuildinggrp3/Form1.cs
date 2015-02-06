@@ -40,6 +40,9 @@ namespace hauntedBuildinggrp3
 
             //    currentGraphic.setGraphic(textBox1.Text);
 
+                currentGraphic.Text = textBox1.Text;
+
+
             //    state = 1;
             //}
 
@@ -49,9 +52,11 @@ namespace hauntedBuildinggrp3
             //else
             {
                Game.Graphic graphic = hb.startGame();
-               textBox1.Text = graphic.getGraphic();
+               textBox1.Text = graphic.Text;
 
-               currentGraphic.setGraphic(textBox1.Text);
+               currentGraphic.Text = textBox1.Text;
+
+               state = 2;
             }
                 
         }
@@ -62,12 +67,12 @@ namespace hauntedBuildinggrp3
             if (helping)
             {
                 Game.Graphic graphic = hb.getHelp();
-                textBox1.Text = graphic.getGraphic();
+                textBox1.Text = graphic.Text;
                 helping = false;
             }
             else
             {
-                textBox1.Text = currentGraphic.getGraphic();
+                textBox1.Text = currentGraphic.Text;
                 helping = true;
             }
 
@@ -76,10 +81,13 @@ namespace hauntedBuildinggrp3
         //TODO Enter button & error check
         private void button2_Click(object sender, EventArgs e)
         {
-            Game.Graphic graphic = hb.enterCommand(listBox1.Text);
-            textBox1.Text = graphic.getGraphic();
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand(listBox1.Text);
+                textBox1.Text = graphic.Text;
 
-            currentGraphic.setGraphic(textBox1.Text);
+                currentGraphic.Text = textBox1.Text;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -87,7 +95,7 @@ namespace hauntedBuildinggrp3
             textBox1.Text = hb.getTitle() + System.Environment.NewLine +
                                 "Press start to begin.";
 
-            currentGraphic.setGraphic(textBox1.Text);
+            currentGraphic.Text=textBox1.Text;
         }
     }
  
