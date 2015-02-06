@@ -68,15 +68,38 @@ namespace Game
     }
 
     //TODO
+    /*
+     * When Floor is initialized, the case/password will be randomly assigned to a Tile
+     * When each Tile is initalized, it will check if the item is already set to something
+     * if not, set the item to some random item
+     * else, skip the current Tile because that Tile is already set to the case/password
+     */
     class Tile
     {
+        private Item item;
+        //Construct a random item for each tile
+        /*
+         * Case, password, nothing, etc
+         */
+        public Tile()
+        {
+            //Not sure how to decide how item is initialized
+            Random random = new Random();
+            int rand = random.Next(0, 2);
+            //item = tems[rand];
+        }
 
     }
 
     //TODO
     class Item
     {
-
+        String itemName;
+        String itemHint;
+        public Item(String name, String hint){
+            itemName = String.Copy(name);
+            itemHint = String.Copy(hint);
+        }
     }
 
 
@@ -201,12 +224,17 @@ namespace Game
         private Floor[] floors;
         private Player player;
         private Graphic currentGraphic; //the current image saved.
+        private Item[] items;
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
             floors = new Floor[10]; //Creating 10 foors
             player = new Player();
             currentGraphic = new Graphic(""); //empty image on screen
+            items = new Item[3];
+            items[0] = new Item("Note", "First number is 9");
+            items[1] = new Item("Recording", "This is a recording");
+            items[2] = new Item("Flashlight", "This is a flashlight");
         }
 
         public String getTitle(){

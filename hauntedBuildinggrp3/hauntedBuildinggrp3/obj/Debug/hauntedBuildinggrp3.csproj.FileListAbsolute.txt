@@ -16,3 +16,12 @@ C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\ob
 C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Form1.resources
 C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
 C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Form1.resources
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
+C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
