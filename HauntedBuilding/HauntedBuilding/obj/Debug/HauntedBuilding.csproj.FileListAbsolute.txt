@@ -1,0 +1,11 @@
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\bin\Debug\HauntedBuilding.exe.config
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\bin\Debug\HauntedBuilding.exe
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\bin\Debug\HauntedBuilding.pdb
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.csprojResolveAssemblyReference.cache
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.fmHelp.resources
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.fmOptions.resources
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.Properties.Resources.resources
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.csproj.GenerateResource.Cache
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.exe
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.pdb
+C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Demos\C#\HauntedBuilding\HauntedBuilding\obj\Debug\HauntedBuilding.fmLogin.resources
