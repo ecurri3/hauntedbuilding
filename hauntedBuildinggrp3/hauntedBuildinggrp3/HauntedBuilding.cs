@@ -10,6 +10,7 @@ namespace Game
     {
         public const int FLOOR_LENGTH = 10;
         public const int FLOOR_WIDTH = 10;
+        public const Item[] items = new Item[3];
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -53,7 +54,8 @@ namespace Game
 
     //TODO need constructor that initializes floor with a 10x10 matrix of tiles
     class Floor{
-        
+
+        private Random randomGen = new Random();
 
         //might have an x,y position for the floor
         private int xPos;
@@ -63,7 +65,19 @@ namespace Game
 
         public Floor()
         {
-            ;
+            int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
+            int x,y;
+
+            for (int i = 0; i < ranAmount; i++)
+            {
+                x = randomGen.Next(0, Constants.FLOOR_LENGTH);
+                y = randomGen.Next(0, Constants.FLOOR_WIDTH);
+
+                floor[x][y].
+            }
+
+
+
         }
     }
 
@@ -178,6 +192,8 @@ namespace Game
 
             return "nothing";
         }
+
+
 
         //TODO
         public String showInventory()
