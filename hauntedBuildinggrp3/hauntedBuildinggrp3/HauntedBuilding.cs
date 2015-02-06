@@ -50,18 +50,18 @@ namespace Game
 
     //TODO need constructor that initializes floor with a 10x10 matrix of tiles
     class Floor{
-        int FLOOR_LENGTH = 10;
-        int FLOOR_WIDTH = 10;
+        private const int FLOOR_LENGTH = 10;
+        private const int FLOOR_WIDTH = 10;
 
         //might have an x,y position for the floor
-        int xPos;
-        int yPos;
+        private int xPos;
+        private int yPos;
 
-        Tile[, ,] floor = new TILE[FLOOR_LENGTH, FLOOR_WIDTH];
+        private Tile[,] floor = new Tile[FLOOR_LENGTH, FLOOR_WIDTH];
 
         public Floor()
         {
-            return this;
+            ;
         }
     }
 
