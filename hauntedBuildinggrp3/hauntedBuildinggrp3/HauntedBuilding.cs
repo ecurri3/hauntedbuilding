@@ -10,7 +10,7 @@ namespace Game
     {
         public const int FLOOR_LENGTH = 10;
         public const int FLOOR_WIDTH = 10;
-        public const Item[] items = new Item[3];
+        public const String[] items { "Note", "Phone", "Audio" };
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -66,16 +66,17 @@ namespace Game
         public Floor()
         {
             int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
-            int x,y;
+            int x, y; //random place of case
+            int a,b,c; //random passcode for case
 
-            for (int i = 0; i < ranAmount; i++)
-            {
-                x = randomGen.Next(0, Constants.FLOOR_LENGTH);
-                y = randomGen.Next(0, Constants.FLOOR_WIDTH);
+            x = randomGen.Next(0, Constants.FLOOR_LENGTH);
+            y = randomGen.Next(0, Constants.FLOOR_WIDTH);
 
-                floor[x][y].
-            }
+            a = randomGen.Next(0,9);
+            b = randomGen.Next(0,9);
+            c = randomGen.Next(0,9);
 
+            floor[x,y].Item = new Case("The case", a,b,c);
 
 
         }
@@ -99,8 +100,16 @@ namespace Game
         {
             //Not sure how to decide how item is initialized
             Random random = new Random();
-            int rand = random.Next(0, 2);
-            //item = tems[rand];
+            int rand = random.Next(0, 3);
+            if (rand == 3) item = null;
+            else
+                item = new Item(Constants.items[rand]);
+        }
+
+        public Item Item
+        {
+            set { this.item = value; }
+            get { return this.item;}
         }
 
     }
@@ -110,10 +119,29 @@ namespace Game
     {
         String itemName;
         String itemHint;
-        public Item(String name, String hint){
+        public Item(String name){
             itemName = String.Copy(name);
-            itemHint = String.Copy(hint);
+            itemHint = "blank";//String.Copy(hint);
         }
+
+        public String Hint
+        {
+            set { this.itemHint = value; }
+            get { return this.itemHint;}
+        }
+    }
+
+    class Case : Item
+    {
+        private int a, b, c; //passcode
+        public Case(String name, int a, int b, int c) : base(name) //call base class constructor
+        {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+
+        
     }
 
 
@@ -248,9 +276,11 @@ namespace Game
             player = new Player();
             currentGraphic = new Graphic(""); //empty image on screen
             items = new Item[3];
+            /*
             items[0] = new Item("Note", "First number is 9");
             items[1] = new Item("Recording", "This is a recording");
             items[2] = new Item("Flashlight", "This is a flashlight");
+            */
         }
 
         public String getTitle(){
