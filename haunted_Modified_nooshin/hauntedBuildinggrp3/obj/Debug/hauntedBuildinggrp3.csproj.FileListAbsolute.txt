@@ -1,45 +1,10 @@
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Form1.resources
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
-C:\Users\Justo Diaz\SkyDrive\CS 341\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Form1.resources
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
-C:\Users\Justo Diaz\Desktop\grp3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
-<<<<<<< HEAD
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Form1.resources
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
-C:\Users\Evan\Desktop\CS440_g3\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
-=======
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmHowToPlay.resources
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmStartGame.resources
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\Projects\Coding Project\Repository\Code\hauntedBuildinggrp3\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmPlayGame.resources
->>>>>>> 64468b4fb194a53bb5b241c8e4370e54e142ee48
->>>>>>> 44002c8419ac9913769c5cc2b458031c0cfe7812
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\BackupProject\haunted_Modified_nooshin\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\BackupProject\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
-C:\Users\Win\Documents\UIC\Spring2015\My Courses\CS440(SE1)\BackupProject\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe.config
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.exe
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\bin\Debug\hauntedBuildinggrp3.pdb
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmHowToPlay.resources
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmStartGame.resources
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.fmPlayGame.resources
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.Properties.Resources.resources
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb

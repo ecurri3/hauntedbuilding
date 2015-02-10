@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game
-{
+namespace Game{
+
     static class Constants
     {
         public const int FLOOR_LENGTH = 10;
         public const int FLOOR_WIDTH = 10;
-        public const String[] items { "Note", "Phone", "Audio" };
+        static public String[] items = new String[] { "Note", "Phone", "Audio"};
     }
 
     class Graphic //simulate graphics (for now just text)
