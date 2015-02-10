@@ -10,7 +10,8 @@ namespace Game{
     {
         public const int FLOOR_LENGTH = 10;
         public const int FLOOR_WIDTH = 10;
-        static public String[] items = new String[] { "Note", "Phone", "Audio"};
+        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio"};
+        static public Random randGen = new Random();
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -55,30 +56,74 @@ namespace Game{
     //TODO need constructor that initializes floor with a 10x10 matrix of tiles
     class Floor{
 
-        private Random randomGen = new Random();
+       // private Random randomGen = new Random();
 
-        //might have an x,y position for the floor
-        private int xPos;
-        private int yPos;
+        //Location of case
+        private int xCase;
+        private int yCase;
 
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
 
         public Floor()
         {
-            int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
+            for(int i = 0; i < Constants.FLOOR_LENGTH;i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                {
+                    floor[i, j] = new Tile();
+                }
+            //int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
             int x, y; //random place of case
             int a,b,c; //random passcode for case
 
-            x = randomGen.Next(0, Constants.FLOOR_LENGTH);
-            y = randomGen.Next(0, Constants.FLOOR_WIDTH);
+            x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+            y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
-            a = randomGen.Next(0,9);
-            b = randomGen.Next(0,9);
-            c = randomGen.Next(0,9);
+            //Random decimal pass code
+            a = Constants.randGen.Next(0, 9);
+            b = Constants.randGen.Next(0, 9);
+            c = Constants.randGen.Next(0, 9);
 
-            floor[x,y].Item = new Case("The case", a,b,c);
+            //Place case at random tile
+            floor[x,y].Item = new Case("The case", "Go to Elevator X", a,b,c);
 
+            int rand,x1,y1,x2,y2,x3,y3;
 
+            //Randomly place three items, each with one digit of the pass code
+            //Making sure they don't overlap
+            do
+            {
+                x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            } while (x1 == x && y1 == y); //can't be same as case
+
+            rand = Constants.randGen.Next(0, 2);
+            floor[x1,y1].Item = new Item(Constants.ITEMS[rand],a.ToString());
+
+            do
+            {
+                x2 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                y2 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            } while (x2 == x1 && y2 == y1 && x2 == x && y2 == y);
+
+            rand = Constants.randGen.Next(0, 2);
+            floor[x2,y2].Item = new Item(Constants.ITEMS[rand],b.ToString());
+
+            do
+            {
+                x3 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                y3 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            } while (x3 == x2 && y3 == y2 && x3 == x1 && y3 == y1 && x3 == x && y3 == y);
+
+            rand = Constants.randGen.Next(0, 2);
+            floor[x3,y3].Item = new Item(Constants.ITEMS[rand],c.ToString());
+        }
+
+        public Item pickupItem(Coordinate c)
+        {
+            if (floor[c.x, c.y].Item == null) return null;
+            Item i = floor[c.x,c.y].Item;
+            floor[c.x, c.y].Item = null;
+            return i;
         }
     }
 
@@ -99,11 +144,11 @@ namespace Game{
         public Tile()
         {
             //Not sure how to decide how item is initialized
-            Random random = new Random();
-            int rand = random.Next(0, 3);
-            if (rand == 3) item = null;
+            //Random random = new Random();
+            int rand = Constants.randGen.Next(0, 4); //(0,4]
+            if (rand == 3) item = null; //No item
             else
-                item = new Item(Constants.items[rand]);
+                item = new Item(Constants.ITEMS[rand], "No hint!");
         }
 
         public Item Item
@@ -117,31 +162,44 @@ namespace Game{
     //TODO
     class Item
     {
-        String itemName;
-        String itemHint;
-        public Item(String name){
-            itemName = String.Copy(name);
-            itemHint = "blank";//String.Copy(hint);
+        private String itemName;
+        private String itemHint;
+        public Item(String name, String hint){
+            itemName = name;
+            itemHint = hint;//String.Copy(hint);
         }
 
-        public String Hint
-        {
-            set { this.itemHint = value; }
-            get { return this.itemHint;}
-        }
+        public String name() { return itemName; }
+        public String getHint() { return itemHint; }
     }
 
     class Case : Item
     {
         private int a, b, c; //passcode
-        public Case(String name, int a, int b, int c) : base(name) //call base class constructor
+        private bool unlocked = false;
+        public Case(String name, String hint, int a, int b, int c) : base(name,hint) //call base class constructor
         {
             this.a = a;
             this.b = b;
             this.c = c;
         }
 
-        
+        public bool tryToUnlock(int a, int b, int c){
+
+            if (this.a == a && this.b == b && this.c == c)
+            {
+                unlocked = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        public new String getHint() //using 'new' keyword to hide base method
+        {
+            if (unlocked) return base.getHint();
+            return "Case Locked!";
+        }
     }
 
 
@@ -155,6 +213,7 @@ namespace Game{
             this.x = x;
             this.y = y;
         }
+
     }
 
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT};
@@ -232,14 +291,12 @@ namespace Game{
         //TODO
         public String pickup()
         {
-            /*
-            if (floor.itemAt(Coord))
+            Item i = floor.pickupItem(coord);
+            if (i != null)
             {
-                Item item = floor.pickupItem(Coord);
-             *  inventory.add(item);
-                return item.Name;
+                inventory = i;
+                return i.name();
             }
-             * */
 
             return "nothing";
         }
@@ -251,10 +308,7 @@ namespace Game{
         {
             if(inventory == null) return "nothing";
 
-            String invtList = "";
-            /* for each item in inventory
-             * append to invtList
-             * */
+            String invtList = inventory.name();
 
             return invtList;
         }
@@ -268,14 +322,20 @@ namespace Game{
         private Floor[] floors;
         private Player player;
         private Graphic currentGraphic; //the current image saved.
-        private Item[] items;
+        //private Item[] items;
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
             floors = new Floor[10]; //Creating 10 foors
+
+            for (int i = 0; i < 10; i++)
+            {
+                floors[i] = new Floor();
+            }
+            
             player = new Player();
-            currentGraphic = new Graphic(""); //empty image on screen
-            items = new Item[3];
+            //currentGraphic = new Graphic(""); //empty image on screen
+            //items = new Item[3];
             /*
             items[0] = new Item("Note", "First number is 9");
             items[1] = new Item("Recording", "This is a recording");
@@ -346,7 +406,8 @@ namespace Game{
             }
             else if (command == "PICKUP")
             {
-                graphic.Text = "You picked up " + player.pickup() + " at " + player.stringCoord() + System.Environment.NewLine;
+                graphic.Text = "You picked up " + player.pickup() + 
+                               " at " + player.stringCoord() + System.Environment.NewLine;
             }
             else if (command == "INVT")
             {

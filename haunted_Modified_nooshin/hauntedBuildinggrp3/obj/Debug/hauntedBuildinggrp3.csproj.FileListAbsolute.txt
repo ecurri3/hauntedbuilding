@@ -8,3 +8,4 @@ C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggr
 C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csproj.GenerateResource.Cache
 C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.exe
 C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.pdb
+C:\Users\Justo Diaz\Desktop\grp3\Code\haunted_Modified_nooshin\hauntedBuildinggrp3\obj\Debug\hauntedBuildinggrp3.csprojResolveAssemblyReference.cache
