@@ -53,15 +53,11 @@ namespace Game{
      * 9 [][][][][x][][][][][]
      * */
 
-    //TODO need constructor that initializes floor with a 10x10 matrix of tiles
+    //TODO 
+    /* Find a way to setup the three elevators for each floor and
+     * have them references the appropriate floors.
+     * */
     class Floor{
-
-       // private Random randomGen = new Random();
-
-        //Location of case
-        private int xCase;
-        private int yCase;
-
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
 
         public Floor()
@@ -79,9 +75,9 @@ namespace Game{
             y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
             //Random decimal pass code
-            a = Constants.randGen.Next(0, 9);
-            b = Constants.randGen.Next(0, 9);
-            c = Constants.randGen.Next(0, 9);
+            a = Constants.randGen.Next(0, 10);
+            b = Constants.randGen.Next(0, 10);
+            c = Constants.randGen.Next(0, 10);
 
             //Place case at random tile
             floor[x,y].Item = new Case("The case", "Go to Elevator X", a,b,c);
@@ -97,7 +93,7 @@ namespace Game{
             } while (x1 == x && y1 == y); //can't be same as case
 
             rand = Constants.randGen.Next(0, 2);
-            floor[x1,y1].Item = new Item(Constants.ITEMS[rand],a.ToString());
+            floor[x1,y1].Item = new Tool(Constants.ITEMS[rand],"First digit: " + a.ToString());
 
             do
             {
@@ -106,7 +102,7 @@ namespace Game{
             } while (x2 == x1 && y2 == y1 && x2 == x && y2 == y);
 
             rand = Constants.randGen.Next(0, 2);
-            floor[x2,y2].Item = new Item(Constants.ITEMS[rand],b.ToString());
+            floor[x2,y2].Item = new Tool(Constants.ITEMS[rand],"Second digit: " + b.ToString());
 
             do
             {
@@ -115,14 +111,14 @@ namespace Game{
             } while (x3 == x2 && y3 == y2 && x3 == x1 && y3 == y1 && x3 == x && y3 == y);
 
             rand = Constants.randGen.Next(0, 2);
-            floor[x3,y3].Item = new Item(Constants.ITEMS[rand],c.ToString());
+            floor[x3,y3].Item = new Tool(Constants.ITEMS[rand],"Third digit: " + c.ToString());
         }
 
         public Item pickupItem(Coordinate c)
         {
             if (floor[c.x, c.y].Item == null) return null;
             Item i = floor[c.x,c.y].Item;
-            floor[c.x, c.y].Item = null;
+            floor[c.x, c.y].Item = null; //remove item from that tile
             return i;
         }
     }
@@ -147,8 +143,7 @@ namespace Game{
             //Random random = new Random();
             int rand = Constants.randGen.Next(0, 4); //(0,4]
             if (rand == 3) item = null; //No item
-            else
-                item = new Item(Constants.ITEMS[rand], "No hint!");
+            else item = new Tool(Constants.ITEMS[rand], "No hint!"); //Item with no hint
         }
 
         public Item Item
@@ -159,20 +154,28 @@ namespace Game{
 
     }
 
-    //TODO
-    class Item
+    //can't be instantiated!
+    abstract class Item
     {
         private String itemName;
-        private String itemHint;
+        protected String itemHint;
         public Item(String name, String hint){
             itemName = name;
             itemHint = hint;//String.Copy(hint);
         }
 
         public String name() { return itemName; }
-        public String getHint() { return itemHint; }
+        abstract public String getHint();
     }
 
+    //Regular Items
+    class Tool : Item
+    {
+        public Tool(String name, String hint) : base(name, hint) { }
+        override public String getHint() { return itemHint; }
+    }
+
+    //Special Item, a case
     class Case : Item
     {
         private int a, b, c; //passcode
@@ -184,8 +187,8 @@ namespace Game{
             this.c = c;
         }
 
-        public bool tryToUnlock(int a, int b, int c){
-
+        public bool tryToUnlock(int a, int b, int c)
+        {
             if (this.a == a && this.b == b && this.c == c)
             {
                 unlocked = true;
@@ -195,13 +198,12 @@ namespace Game{
             return false;
         }
 
-        public new String getHint() //using 'new' keyword to hide base method
+        override public String getHint() //using 'new' keyword to hide base method
         {
-            if (unlocked) return base.getHint();
+            if (unlocked) return itemHint;
             return "Case Locked!";
         }
     }
-
 
     //just helper class to pass coordinates around easier.
     class Coordinate
@@ -229,7 +231,8 @@ namespace Game{
             return "(" + coord.x + "," + coord.y + ")";
         }
 
-        public Floor Floor{
+        public Floor Floor
+        {
             set { this.floor = value; }
             get { return this.floor; }
         }
@@ -288,22 +291,15 @@ namespace Game{
             return false;
         }
 
-        //TODO
         public String pickup()
         {
             Item i = floor.pickupItem(coord);
-            if (i != null)
-            {
-                inventory = i;
-                return i.name();
-            }
+            if (i == null) return "nothing";
 
-            return "nothing";
+            inventory = i; //add to inventory
+            return i.name();
         }
 
-
-
-        //TODO
         public String showInventory()
         {
             if(inventory == null) return "nothing";
@@ -313,7 +309,13 @@ namespace Game{
             return invtList;
         }
 
+        public String inspectItem()
+        {
+            if (inventory == null)
+                return "Empty Inventory!";
 
+            return inventory.getHint();
+        }
     }
 
     class HauntedBuilding
@@ -412,6 +414,10 @@ namespace Game{
             else if (command == "INVT")
             {
                 graphic.Text = "You are carrying: " + player.showInventory() + System.Environment.NewLine;
+            }
+            else if (command == "INSPECT")
+            {
+                graphic.Text = player.inspectItem() +  System.Environment.NewLine;
             }
 
             return graphic;
