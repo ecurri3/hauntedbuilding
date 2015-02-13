@@ -21,6 +21,10 @@ namespace hauntedBuildinggrp3
         public fmPlayGame()
         {
             InitializeComponent();
+            //KeyPress event handlers that call appropriate handler
+            this.KeyPreview = true;
+            this.KeyPress += new KeyPressEventHandler(Form1_Keypress);
+
             hb = new Game.HauntedBuilding();
         }
 
@@ -59,6 +63,30 @@ namespace hauntedBuildinggrp3
                state = 2;
             }
                 
+        }
+
+        private void Form1_Keypress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case 'w': up_Click_1(sender, e);
+                    break;
+                case 'a': left_Click_1(sender, e);
+                    break;
+                case 's': down_Click_1(sender, e);
+                    break;
+                case 'd': right_Click_1(sender, e);
+                    break;
+                case 'e': pickup_Click_1(sender, e);
+                    break;
+                case 'r': inspect_Click_1(sender, e);
+                    break;
+                case '1': inventory_Click_1(sender, e);
+                    break;
+                default:
+                    return;
+            }
+
         }
 
         //Help button

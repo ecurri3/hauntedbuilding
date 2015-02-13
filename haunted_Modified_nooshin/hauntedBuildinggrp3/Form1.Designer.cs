@@ -45,21 +45,21 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.MenuText;
+            this.textBox1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(18, 18);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(674, 301);
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(451, 197);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(36, 365);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(24, 237);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 35);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
@@ -68,16 +68,16 @@
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 15;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(36, 408);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Location = new System.Drawing.Point(24, 265);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 35);
+            this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 5;
             this.button3.Text = "Help";
             this.button3.UseVisualStyleBackColor = true;
@@ -86,85 +86,93 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(0, 0);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(50, 15);
             this.button2.TabIndex = 13;
             // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(425, 334);
+            this.up.Location = new System.Drawing.Point(283, 217);
+            this.up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.up.Name = "up";
-            this.up.Size = new System.Drawing.Size(50, 50);
+            this.up.Size = new System.Drawing.Size(33, 32);
             this.up.TabIndex = 7;
-            this.up.Text = "U";
+            this.up.Text = "W";
             this.up.UseVisualStyleBackColor = true;
             this.up.Click += new System.EventHandler(this.up_Click_1);
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(425, 446);
+            this.down.Location = new System.Drawing.Point(283, 253);
+            this.down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.down.Name = "down";
-            this.down.Size = new System.Drawing.Size(50, 50);
+            this.down.Size = new System.Drawing.Size(33, 32);
             this.down.TabIndex = 8;
-            this.down.Text = "D";
+            this.down.Text = "S";
             this.down.UseVisualStyleBackColor = true;
             this.down.Click += new System.EventHandler(this.down_Click_1);
             // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(471, 390);
+            this.right.Location = new System.Drawing.Point(320, 253);
+            this.right.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.right.Name = "right";
-            this.right.Size = new System.Drawing.Size(50, 50);
+            this.right.Size = new System.Drawing.Size(33, 32);
             this.right.TabIndex = 9;
-            this.right.Text = "R";
+            this.right.Text = "D";
             this.right.UseVisualStyleBackColor = true;
             this.right.Click += new System.EventHandler(this.right_Click_1);
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(380, 390);
+            this.left.Location = new System.Drawing.Point(246, 253);
+            this.left.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.left.Name = "left";
-            this.left.Size = new System.Drawing.Size(50, 50);
+            this.left.Size = new System.Drawing.Size(33, 32);
             this.left.TabIndex = 10;
-            this.left.Text = "L";
+            this.left.Text = "A";
             this.left.UseVisualStyleBackColor = true;
             this.left.Click += new System.EventHandler(this.left_Click_1);
             // 
             // pickup
             // 
-            this.pickup.Location = new System.Drawing.Point(600, 334);
+            this.pickup.Location = new System.Drawing.Point(386, 217);
+            this.pickup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pickup.Name = "pickup";
-            this.pickup.Size = new System.Drawing.Size(100, 35);
+            this.pickup.Size = new System.Drawing.Size(81, 23);
             this.pickup.TabIndex = 11;
-            this.pickup.Text = "Pick Up";
+            this.pickup.Text = "Pick Up (E)";
             this.pickup.UseVisualStyleBackColor = true;
             this.pickup.Click += new System.EventHandler(this.pickup_Click_1);
             // 
             // inventory
             // 
-            this.inventory.Location = new System.Drawing.Point(600, 390);
+            this.inventory.Location = new System.Drawing.Point(386, 253);
+            this.inventory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.inventory.Name = "inventory";
-            this.inventory.Size = new System.Drawing.Size(100, 35);
+            this.inventory.Size = new System.Drawing.Size(81, 23);
             this.inventory.TabIndex = 12;
-            this.inventory.Text = "Inventory";
+            this.inventory.Text = "Inventory (1)";
             this.inventory.UseVisualStyleBackColor = true;
             this.inventory.Click += new System.EventHandler(this.inventory_Click_1);
             // 
             // inspect
             // 
-            this.inspect.Location = new System.Drawing.Point(600, 446);
+            this.inspect.Location = new System.Drawing.Point(386, 290);
+            this.inspect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.inspect.Name = "inspect";
-            this.inspect.Size = new System.Drawing.Size(100, 35);
+            this.inspect.Size = new System.Drawing.Size(81, 23);
             this.inspect.TabIndex = 14;
-            this.inspect.Text = "Inspect";
+            this.inspect.Text = "Inspect (R)";
             this.inspect.UseVisualStyleBackColor = true;
             this.inspect.Click += new System.EventHandler(this.inspect_Click_1);
             // 
             // fmPlayGame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(712, 533);
+            this.ClientSize = new System.Drawing.Size(475, 346);
             this.Controls.Add(this.inspect);
             this.Controls.Add(this.inventory);
             this.Controls.Add(this.pickup);
@@ -177,9 +185,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "fmPlayGame";
-            this.Text = "Play";
+            this.Text = "Haunted Building";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
