@@ -78,24 +78,90 @@ namespace hauntedBuildinggrp3
 
         }
 
-        //TODO Enter button & error check
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand(listBox1.Text);
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox1.Text = hb.getTitle() + System.Environment.NewLine +
                                 "Press start to begin.";
 
             currentGraphic.Text=textBox1.Text;
+        }
+
+        private void up_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("FORWARD");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+        }
+
+        private void down_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("BACKWARD");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+        }
+
+        private void right_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("RIGHT");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+        }
+
+        private void left_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("LEFT");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+        }
+
+        private void pickup_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("PICKUP");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+
+        }
+
+        private void inventory_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("INVT");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
+        }
+
+        private void inspect_Click_1(object sender, EventArgs e)
+        {
+            if (state == 2)
+            {
+                Game.Graphic graphic = hb.enterCommand("INSPECT");
+                textBox1.Text = graphic.Text;
+
+                currentGraphic.Text = textBox1.Text;
+            }
         }
     }
  
