@@ -2,3 +2,4 @@
 HauntedBuilding/hauntedBuildinggrp3/bin/*
 HauntedBuilding/hauntedBuildinggrp3/obj/*
 *.exe
+*.suo
