@@ -1,3 +1,4 @@
-*bin/
-*obj/
+#ignore anythign in bin and obj folders
+HauntedBuilding/hauntedBuildinggrp3/bin/*
+HauntedBuilding/hauntedBuildinggrp3/obj/*
 *.exe
