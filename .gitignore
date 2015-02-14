@@ -1,4 +1,5 @@
-#ignore anythign in bin and obj folders
+#Ignore anything in bin and obj folders
+#Ignore binary files that are not necessary to keep track
 HauntedBuilding/hauntedBuildinggrp3/bin/*
 HauntedBuilding/hauntedBuildinggrp3/obj/*
 *.exe
