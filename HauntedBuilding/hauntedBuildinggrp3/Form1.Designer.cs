@@ -32,7 +32,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.up = new System.Windows.Forms.Button();
             this.down = new System.Windows.Forms.Button();
             this.right = new System.Windows.Forms.Button();
@@ -40,6 +39,8 @@
             this.pickup = new System.Windows.Forms.Button();
             this.inventory = new System.Windows.Forms.Button();
             this.inspect = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.save = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -51,7 +52,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(451, 197);
+            this.textBox1.Size = new System.Drawing.Size(178, 197);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -83,18 +84,10 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(0, 0);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 15);
-            this.button2.TabIndex = 13;
-            // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(283, 217);
-            this.up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.up.Location = new System.Drawing.Point(263, 238);
+            this.up.Margin = new System.Windows.Forms.Padding(2);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(33, 32);
             this.up.TabIndex = 7;
@@ -104,8 +97,8 @@
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(283, 253);
-            this.down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.down.Location = new System.Drawing.Point(263, 274);
+            this.down.Margin = new System.Windows.Forms.Padding(2);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(33, 32);
             this.down.TabIndex = 8;
@@ -115,8 +108,8 @@
             // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(320, 253);
-            this.right.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.right.Location = new System.Drawing.Point(300, 274);
+            this.right.Margin = new System.Windows.Forms.Padding(2);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(33, 32);
             this.right.TabIndex = 9;
@@ -126,8 +119,8 @@
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(246, 253);
-            this.left.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.left.Location = new System.Drawing.Point(226, 274);
+            this.left.Margin = new System.Windows.Forms.Padding(2);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(33, 32);
             this.left.TabIndex = 10;
@@ -137,8 +130,8 @@
             // 
             // pickup
             // 
-            this.pickup.Location = new System.Drawing.Point(386, 217);
-            this.pickup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pickup.Location = new System.Drawing.Point(367, 223);
+            this.pickup.Margin = new System.Windows.Forms.Padding(2);
             this.pickup.Name = "pickup";
             this.pickup.Size = new System.Drawing.Size(81, 23);
             this.pickup.TabIndex = 11;
@@ -148,8 +141,8 @@
             // 
             // inventory
             // 
-            this.inventory.Location = new System.Drawing.Point(386, 253);
-            this.inventory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inventory.Location = new System.Drawing.Point(367, 259);
+            this.inventory.Margin = new System.Windows.Forms.Padding(2);
             this.inventory.Name = "inventory";
             this.inventory.Size = new System.Drawing.Size(81, 23);
             this.inventory.TabIndex = 12;
@@ -159,8 +152,8 @@
             // 
             // inspect
             // 
-            this.inspect.Location = new System.Drawing.Point(386, 290);
-            this.inspect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inspect.Location = new System.Drawing.Point(367, 296);
+            this.inspect.Margin = new System.Windows.Forms.Padding(2);
             this.inspect.Name = "inspect";
             this.inspect.Size = new System.Drawing.Size(81, 23);
             this.inspect.TabIndex = 14;
@@ -168,11 +161,36 @@
             this.inspect.UseVisualStyleBackColor = true;
             this.inspect.Click += new System.EventHandler(this.inspect_Click_1);
             // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.textBox2.Location = new System.Drawing.Point(196, 12);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox2.Size = new System.Drawing.Size(252, 197);
+            this.textBox2.TabIndex = 16;
+            // 
+            // save
+            // 
+            this.save.Location = new System.Drawing.Point(24, 294);
+            this.save.Name = "save";
+            this.save.Size = new System.Drawing.Size(75, 23);
+            this.save.TabIndex = 17;
+            this.save.Text = "Save";
+            this.save.UseVisualStyleBackColor = true;
+            this.save.Click += new System.EventHandler(this.save_Click);
+            // 
             // fmPlayGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 346);
+            this.ClientSize = new System.Drawing.Size(459, 346);
+            this.Controls.Add(this.save);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.inspect);
             this.Controls.Add(this.inventory);
             this.Controls.Add(this.pickup);
@@ -180,7 +198,6 @@
             this.Controls.Add(this.right);
             this.Controls.Add(this.down);
             this.Controls.Add(this.up);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -200,7 +217,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button up;
         private System.Windows.Forms.Button down;
         private System.Windows.Forms.Button right;
@@ -208,6 +224,8 @@
         private System.Windows.Forms.Button pickup;
         private System.Windows.Forms.Button inventory;
         private System.Windows.Forms.Button inspect;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button save;
     }
 }
 

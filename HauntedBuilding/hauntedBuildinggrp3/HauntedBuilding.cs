@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,40 @@ namespace Game{
 
     static class Constants
     {
-        public const int FLOOR_LENGTH = 10;
-        public const int FLOOR_WIDTH = 10;
-        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio"};
+        public const int FLOOR_LENGTH = 4;
+        public const int FLOOR_WIDTH = 4;
+        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case"};
         static public Random randGen = new Random();
     }
 
     class Graphic //simulate graphics (for now just text)
     {
+
+        private String image;
         private String text;
+
+        public Graphic(Coordinate coord, String text)
+        {
+            this.image = "";
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+            {
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                {
+                    if (coord.x == i && coord.y == j)
+                        this.image += "X";
+                    else
+                        this.image += "--";
+                }
+                    
+                this.image += System.Environment.NewLine;
+            }
+
+            this.text = text;
+        }
 
         public Graphic(String text)
         {
+            this.image = "";
             this.text = text;
         }
 
@@ -28,6 +51,25 @@ namespace Game{
             set { this.text = value; }
             get { return text; }
         }
+
+        public void setImage(Coordinate coord)
+        {
+            this.image = "";
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+            {
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                {
+                    if (coord.x == i && coord.y == j)
+                        this.image += "X";
+                    else
+                        this.image += "--";
+                }
+
+                this.image += System.Environment.NewLine;
+            }
+        }
+
+        public String getImage() { return image; }
     }
     
     
@@ -57,11 +99,23 @@ namespace Game{
     /* Find a way to setup the three elevators for each floor and
      * have them references the appropriate floors.
      * */
-    class Floor{
-        private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
-
-        public Floor()
+    class PassCode
+    {
+        public int a, b, c;
+        public PassCode(int a, int b, int c)
         {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+    }
+    class Floor{
+        private int number; //floor number
+        private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+        private PassCode pc; //passcode
+        public Floor(int number)
+        {
+            this.number = number;
             for(int i = 0; i < Constants.FLOOR_LENGTH;i++)
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
                 {
@@ -69,20 +123,20 @@ namespace Game{
                 }
             //int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
             int x, y; //random place of case
-            int a,b,c; //random passcode for case
+            //int a,b,c; //random passcode for case
 
             x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
             y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
             //Random decimal pass code
-            a = Constants.randGen.Next(0, 10);
-            b = Constants.randGen.Next(0, 10);
-            c = Constants.randGen.Next(0, 10);
+            pc = new PassCode(Constants.randGen.Next(0, 10),
+                              Constants.randGen.Next(0, 10),
+                              Constants.randGen.Next(0, 10));
 
             //Place case at random tile
-            floor[x,y].Item = new Case("The case", "Go to Elevator X", a,b,c);
+            floor[x,y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", pc);
 
-            int rand,x1,y1,x2,y2,x3,y3;
+            int x1,y1,x2,y2,x3,y3;
 
             //Randomly place three items, each with one digit of the pass code
             //Making sure they don't overlap
@@ -92,26 +146,26 @@ namespace Game{
                 y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
             } while (x1 == x && y1 == y); //can't be same as case
 
-            rand = Constants.randGen.Next(0, 2);
-            floor[x1,y1].Item = new Tool(Constants.ITEMS[rand],"First digit: " + a.ToString());
+            //rand = Constants.randGen.Next(0, 2);
+            floor[x1,y1].Item = new Tool(Constants.ITEMS[0],"First digit: " + pc.a.ToString());
 
             do
             {
                 x2 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
                 y2 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
-            } while (x2 == x1 && y2 == y1 && x2 == x && y2 == y);
+            } while ((x2 == x1 && y2 == y1) || (x2 == x && y2 == y));
 
-            rand = Constants.randGen.Next(0, 2);
-            floor[x2,y2].Item = new Tool(Constants.ITEMS[rand],"Second digit: " + b.ToString());
+            //rand = Constants.randGen.Next(0, 2);
+            floor[x2,y2].Item = new Tool(Constants.ITEMS[1],"Second digit: " + pc.b.ToString());
 
             do
             {
                 x3 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
                 y3 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
-            } while (x3 == x2 && y3 == y2 && x3 == x1 && y3 == y1 && x3 == x && y3 == y);
+            } while ((x3 == x2 && y3 == y2) || (x3 == x1 && y3 == y1) || (x3 == x && y3 == y));
 
-            rand = Constants.randGen.Next(0, 2);
-            floor[x3,y3].Item = new Tool(Constants.ITEMS[rand],"Third digit: " + c.ToString());
+            //rand = Constants.randGen.Next(0, 2);
+            floor[x3,y3].Item = new Tool(Constants.ITEMS[2],"Third digit: " + pc.c.ToString());
         }
 
         public Item pickupItem(Coordinate c)
@@ -121,6 +175,13 @@ namespace Game{
             floor[c.x, c.y].Item = null; //remove item from that tile
             return i;
         }
+
+        public int Number{
+            set {this.number = value;}
+            get{return this.number;}
+        }
+
+        public PassCode getPassCode() { return pc; }
     }
 
     //TODO
@@ -132,7 +193,7 @@ namespace Game{
      */
     class Tile
     {
-        private Item item;
+        private Item item = null;
         //Construct a random item for each tile
         /*
          * Case, password, nothing, etc
@@ -141,9 +202,11 @@ namespace Game{
         {
             //Not sure how to decide how item is initialized
             //Random random = new Random();
+            /*
             int rand = Constants.randGen.Next(0, 4); //(0,4]
             if (rand == 3) item = null; //No item
             else item = new Tool(Constants.ITEMS[rand], "No hint!"); //Item with no hint
+            */
         }
 
         public Item Item
@@ -179,28 +242,32 @@ namespace Game{
     class Case : Item
     {
         private int a, b, c; //passcode
-        private bool unlocked = false;
-        public Case(String name, String hint, int a, int b, int c) : base(name,hint) //call base class constructor
+        private bool locked = true;
+        public Case(String name, String hint, PassCode pc) : base(name,hint) //call base class constructor
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
+            this.a = pc.a;
+            this.b = pc.b;
+            this.c = pc.c;
         }
 
         public bool tryToUnlock(int a, int b, int c)
         {
             if (this.a == a && this.b == b && this.c == c)
             {
-                unlocked = true;
+                this.locked = false;
                 return true;
             }
 
             return false;
         }
 
+        public bool isLocked(){
+            return locked;
+        }
+
         override public String getHint() //using 'new' keyword to hide base method
         {
-            if (unlocked) return itemHint;
+            if (!locked) return itemHint;
             return "Case Locked!";
         }
     }
@@ -221,11 +288,15 @@ namespace Game{
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT};
 
     class Player{
-        private Floor floor; //what floor are they on
+        private Floor floor;
         private Coordinate coord; //may need to init to something
-        private Item inventory = null; // should be an ArrayList
-        private String name; //their name
+        private ArrayList inventory;
+        private String name;
 
+        public Player()
+        {
+            this.inventory = new ArrayList();
+        }
         public String stringCoord()
         {
             return "(" + coord.x + "," + coord.y + ")";
@@ -243,10 +314,9 @@ namespace Game{
             get { return this.coord; }
         }
 
-        public Item Inventory
+        public void addItem(Item item)
         {
-            set {this.inventory = value;}
-            get { return inventory; }
+            this.inventory.Add(item);
         }
 
         public String Name
@@ -296,25 +366,87 @@ namespace Game{
             Item i = floor.pickupItem(coord);
             if (i == null) return "nothing";
 
-            inventory = i; //add to inventory
+            inventory.Add(i); //add to inventory
             return i.name();
         }
 
         public String showInventory()
         {
-            if(inventory == null) return "nothing";
+            if(inventory.Count == 0) return "nothing";
 
-            String invtList = inventory.name();
+            String invtList = "";
+            foreach (Item item in inventory)
+                invtList = invtList + item.name() + ", ";
 
             return invtList;
         }
 
-        public String inspectItem()
+        //inspect all items
+        public String inspectItems()
         {
-            if (inventory == null)
+            if (inventory.Count == 0)
                 return "Empty Inventory!";
 
-            return inventory.getHint();
+
+            String hints = "";
+            foreach (Item item in inventory)
+                hints = hints + item.name() + ": "+ item.getHint() + System.Environment.NewLine;
+
+            return hints;
+        }
+
+        //insepct a specific item, give the name
+        public String inspectItem(String name)
+        {
+            foreach (Item item in inventory)
+            {
+                if (item.name() == name)
+                    return item.getHint();
+            }
+
+            return "You don't have that Item!";
+        }
+
+        //Check if the case is locked
+        public bool lockedCase()
+        {
+            foreach(Item item in inventory)
+            {
+                if(item.name() == Constants.ITEMS[3]){
+                    Case iCase = (Case)item;
+                    return iCase.isLocked();
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class GameState
+    {
+        public String playerName;
+        public int floorNumber;
+        public PassCode pc;
+        public Coordinate coord;
+        public bool caseLocked; //is the case locked? IF they don't have it, its a yes
+        public bool haveCase;
+        public bool haveNote;
+        public bool havePhone;
+        public bool haveAudio;
+
+        public GameState(String playerName, int fn,
+                         PassCode pc, Coordinate coord, bool locked,
+                         bool hcase, bool hnote, bool hphone, bool haudio)
+        {
+            this.playerName = playerName;
+            floorNumber = fn;
+            this.pc = pc;
+            this.coord = coord;
+            caseLocked = locked;
+            haveCase = hcase;
+            haveNote = hnote;
+            havePhone = hphone;
+            haveAudio = haudio;
         }
     }
 
@@ -323,8 +455,6 @@ namespace Game{
         private String title;
         private Floor[] floors;
         private Player player;
-        private Graphic currentGraphic; //the current image saved.
-        //private Item[] items;
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
@@ -332,17 +462,10 @@ namespace Game{
 
             for (int i = 0; i < 10; i++)
             {
-                floors[i] = new Floor();
+                floors[i] = new Floor(i+1);
             }
             
             player = new Player();
-            //currentGraphic = new Graphic(""); //empty image on screen
-            //items = new Item[3];
-            /*
-            items[0] = new Item("Note", "First number is 9");
-            items[1] = new Item("Recording", "This is a recording");
-            items[2] = new Item("Flashlight", "This is a flashlight");
-            */
         }
 
         public String getTitle(){
@@ -353,11 +476,10 @@ namespace Game{
         {
             player.Floor = floors[9]; //start at the roof
             player.Name = "Johnny"; //for now we call him Johnny
-            player.Coord = new Coordinate(9,4); //Floor matrix is zero indexed!! so 10th tile is 9
+            player.Coord = new Coordinate(0,0); //Floor matrix is zero indexed!! so 10th tile is 9
 
-            Graphic graphic = new Graphic(player.Name + " is on the roof. (10th floor)");
+            Graphic graphic = new Graphic(player.Coord, player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
 
-            currentGraphic = graphic;
             return graphic;
         }
 
@@ -366,10 +488,9 @@ namespace Game{
             return player;
         }
 
-        //TODO error check the command
         public Graphic enterCommand(String command)
         {
-            Graphic graphic = new Graphic("Bad command! Click Help for help.");
+            Graphic graphic = new Graphic(player.Coord, "Bad command! Click Help for help.");
 
             Move where = Move.STALL;
             switch (command) //see if movement command
@@ -387,8 +508,10 @@ namespace Game{
                     graphic.Text = "Your trying to move into a wall!" + System.Environment.NewLine +
                                         player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
                 else
+                {
+                    graphic.setImage(player.Coord);
                     graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
-
+                }
             }
             else if (command == "ENTER")
             {
@@ -417,7 +540,7 @@ namespace Game{
             }
             else if (command == "INSPECT")
             {
-                graphic.Text = player.inspectItem() +  System.Environment.NewLine;
+                graphic.Text = player.inspectItems() +  System.Environment.NewLine;
             }
 
             return graphic;
@@ -437,6 +560,21 @@ namespace Game{
             String backTogame = "Click 'Help' to go back to game screen" + System.Environment.NewLine;
             
             return new Graphic(howto + move + enter + pickup + invt + backTogame);
+        }
+
+        //Used to store into SQL
+        
+
+        //returns the current State
+        public GameState currentState()
+        {
+            return new GameState(player.Name, player.Floor.Number, 
+                                 player.Floor.getPassCode(), player.Coord,
+                                 player.lockedCase(),
+                                 player.showInventory().Contains(Constants.ITEMS[3]),
+                                 player.showInventory().Contains(Constants.ITEMS[0]),
+                                 player.showInventory().Contains(Constants.ITEMS[1]),
+                                 player.showInventory().Contains(Constants.ITEMS[2]));
         }
 
     }

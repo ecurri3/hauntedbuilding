@@ -21,6 +21,7 @@ namespace hauntedBuildinggrp3
         public fmPlayGame()
         {
             InitializeComponent();
+
             //KeyPress event handlers that call appropriate handler
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_Keypress);
@@ -29,40 +30,23 @@ namespace hauntedBuildinggrp3
         }
 
         //ignore this
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e){}
+
+        //helper function writes to textboxes
+        private void writeGraphic(Game.Graphic graphic)
         {
-            ;
+            textBox1.Text = graphic.getImage();
+            textBox2.Text = graphic.Text;
+
+            currentGraphic.Text = textBox2.Text;
         }
 
         //Start button
         private void button1_Click(object sender, EventArgs e)
         {
-            //if(state == 0) //first time they click "Start"
-            //{
-            //    textBox1.Text = hb.getTitle() + System.Environment.NewLine +
-            //                    "Press start to begin.";
+            writeGraphic(hb.startGame());
 
-            //    currentGraphic.setGraphic(textBox1.Text);
-
-                currentGraphic.Text = textBox1.Text;
-
-
-            //    state = 1;
-            //}
-
-            //TODO startGame will need parameters like loading a saved file 
-            //call startGame() 
-            //If they keep clicking "Start" restart the game
-            //else
-            {
-               Game.Graphic graphic = hb.startGame();
-               textBox1.Text = graphic.Text;
-
-               currentGraphic.Text = textBox1.Text;
-
-               state = 2;
-            }
-                
+            state = 1;
         }
 
         private void Form1_Keypress(object sender, KeyPressEventArgs e)
@@ -95,100 +79,74 @@ namespace hauntedBuildinggrp3
             if (helping)
             {
                 Game.Graphic graphic = hb.getHelp();
-                textBox1.Text = graphic.Text;
+                textBox2.Text = graphic.Text;
                 helping = false;
             }
             else
             {
-                textBox1.Text = currentGraphic.Text;
+                textBox2.Text = currentGraphic.Text;
                 helping = true;
             }
 
         }
 
+        //When form loads
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBox1.Text = hb.getTitle() + System.Environment.NewLine +
+            textBox2.Text = hb.getTitle() + System.Environment.NewLine +
                                 "Press start to begin.";
 
-            currentGraphic.Text=textBox1.Text;
+            currentGraphic.Text = textBox2.Text;
         }
 
         private void up_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("FORWARD");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
+            if (state == 1)
+                writeGraphic(hb.enterCommand("FORWARD"));
         }
 
         private void down_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("BACKWARD");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
+            if (state == 1)
+                writeGraphic(hb.enterCommand("BACKWARD"));
         }
 
         private void right_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("RIGHT");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
+            if (state == 1)
+                writeGraphic(hb.enterCommand("RIGHT"));
         }
 
         private void left_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("LEFT");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
+            if (state == 1)
+                writeGraphic(hb.enterCommand("LEFT"));
         }
 
         private void pickup_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("PICKUP");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
-
+            if (state == 1)
+                writeGraphic(hb.enterCommand("PICKUP"));
         }
 
         private void inventory_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("INVT");
-                textBox1.Text = graphic.Text;
-
-                currentGraphic.Text = textBox1.Text;
-            }
+            if (state == 1)
+                writeGraphic(hb.enterCommand("INVT"));
         }
 
         private void inspect_Click_1(object sender, EventArgs e)
         {
-            if (state == 2)
-            {
-                Game.Graphic graphic = hb.enterCommand("INSPECT");
-                textBox1.Text = graphic.Text;
+            if (state == 1)
+                writeGraphic(hb.enterCommand("INSPECT"));
+        }
 
-                currentGraphic.Text = textBox1.Text;
+        private void save_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+            {
+                Game.GameState gs = hb.currentState(); //this returns a GameState Object
+                                    //exmaple: use gs.PlayerName to get playerName.
             }
         }
     }
