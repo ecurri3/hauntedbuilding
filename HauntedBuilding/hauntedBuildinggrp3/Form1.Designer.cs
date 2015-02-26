@@ -41,8 +41,15 @@
             this.inspect = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.save = new System.Windows.Forms.Button();
+<<<<<<< HEAD
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+=======
+            this.digit1 = new System.Windows.Forms.TextBox();
+            this.digit3 = new System.Windows.Forms.TextBox();
+            this.digit2 = new System.Windows.Forms.TextBox();
+            this.tryCase = new System.Windows.Forms.Button();
+>>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
             this.SuspendLayout();
             // 
             // textBox1
@@ -56,6 +63,7 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(178, 197);
             this.textBox1.TabIndex = 0;
+            this.textBox1.Click += new System.EventHandler(this.windowClick);
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
@@ -175,6 +183,7 @@
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox2.Size = new System.Drawing.Size(252, 197);
             this.textBox2.TabIndex = 16;
+            this.textBox2.Click += new System.EventHandler(this.windowClick);
             // 
             // save
             // 
@@ -186,6 +195,7 @@
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
+<<<<<<< HEAD
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(174, 302);
@@ -205,14 +215,59 @@
             this.button4.Text = "C";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+=======
+            // digit1
+            // 
+            this.digit1.Location = new System.Drawing.Point(115, 237);
+            this.digit1.MaxLength = 1;
+            this.digit1.Name = "digit1";
+            this.digit1.Size = new System.Drawing.Size(24, 20);
+            this.digit1.TabIndex = 18;
+            this.digit1.Click += new System.EventHandler(this.clickDigits);
+            // 
+            // digit3
+            // 
+            this.digit3.Location = new System.Drawing.Point(175, 237);
+            this.digit3.MaxLength = 1;
+            this.digit3.Name = "digit3";
+            this.digit3.Size = new System.Drawing.Size(24, 20);
+            this.digit3.TabIndex = 19;
+            this.digit3.Click += new System.EventHandler(this.clickDigits);
+            // 
+            // digit2
+            // 
+            this.digit2.Location = new System.Drawing.Point(145, 237);
+            this.digit2.MaxLength = 1;
+            this.digit2.Name = "digit2";
+            this.digit2.Size = new System.Drawing.Size(24, 20);
+            this.digit2.TabIndex = 20;
+            this.digit2.Click += new System.EventHandler(this.clickDigits);
+            // 
+            // tryCase
+            // 
+            this.tryCase.Location = new System.Drawing.Point(115, 265);
+            this.tryCase.Name = "tryCase";
+            this.tryCase.Size = new System.Drawing.Size(84, 23);
+            this.tryCase.TabIndex = 21;
+            this.tryCase.Text = "Try Case";
+            this.tryCase.UseVisualStyleBackColor = true;
+            this.tryCase.Click += new System.EventHandler(this.button2_Click);
+>>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
             // 
             // fmPlayGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 346);
+<<<<<<< HEAD
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
+=======
+            this.Controls.Add(this.tryCase);
+            this.Controls.Add(this.digit2);
+            this.Controls.Add(this.digit3);
+            this.Controls.Add(this.digit1);
+>>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
             this.Controls.Add(this.save);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.inspect);
@@ -230,6 +285,7 @@
             this.Name = "fmPlayGame";
             this.Text = "Haunted Building";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Click += new System.EventHandler(this.windowClick);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -250,8 +306,15 @@
         private System.Windows.Forms.Button inspect;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button save;
+<<<<<<< HEAD
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
+=======
+        private System.Windows.Forms.TextBox digit1;
+        private System.Windows.Forms.TextBox digit3;
+        private System.Windows.Forms.TextBox digit2;
+        private System.Windows.Forms.Button tryCase;
+>>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
     }
 }
 

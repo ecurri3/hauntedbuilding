@@ -13,14 +13,20 @@ namespace hauntedBuildinggrp3
     public partial class fmPlayGame : Form
     {
         private Game.HauntedBuilding hb;
-        private Game.Graphic currentGraphic = new Game.Graphic("");
-        private int state = 0;
-        private bool helping = true; //used in Help click event
+        private Game.Graphic currentGraphic;
+        private int state;
+        private bool enteringCode; //Is the user entering a pass code?
+        private bool helping; //used in Help click event
 
         //Constructor
         public fmPlayGame()
         {
             InitializeComponent();
+
+            currentGraphic = new Game.Graphic("");
+            state = 0;
+            enteringCode = false;
+            helping = true;
 
             //KeyPress event handlers that call appropriate handler
             this.KeyPreview = true;
@@ -41,16 +47,33 @@ namespace hauntedBuildinggrp3
             currentGraphic.Text = textBox2.Text;
         }
 
-        //Start button
+        //Start button click
         private void button1_Click(object sender, EventArgs e)
         {
-            writeGraphic(hb.startGame());
+            //sql
+            //if user wanted a new game;
+            //change "Johnny" to real account username
+            writeGraphic(hb.startGame(new Game.GameState("Johnny")));
+            //else
+            //get SQL data for user name store as variables in GameState object
+            //Init. a GameState and fill in the fields
+            //pass to hb.startGame(myGameState);
+
+            //Example Test
+            /* testing, seems to work fine
+               Game.GameState gs = new Game.GameState("Mark",3, new Game.PassCode(3,3,3),
+                                                       new Game.Coordinate(4,4),false,true,true,true,true);
+                writeGraphic(hb.startGame(gs));
+             */
 
             state = 1;
         }
 
         private void Form1_Keypress(object sender, KeyPressEventArgs e)
         {
+            //So the user can enter pass code without casuing the game to play
+            if (enteringCode) return;
+
             switch (e.KeyChar)
             {
                 case 'w': up_Click_1(sender, e);
@@ -154,6 +177,7 @@ namespace hauntedBuildinggrp3
             }
         }
 
+<<<<<<< HEAD
         private void button2_Click(object sender, EventArgs e)
         {
             if (state == 1)
@@ -164,6 +188,39 @@ namespace hauntedBuildinggrp3
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("ENTER DOWN"));
+=======
+        //TryCase
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+            {
+                int d1, d2, d3;
+                try
+                {
+                    d1 = System.Convert.ToInt32(digit1.Text);
+                    d2 = System.Convert.ToInt32(digit2.Text);
+                    d3 = System.Convert.ToInt32(digit3.Text);
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Enter numerical digits only.");
+                    return;
+                }
+
+                writeGraphic(hb.tryCase(d1, d2, d3));
+            }
+        }
+
+        //When user clicks on digit textboxes, turn off keypress event handling
+        private void clickDigits(object sender, EventArgs e)
+        {
+            enteringCode = true;
+        }
+        //When they click on the game windows, turn on keypress event handling
+        private void windowClick(object sender, EventArgs e)
+        {
+            enteringCode = false;
+>>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
         }
     }
  
