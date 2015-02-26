@@ -90,9 +90,9 @@ namespace hauntedBuildinggrp3
                     break;
                 case '1': inventory_Click_1(sender, e);
                     break;
-                case 'x': button2_Click(sender, e);
+                case 'x': enterUp_Click(sender, e);
                     break;
-                case 'c': button4_Click(sender, e);
+                case 'c': enterDown_Click(sender, e);
                     break;
                 default:
                     return;
@@ -177,18 +177,18 @@ namespace hauntedBuildinggrp3
             }
         }
 
-<<<<<<< HEAD
-        private void button2_Click(object sender, EventArgs e)
+        private void enterUp_Click(object sender, EventArgs e)
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("ENTER UP"));
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void enterDown_Click(object sender, EventArgs e)
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("ENTER DOWN"));
-=======
+        }
+
         //TryCase
         private void button2_Click(object sender, EventArgs e)
         {
@@ -220,7 +220,6 @@ namespace hauntedBuildinggrp3
         private void windowClick(object sender, EventArgs e)
         {
             enteringCode = false;
->>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
         }
     }
  

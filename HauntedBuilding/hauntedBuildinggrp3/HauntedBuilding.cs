@@ -114,15 +114,9 @@ namespace Game{
     class Floor{
         private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
-<<<<<<< HEAD
-        private PassCode pc;          //passcode
-        
-        public Floor(int number)
-=======
         private PassCode pc; //passcode
 
         public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase)
->>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
         {
             this.number = number;
             for(int i = 0; i < Constants.FLOOR_LENGTH;i++)
@@ -570,34 +564,10 @@ namespace Game{
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
-<<<<<<< HEAD
-            floors = new Floor[10]; //Creating 10 foors
-            correct_elevator = new CorrectElevator[10];
-            wrong_elevator   = new WrongElevator[10];
 
-
-            //generate a random sequence of correct elevators
-            int [] correct_seq = new int[13] {-1,1,2,3,4,5,6,7,8,9,10,-1,-1}; 
-            int last = 11;
-            int next = 9;
-
-            for (int i = 0; i < 10; i++)
-            {
-                floors[i] = new Floor(i+1);
-
-            }
-
-            //initializes the elevators on each floor with an indication of its path
-            for (int i = 9; i >= 0; i--, last--, next--)
-            {
-                correct_elevator[i] = new CorrectElevator(3, 1, correct_seq[last], correct_seq[next]);
-                wrong_elevator[i]   = new WrongElevator(3, 2, i+1);
-            }
-                player = new Player();
-=======
             floors = new Floor[Constants.NOFLOORS]; //Creating 10 foors
-
->>>>>>> f456fe00b10c2af22ad9dd431a4e273b322bb653
+            correct_elevator = new CorrectElevator[10];
+            wrong_elevator = new WrongElevator[10];
         }
 
         public String getTitle(){
@@ -606,6 +576,20 @@ namespace Game{
 
         public Graphic startGame(GameState gs)
         {
+            // Generate Elevator sequence
+            //generate a random sequence of correct elevators
+            int[] correct_seq = new int[13] { -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1, -1 };
+            int last = 11;
+            int next = 9;
+
+            //initializes the elevators on each floor with an indication of its path
+            for (int i = 9; i >= 0; i--, last--, next--)
+            {
+                correct_elevator[i] = new CorrectElevator(3, 1, correct_seq[last], correct_seq[next]);
+                wrong_elevator[i] = new WrongElevator(3, 2, i + 1);
+            }
+
+
             //TODO error check gs floor number, coord, and pass code digits
             //error check coord
             if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
