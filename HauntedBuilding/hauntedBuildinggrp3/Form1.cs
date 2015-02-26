@@ -67,6 +67,10 @@ namespace hauntedBuildinggrp3
                     break;
                 case '1': inventory_Click_1(sender, e);
                     break;
+                case 'x': button2_Click(sender, e);
+                    break;
+                case 'c': button4_Click(sender, e);
+                    break;
                 default:
                     return;
             }
@@ -148,6 +152,18 @@ namespace hauntedBuildinggrp3
                 Game.GameState gs = hb.currentState(); //this returns a GameState Object
                                     //exmaple: use gs.PlayerName to get playerName.
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+                writeGraphic(hb.enterCommand("ENTER UP"));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+                writeGraphic(hb.enterCommand("ENTER DOWN"));
         }
     }
  

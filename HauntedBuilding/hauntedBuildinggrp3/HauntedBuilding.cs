@@ -10,9 +10,10 @@ namespace Game{
     static class Constants
     {
         public const int FLOOR_LENGTH = 4;
-        public const int FLOOR_WIDTH = 4;
-        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case"};
-        static public Random randGen = new Random();
+        public const int FLOOR_WIDTH  = 4;
+        public const int NUM_FLOORS   = 10;
+        static public String[] ITEMS  = new String[] { "Note", "Phone", "Audio", "Secret Case"};
+        static public Random randGen  = new Random();
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -110,9 +111,10 @@ namespace Game{
         }
     }
     class Floor{
-        private int number; //floor number
+        private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
-        private PassCode pc; //passcode
+        private PassCode pc;          //passcode
+        
         public Floor(int number)
         {
             this.number = number;
@@ -450,22 +452,98 @@ namespace Game{
         }
     }
 
+    //initialize an array of elevators that will change floors for the player
+    abstract class Elevator
+    {
+        protected int x, y;
+
+        public Boolean isThereElevator(int i, int j)
+        {
+            if (x == i && y == j)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public abstract int go_up();
+        public abstract int go_down();
+
+    }
+
+    class WrongElevator : Elevator
+    {
+        protected int randAbove;    //randomly takes user to any floor above current floor
+        protected int randBelow;    //will not take user to first floor
+        protected int floor;
+
+        public WrongElevator(int i, int j, int floor){
+            this.x = i;
+            this.y = j;
+            this.floor = floor;
+        }
+
+       
+        public override int go_up(){
+            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
+            return randAbove;
+        }
+
+        public override int go_down(){
+            randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
+            return randBelow;
+        }
+    }
+
+    class CorrectElevator : Elevator
+    {
+        protected int lastFloor, nextFloor;
+
+        public CorrectElevator(int i, int j, int last, int next){
+            this.x = i;
+            this.y = j;
+            this.lastFloor = last;       //lest and next elevator keep track of where player is coming from 
+            this.nextFloor = next;       //WrongElevator doesn't need to keep track thus inheritance
+        }
+
+        public override int go_up() { return lastFloor; }
+
+        public override int go_down() { return nextFloor; }
+    }
+
     class HauntedBuilding
     {
         private String title;
         private Floor[] floors;
         private Player player;
+        private Elevator[] correct_elevator, wrong_elevator;
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
             floors = new Floor[10]; //Creating 10 foors
+            correct_elevator = new CorrectElevator[10];
+            wrong_elevator   = new WrongElevator[10];
+
+
+            //generate a random sequence of correct elevators
+            int [] correct_seq = new int[13] {-1,1,2,3,4,5,6,7,8,9,10,-1,-1}; 
+            int last = 11;
+            int next = 9;
 
             for (int i = 0; i < 10; i++)
             {
                 floors[i] = new Floor(i+1);
+
             }
-            
-            player = new Player();
+
+            //initializes the elevators on each floor with an indication of its path
+            for (int i = 9; i >= 0; i--, last--, next--)
+            {
+                correct_elevator[i] = new CorrectElevator(3, 1, correct_seq[last], correct_seq[next]);
+                wrong_elevator[i]   = new WrongElevator(3, 2, i+1);
+            }
+                player = new Player();
         }
 
         public String getTitle(){
@@ -513,22 +591,84 @@ namespace Game{
                     graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
                 }
             }
-            else if (command == "ENTER")
+            else if (command == "ENTER DOWN")
             {
+                int currX     = player.Coord.x;
+                int currY     = player.Coord.y;
+                int currfloor = player.Floor.Number-1;
+                int newFloor;
+
                 //TODO
-                if (player.enterElevator())
+
+                if (currfloor == 1)
                 {
-                    /*
-                    graphic.setGraphic("Taking Elevator..." + System.Environment.NewLine +
+                        graphic.Text = "You have reached the first floor. Such Wow... very play again... wow"; 
+                }
+
+                else if (correct_elevator[currfloor].isThereElevator(currX,currY))  //for now, the elevator only goes down
+                {
+                        newFloor = correct_elevator[currfloor].go_down();
+                        player.Floor = floors[newFloor-1];                   //set the new floor
+                    
+                        graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                         player.Name + " is on floor " + player.Floor.Number + " at " +
-                                        player.stringCoord() + System.Environment.NewLine);
-                     */
+                                        player.stringCoord() + System.Environment.NewLine;
+             
+                }
+                else if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
+                {
+                    newFloor = correct_elevator[currfloor].go_down();
+                    player.Floor = floors[newFloor-1];                   //set the new floor
+
+                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
+                                        player.Name + " is on floor " + player.Floor.Number + " at " +
+                                        player.stringCoord() + System.Environment.NewLine;
                 }
                 else
                 {
                     graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
                 }
             }
+
+            else if (command == "ENTER UP")
+            {
+                int currX = player.Coord.x;
+                int currY = player.Coord.y;
+                int currfloor = player.Floor.Number - 1;
+                int newFloor;
+
+                //TODO
+
+                if (currfloor == 1)
+                {
+                    graphic.Text = "You have reached the first floor. Such Wow... very play again... wow";
+                }
+
+                else if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
+                {
+                    newFloor = correct_elevator[currfloor].go_up();
+                    player.Floor = floors[newFloor - 1];                   //set the new floor
+
+                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
+                                    player.Name + " is on floor " + player.Floor.Number + " at " +
+                                    player.stringCoord() + System.Environment.NewLine;
+
+                }
+                else if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
+                {
+                    newFloor = correct_elevator[currfloor].go_up();
+                    player.Floor = floors[newFloor - 1];                   //set the new floor
+
+                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
+                                        player.Name + " is on floor " + player.Floor.Number + " at " +
+                                        player.stringCoord() + System.Environment.NewLine;
+                }
+                else
+                {
+                    graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
+                }
+            }
+
             else if (command == "PICKUP")
             {
                 graphic.Text = "You picked up " + player.pickup() + 

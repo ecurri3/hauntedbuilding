@@ -41,6 +41,8 @@
             this.inspect = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.save = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -86,7 +88,7 @@
             // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(263, 238);
+            this.up.Location = new System.Drawing.Point(249, 238);
             this.up.Margin = new System.Windows.Forms.Padding(2);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(33, 32);
@@ -97,7 +99,7 @@
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(263, 274);
+            this.down.Location = new System.Drawing.Point(249, 274);
             this.down.Margin = new System.Windows.Forms.Padding(2);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(33, 32);
@@ -108,7 +110,7 @@
             // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(300, 274);
+            this.right.Location = new System.Drawing.Point(286, 274);
             this.right.Margin = new System.Windows.Forms.Padding(2);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(33, 32);
@@ -119,7 +121,7 @@
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(226, 274);
+            this.left.Location = new System.Drawing.Point(212, 274);
             this.left.Margin = new System.Windows.Forms.Padding(2);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(33, 32);
@@ -152,7 +154,7 @@
             // 
             // inspect
             // 
-            this.inspect.Location = new System.Drawing.Point(367, 296);
+            this.inspect.Location = new System.Drawing.Point(367, 294);
             this.inspect.Margin = new System.Windows.Forms.Padding(2);
             this.inspect.Name = "inspect";
             this.inspect.Size = new System.Drawing.Size(81, 23);
@@ -184,11 +186,33 @@
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(174, 302);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(33, 32);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "X";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(321, 302);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(31, 32);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "C";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // fmPlayGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 346);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.save);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.inspect);
@@ -226,6 +250,8 @@
         private System.Windows.Forms.Button inspect;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button save;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button4;
     }
 }
 
