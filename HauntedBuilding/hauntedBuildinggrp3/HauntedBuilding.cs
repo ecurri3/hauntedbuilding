@@ -9,6 +9,7 @@ namespace Game{
 
     static class Constants
     {
+        public const int NOFLOORS = 10;
         public const int FLOOR_LENGTH = 4;
         public const int FLOOR_WIDTH = 4;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case"};
@@ -113,7 +114,8 @@ namespace Game{
         private int number; //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
         private PassCode pc; //passcode
-        public Floor(int number)
+
+        public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase)
         {
             this.number = number;
             for(int i = 0; i < Constants.FLOOR_LENGTH;i++)
@@ -121,20 +123,24 @@ namespace Game{
                 {
                     floor[i, j] = new Tile();
                 }
-            //int ranAmount = randomGen.Next(0, Constants.FLOOR_WIDTH * Constants.FLOOR_LENGTH);
+
             int x, y; //random place of case
-            //int a,b,c; //random passcode for case
 
             x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
             y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
             //Random decimal pass code
-            pc = new PassCode(Constants.randGen.Next(0, 10),
-                              Constants.randGen.Next(0, 10),
-                              Constants.randGen.Next(0, 10));
+            if (pc == null)
+            {
+                this.pc = new PassCode(Constants.randGen.Next(0, 10),
+                                  Constants.randGen.Next(0, 10),
+                                  Constants.randGen.Next(0, 10));
+            }
+            else this.pc = pc;
 
             //Place case at random tile
-            floor[x,y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", pc);
+            if(!haveCase)
+                floor[x,y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", this.pc, true);
 
             int x1,y1,x2,y2,x3,y3;
 
@@ -147,7 +153,8 @@ namespace Game{
             } while (x1 == x && y1 == y); //can't be same as case
 
             //rand = Constants.randGen.Next(0, 2);
-            floor[x1,y1].Item = new Tool(Constants.ITEMS[0],"First digit: " + pc.a.ToString());
+            if(!haveNote)
+                floor[x1,y1].Item = new Tool(Constants.ITEMS[0],"First digit: " + this.pc.a.ToString());
 
             do
             {
@@ -156,7 +163,8 @@ namespace Game{
             } while ((x2 == x1 && y2 == y1) || (x2 == x && y2 == y));
 
             //rand = Constants.randGen.Next(0, 2);
-            floor[x2,y2].Item = new Tool(Constants.ITEMS[1],"Second digit: " + pc.b.ToString());
+            if(!havePhone)
+                floor[x2,y2].Item = new Tool(Constants.ITEMS[1],"Second digit: " + this.pc.b.ToString());
 
             do
             {
@@ -165,7 +173,8 @@ namespace Game{
             } while ((x3 == x2 && y3 == y2) || (x3 == x1 && y3 == y1) || (x3 == x && y3 == y));
 
             //rand = Constants.randGen.Next(0, 2);
-            floor[x3,y3].Item = new Tool(Constants.ITEMS[2],"Third digit: " + pc.c.ToString());
+            if(!haveAudio)
+                floor[x3,y3].Item = new Tool(Constants.ITEMS[2],"Third digit: " + this.pc.c.ToString());
         }
 
         public Item pickupItem(Coordinate c)
@@ -242,17 +251,18 @@ namespace Game{
     class Case : Item
     {
         private int a, b, c; //passcode
-        private bool locked = true;
-        public Case(String name, String hint, PassCode pc) : base(name,hint) //call base class constructor
+        private bool locked;
+        public Case(String name, String hint, PassCode pc, bool locked) : base(name,hint) //call base class constructor
         {
             this.a = pc.a;
             this.b = pc.b;
             this.c = pc.c;
+            this.locked = locked;
         }
 
-        public bool tryToUnlock(int a, int b, int c)
+        public bool tryToUnlock(PassCode pc)
         {
-            if (this.a == a && this.b == b && this.c == c)
+            if (this.a == pc.a && this.b == pc.b && this.c == pc.c)
             {
                 this.locked = false;
                 return true;
@@ -265,7 +275,7 @@ namespace Game{
             return locked;
         }
 
-        override public String getHint() //using 'new' keyword to hide base method
+        override public String getHint()
         {
             if (!locked) return itemHint;
             return "Case Locked!";
@@ -288,14 +298,17 @@ namespace Game{
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT};
 
     class Player{
+        private String name;
         private Floor floor;
         private Coordinate coord; //may need to init to something
         private ArrayList inventory;
-        private String name;
 
-        public Player()
+        public Player(String name, Floor floor, Coordinate coord, ArrayList items)
         {
-            this.inventory = new ArrayList();
+            this.name = name;
+            this.floor = floor;
+            this.coord = coord;
+            this.inventory = new ArrayList(items);
         }
         public String stringCoord()
         {
@@ -420,6 +433,24 @@ namespace Game{
 
             return true;
         }
+
+        public int tryUnlock(PassCode pc)
+        {
+            foreach (Item item in inventory)
+            {
+                if (item.name() == Constants.ITEMS[3])
+                {
+                    Case iCase = (Case)item;
+                    if (!iCase.isLocked()) return 1; //case already unlocked
+
+                    if (iCase.tryToUnlock(pc) == true) return 2; //case unlocked!
+                    
+                    return 3; //bad pass code attempt
+                }
+            }
+
+            return 0;//player does not have case
+        }
     }
 
     class GameState
@@ -434,19 +465,32 @@ namespace Game{
         public bool havePhone;
         public bool haveAudio;
 
-        public GameState(String playerName, int fn,
-                         PassCode pc, Coordinate coord, bool locked,
-                         bool hcase, bool hnote, bool hphone, bool haudio)
+        public GameState(String playerName, int floorNumber,
+                         PassCode pc, Coordinate coord, bool caseLocked,
+                         bool haveCase, bool haveNote, bool havePhone, bool haveAudio)
         {
             this.playerName = playerName;
-            floorNumber = fn;
+            this.floorNumber = floorNumber;
             this.pc = pc;
             this.coord = coord;
-            caseLocked = locked;
-            haveCase = hcase;
-            haveNote = hnote;
-            havePhone = hphone;
-            haveAudio = haudio;
+            this.caseLocked = caseLocked;
+            this.haveCase = haveCase;
+            this.haveNote = haveNote;
+            this.havePhone = havePhone;
+            this.haveAudio = haveAudio;
+        }
+
+        public GameState(String playerName) //default constructor with an inital state
+        {
+            this.playerName = playerName;
+            floorNumber = Constants.NOFLOORS;
+            pc = null;
+            coord = new Coordinate(0, 0);
+            caseLocked = true;
+            haveCase = false;
+            haveNote = false;
+            havePhone = false;
+            haveAudio = false;
         }
     }
 
@@ -458,25 +502,43 @@ namespace Game{
 
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
-            floors = new Floor[10]; //Creating 10 foors
+            floors = new Floor[Constants.NOFLOORS]; //Creating 10 foors
 
-            for (int i = 0; i < 10; i++)
-            {
-                floors[i] = new Floor(i+1);
-            }
-            
-            player = new Player();
         }
 
         public String getTitle(){
             return title;
         }
 
-        public Graphic startGame()
+        public Graphic startGame(GameState gs)
         {
+            //TODO error check gs floor number, coord, and pass code digits
+            //error check coord
+            if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
+                gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
+                gs.coord = new Coordinate(0, 0); //change bad coord to default
+
+            for (int i = 0; i < Constants.NOFLOORS; i++)
+            {
+                if (gs.floorNumber == i + 1)
+                    floors[i] = new Floor(i+1, gs.pc, gs.haveNote, gs.havePhone, gs.haveAudio, gs.haveCase);
+                else
+                    floors[i] = new Floor(i + 1,null,false,false,false,false);
+            }
+
+            ArrayList items = new ArrayList();
+            if (gs.haveNote) items.Add(new Tool(Constants.ITEMS[0], "First digit: " + gs.pc.a.ToString()));
+            if (gs.havePhone) items.Add(new Tool(Constants.ITEMS[1], "Second digit: " + gs.pc.b.ToString()));
+            if (gs.haveAudio) items.Add(new Tool(Constants.ITEMS[2], "Digit digit: " + gs.pc.c.ToString()));
+            if (gs.haveCase) items.Add(new Case(Constants.ITEMS[3], "Got to elevator X", gs.pc, gs.caseLocked));
+
+            player = new Player(gs.playerName, floors[gs.floorNumber-1], gs.coord, items);
+
+            /*
             player.Floor = floors[9]; //start at the roof
             player.Name = "Johnny"; //for now we call him Johnny
             player.Coord = new Coordinate(0,0); //Floor matrix is zero indexed!! so 10th tile is 9
+            */
 
             Graphic graphic = new Graphic(player.Coord, player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
 
@@ -544,6 +606,20 @@ namespace Game{
             }
 
             return graphic;
+        }
+
+        //attempt at cracking the case
+        public Graphic tryCase(int digit1, int digit2, int digit3)
+        {
+            int result = player.tryUnlock(new PassCode(digit1, digit2, digit3));
+
+            switch (result)
+            {
+                case 0: return new Graphic(player.Coord, "You do not have a case.");
+                case 1: return new Graphic(player.Coord, "Case already unlocked.");
+                case 2: return new Graphic(player.Coord, "Case Unlocked!");
+                default: return new Graphic(player.Coord, "Wrong pass code, try again.");
+            }
         }
 
         public Graphic getHelp()
