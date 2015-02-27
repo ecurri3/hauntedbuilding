@@ -53,11 +53,13 @@ namespace hauntedBuildinggrp3
             {
                 Cnn.Open();
                 oCmd.ExecuteNonQuery();
-                this.Close();
+                //this.Close();
                 MessageBox.Show("welcome " + txtDefUser.Text);
                 UserStatus = 0;
                 fmSelectGame ff = new fmSelectGame(UserDef, UserStatus);
+                this.Hide();
                 ff.ShowDialog();
+                this.Close();
                 
                 
             }
