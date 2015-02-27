@@ -32,11 +32,23 @@ namespace Game{
     /* Find a way to setup the three elevators for each floor and
      * have them references the appropriate floors.
      * */
+
+    /*
+     * Handles the creation and initialization of Floor
+     * 
+     * Randomly generates positions of key items and assigns the passcode a position
+     */
     
     class Floor{
         private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
         private PassCode pc; //passcode
+
+        /*
+         * Gives each place in the Floor a Tile class
+         * 
+         * See Tile for more information
+         */
 
         public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase)
         {
@@ -100,6 +112,7 @@ namespace Game{
                 floor[x3,y3].Item = new Tool(Constants.ITEMS[2],"Third digit: " + this.pc.c.ToString());
         }
 
+        //Picks up item at a given tile and removes the item from that tile
         public Item pickupItem(Coordinate c)
         {
             if (floor[c.x, c.y].Item == null) return null;
@@ -113,9 +126,13 @@ namespace Game{
             get{return this.number;}
         }
 
+        //returns passcode
         public PassCode getPassCode() { return pc; }
     }
 
+    /*
+     * Handles player information such as name, current floor, coordinates, and their inventory
+     */
     class Player{
         private String name;
         private Floor floor;
@@ -157,6 +174,8 @@ namespace Game{
             get { return this.name; }
         }
 
+        //Move player given direction based on command
+        //Checks for boundaries
         public bool move(Move where)
         {
             switch (where)

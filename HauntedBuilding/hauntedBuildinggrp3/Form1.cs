@@ -296,13 +296,13 @@ namespace hauntedBuildinggrp3
         private void enterUp_Click(object sender, EventArgs e)
         {
             if (state == 1)
-                writeGraphic(hb.enterCommand("ENTER UP"));
+                writeGraphic(hb.enterCommand("ENTER DOWN"));
         }
 
         private void enterDown_Click(object sender, EventArgs e)
         {
             if (state == 1)
-                writeGraphic(hb.enterCommand("ENTER DOWN"));
+                writeGraphic(hb.enterCommand("ENTER UP"));
         }
 
         //TryCase
