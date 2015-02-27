@@ -19,6 +19,8 @@ namespace hauntedBuildinggrp3
 
         private void fmStartGame_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.CenterToScreen();
             this.ControlBox = false;
             this.Text = "";
             btnPlay.TabIndex = 0;
@@ -37,6 +39,7 @@ namespace hauntedBuildinggrp3
             //showfmPlayGame.ShowDialog();
             fmLogin showfmLogin = new fmLogin();
             showfmLogin.Show();
+            
         }
 
         private void btnHowToPlay_Click(object sender, EventArgs e)

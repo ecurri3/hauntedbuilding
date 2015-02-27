@@ -337,6 +337,11 @@ namespace hauntedBuildinggrp3
         {
             enteringCode = false;
         }
+
+        private void fmPlayGame_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
  
 }

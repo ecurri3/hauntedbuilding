@@ -101,7 +101,9 @@ namespace hauntedBuildinggrp3
             
 
             fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio);
-            fPG.ShowDialog();
+            this.Hide();
+                fPG.ShowDialog();
+                this.Close();
 
             }
             catch (SqlException ex)
@@ -110,7 +112,7 @@ namespace hauntedBuildinggrp3
                 MessageBox.Show(ex.Message);
                 this.btnPlaySaved.Enabled = false;
             }
-            this.Close();
+            //this.Close();
             //Cnn.Open();
             //DR = oCmd.ExecuteReader();
             //DR.Close();
@@ -148,6 +150,7 @@ namespace hauntedBuildinggrp3
             HaveAudio=0;
 
             fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio);
+            this.Hide();
             fPG.ShowDialog();
             this.Close();
         }
