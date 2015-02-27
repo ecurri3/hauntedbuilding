@@ -50,6 +50,24 @@
     <Compile Include="fmHowToPlay.Designer.cs">
       <DependentUpon>fmHowToPlay.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmLogin.Designer.cs">
+      <DependentUpon>fmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmNewAcc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmNewAcc.Designer.cs">
+      <DependentUpon>fmNewAcc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fmSelectGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmSelectGame.Designer.cs">
+      <DependentUpon>fmSelectGame.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmStartGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +85,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="fmHowToPlay.resx">
       <DependentUpon>fmHowToPlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FmLogin.resx">
+      <DependentUpon>fmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmNewAcc.resx">
+      <DependentUpon>fmNewAcc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmSelectGame.resx">
+      <DependentUpon>fmSelectGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fmStartGame.resx">
       <DependentUpon>fmStartGame.cs</DependentUpon>

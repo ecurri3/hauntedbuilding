@@ -33,8 +33,10 @@ namespace hauntedBuildinggrp3
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            fmPlayGame showfmPlayGame = new fmPlayGame();
-            showfmPlayGame.ShowDialog();
+            //fmPlayGame showfmPlayGame = new fmPlayGame();
+            //showfmPlayGame.ShowDialog();
+            fmLogin showfmLogin = new fmLogin();
+            showfmLogin.Show();
         }
 
         private void btnHowToPlay_Click(object sender, EventArgs e)
