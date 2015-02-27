@@ -6,75 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Game{
-
-    static class Constants
-    {
-        public const int NOFLOORS = 10;
-        public const int FLOOR_LENGTH = 4;
-        public const int FLOOR_WIDTH  = 4;
-        public const int NUM_FLOORS   = 10;
-        static public String[] ITEMS  = new String[] { "Note", "Phone", "Audio", "Secret Case"};
-        static public Random randGen  = new Random();
-    }
-
-    class Graphic //simulate graphics (for now just text)
-    {
-
-        private String image;
-        private String text;
-
-        public Graphic(Coordinate coord, String text)
-        {
-            this.image = "";
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-            {
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                {
-                    if (coord.x == i && coord.y == j)
-                        this.image += "X";
-                    else
-                        this.image += "--";
-                }
-                    
-                this.image += System.Environment.NewLine;
-            }
-
-            this.text = text;
-        }
-
-        public Graphic(String text)
-        {
-            this.image = "";
-            this.text = text;
-        }
-
-        public String Text
-        {
-            set { this.text = value; }
-            get { return text; }
-        }
-
-        public void setImage(Coordinate coord)
-        {
-            this.image = "";
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-            {
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                {
-                    if (coord.x == i && coord.y == j)
-                        this.image += "X";
-                    else
-                        this.image += "--";
-                }
-
-                this.image += System.Environment.NewLine;
-            }
-        }
-
-        public String getImage() { return image; }
-    }
-    
-    
     // FORWARD decrements X
     // BACKWARD increments x
     // LEFT decrements Y
@@ -101,16 +32,7 @@ namespace Game{
     /* Find a way to setup the three elevators for each floor and
      * have them references the appropriate floors.
      * */
-    class PassCode
-    {
-        public int a, b, c;
-        public PassCode(int a, int b, int c)
-        {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
-    }
+    
     class Floor{
         private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
@@ -193,110 +115,6 @@ namespace Game{
 
         public PassCode getPassCode() { return pc; }
     }
-
-    //TODO
-    /*
-     * When Floor is initialized, the case/password will be randomly assigned to a Tile
-     * When each Tile is initalized, it will check if the item is already set to something
-     * if not, set the item to some random item
-     * else, skip the current Tile because that Tile is already set to the case/password
-     */
-    class Tile
-    {
-        private Item item = null;
-        //Construct a random item for each tile
-        /*
-         * Case, password, nothing, etc
-         */
-        public Tile()
-        {
-            //Not sure how to decide how item is initialized
-            //Random random = new Random();
-            /*
-            int rand = Constants.randGen.Next(0, 4); //(0,4]
-            if (rand == 3) item = null; //No item
-            else item = new Tool(Constants.ITEMS[rand], "No hint!"); //Item with no hint
-            */
-        }
-
-        public Item Item
-        {
-            set { this.item = value; }
-            get { return this.item;}
-        }
-
-    }
-
-    //can't be instantiated!
-    abstract class Item
-    {
-        private String itemName;
-        protected String itemHint;
-        public Item(String name, String hint){
-            itemName = name;
-            itemHint = hint;//String.Copy(hint);
-        }
-
-        public String name() { return itemName; }
-        abstract public String getHint();
-    }
-
-    //Regular Items
-    class Tool : Item
-    {
-        public Tool(String name, String hint) : base(name, hint) { }
-        override public String getHint() { return itemHint; }
-    }
-
-    //Special Item, a case
-    class Case : Item
-    {
-        private int a, b, c; //passcode
-        private bool locked;
-        public Case(String name, String hint, PassCode pc, bool locked) : base(name,hint) //call base class constructor
-        {
-            this.a = pc.a;
-            this.b = pc.b;
-            this.c = pc.c;
-            this.locked = locked;
-        }
-
-        public bool tryToUnlock(PassCode pc)
-        {
-            if (this.a == pc.a && this.b == pc.b && this.c == pc.c)
-            {
-                this.locked = false;
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool isLocked(){
-            return locked;
-        }
-
-        override public String getHint()
-        {
-            if (!locked) return itemHint;
-            return "Case Locked!";
-        }
-    }
-
-    //just helper class to pass coordinates around easier.
-    class Coordinate
-    {
-        public int x;
-        public int y;
-        public Coordinate(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-    }
-
-    enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT};
 
     class Player{
         private String name;
@@ -454,107 +272,6 @@ namespace Game{
         }
     }
 
-    class GameState
-    {
-        public String playerName;
-        public int floorNumber;
-        public PassCode pc;
-        public Coordinate coord;
-        public bool caseLocked; //is the case locked? IF they don't have it, its a yes
-        public bool haveCase;
-        public bool haveNote;
-        public bool havePhone;
-        public bool haveAudio;
-
-        public GameState(String playerName, int floorNumber,
-                         PassCode pc, Coordinate coord, bool caseLocked,
-                         bool haveCase, bool haveNote, bool havePhone, bool haveAudio)
-        {
-            this.playerName = playerName;
-            this.floorNumber = floorNumber;
-            this.pc = pc;
-            this.coord = coord;
-            this.caseLocked = caseLocked;
-            this.haveCase = haveCase;
-            this.haveNote = haveNote;
-            this.havePhone = havePhone;
-            this.haveAudio = haveAudio;
-        }
-
-        public GameState(String playerName) //default constructor with an inital state
-        {
-            this.playerName = playerName;
-            floorNumber = Constants.NOFLOORS;
-            pc = null;
-            coord = new Coordinate(0, 0);
-            caseLocked = true;
-            haveCase = false;
-            haveNote = false;
-            havePhone = false;
-            haveAudio = false;
-        }
-    }
-
-    //initialize an array of elevators that will change floors for the player
-    abstract class Elevator
-    {
-        protected int x, y;
-
-        public Boolean isThereElevator(int i, int j)
-        {
-            if (x == i && y == j)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public abstract int go_up();
-        public abstract int go_down();
-
-    }
-
-    class WrongElevator : Elevator
-    {
-        protected int randAbove;    //randomly takes user to any floor above current floor
-        protected int randBelow;    //will not take user to first floor
-        protected int floor;
-
-        public WrongElevator(int i, int j, int floor){
-            this.x = i;
-            this.y = j;
-            this.floor = floor;
-        }
-
-       
-        public override int go_up(){
-            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
-            return randAbove;
-        }
-
-        public override int go_down(){
-            randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
-            return randBelow;
-        }
-    }
-
-    class CorrectElevator : Elevator
-    {
-        protected int lastFloor, nextFloor;
-
-        public CorrectElevator(int i, int j, int last, int next){
-            this.x = i;
-            this.y = j;
-            this.lastFloor = last;       //lest and next elevator keep track of where player is coming from 
-            this.nextFloor = next;       //WrongElevator doesn't need to keep track thus inheritance
-        }
-
-        public override int go_up() { return lastFloor; }
-
-        public override int go_down() { return nextFloor; }
-    }
-
     class HauntedBuilding
     {
         private String title;
@@ -565,7 +282,7 @@ namespace Game{
         public HauntedBuilding(){
             title = "Welcome to Haunted Building\n";
 
-            floors = new Floor[Constants.NOFLOORS]; //Creating 10 foors
+            floors = new Floor[Constants.NUM_FLOORS]; //Creating 10 foors
             correct_elevator = new CorrectElevator[10];
             wrong_elevator = new WrongElevator[10];
         }
@@ -589,14 +306,13 @@ namespace Game{
                 wrong_elevator[i] = new WrongElevator(3, 2, i + 1);
             }
 
-
             //TODO error check gs floor number, coord, and pass code digits
             //error check coord
             if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
                 gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
                 gs.coord = new Coordinate(0, 0); //change bad coord to default
 
-            for (int i = 0; i < Constants.NOFLOORS; i++)
+            for (int i = 0; i < Constants.NUM_FLOORS; i++)
             {
                 if (gs.floorNumber == i + 1)
                     floors[i] = new Floor(i+1, gs.pc, gs.haveNote, gs.havePhone, gs.haveAudio, gs.haveCase);
@@ -776,10 +492,7 @@ namespace Game{
             String backTogame = "Click 'Help' to go back to game screen" + System.Environment.NewLine;
             
             return new Graphic(howto + move + enter + pickup + invt + backTogame);
-        }
-
-        //Used to store into SQL
-        
+        } 
 
         //returns the current State
         public GameState currentState()
