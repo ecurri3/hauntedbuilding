@@ -386,8 +386,11 @@ namespace Game{
                 else if (correct_elevator[currfloor].isThereElevator(currX,currY))  //for now, the elevator only goes down
                 {
                         newFloor = correct_elevator[currfloor].go_down();
-                        player.Floor = floors[newFloor-1];                   //set the new floor
-                    
+                        newFloor--;
+
+                        player.Floor = floors[newFloor];                   //set the new floor
+                        player.Coord = correct_elevator[newFloor].getCoord();
+
                         graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                         player.Name + " is on floor " + player.Floor.Number + " at " +
                                         player.stringCoord() + System.Environment.NewLine;
@@ -396,7 +399,11 @@ namespace Game{
                 else if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
                 {
                     newFloor = correct_elevator[currfloor].go_down();
-                    player.Floor = floors[newFloor-1];                   //set the new floor
+                    newFloor--;
+
+                    player.Floor = floors[newFloor];                   //set the new floor
+                    player.Coord = wrong_elevator[newFloor].getCoord();
+                    
 
                     graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                         player.Name + " is on floor " + player.Floor.Number + " at " +

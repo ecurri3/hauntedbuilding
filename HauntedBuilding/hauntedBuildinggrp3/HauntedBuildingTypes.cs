@@ -232,6 +232,12 @@ namespace Game
             return false;
         }
 
+        public Coordinate getCoord()
+        {
+            Coordinate coord = new Coordinate(this.x, this.y);
+            return coord;
+        }
+
         public abstract int go_up();
         public abstract int go_down();
 
