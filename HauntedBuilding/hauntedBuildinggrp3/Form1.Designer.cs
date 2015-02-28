@@ -54,11 +54,11 @@
             this.textBox1.BackColor = System.Drawing.SystemColors.MenuText;
             this.textBox1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Location = new System.Drawing.Point(12, 18);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(178, 197);
+            this.textBox1.Size = new System.Drawing.Size(178, 190);
             this.textBox1.TabIndex = 0;
             this.textBox1.Click += new System.EventHandler(this.windowClick);
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -94,7 +94,7 @@
             // up
             // 
             this.up.Location = new System.Drawing.Point(267, 225);
-            this.up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.up.Margin = new System.Windows.Forms.Padding(2);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(33, 32);
             this.up.TabIndex = 7;
@@ -105,7 +105,7 @@
             // down
             // 
             this.down.Location = new System.Drawing.Point(267, 261);
-            this.down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.down.Margin = new System.Windows.Forms.Padding(2);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(33, 32);
             this.down.TabIndex = 8;
@@ -116,7 +116,7 @@
             // right
             // 
             this.right.Location = new System.Drawing.Point(304, 261);
-            this.right.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.right.Margin = new System.Windows.Forms.Padding(2);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(33, 32);
             this.right.TabIndex = 9;
@@ -127,7 +127,7 @@
             // left
             // 
             this.left.Location = new System.Drawing.Point(230, 261);
-            this.left.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.left.Margin = new System.Windows.Forms.Padding(2);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(33, 32);
             this.left.TabIndex = 10;
@@ -138,7 +138,7 @@
             // pickup
             // 
             this.pickup.Location = new System.Drawing.Point(367, 223);
-            this.pickup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pickup.Margin = new System.Windows.Forms.Padding(2);
             this.pickup.Name = "pickup";
             this.pickup.Size = new System.Drawing.Size(81, 23);
             this.pickup.TabIndex = 11;
@@ -149,7 +149,7 @@
             // inventory
             // 
             this.inventory.Location = new System.Drawing.Point(367, 259);
-            this.inventory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inventory.Margin = new System.Windows.Forms.Padding(2);
             this.inventory.Name = "inventory";
             this.inventory.Size = new System.Drawing.Size(81, 23);
             this.inventory.TabIndex = 12;
@@ -160,7 +160,7 @@
             // inspect
             // 
             this.inspect.Location = new System.Drawing.Point(367, 294);
-            this.inspect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inspect.Margin = new System.Windows.Forms.Padding(2);
             this.inspect.Name = "inspect";
             this.inspect.Size = new System.Drawing.Size(81, 23);
             this.inspect.TabIndex = 14;
@@ -173,12 +173,12 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Window;
             this.textBox2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.textBox2.Location = new System.Drawing.Point(196, 12);
+            this.textBox2.Location = new System.Drawing.Point(196, 18);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(252, 197);
+            this.textBox2.Size = new System.Drawing.Size(252, 191);
             this.textBox2.TabIndex = 16;
             this.textBox2.Click += new System.EventHandler(this.windowClick);
             // 

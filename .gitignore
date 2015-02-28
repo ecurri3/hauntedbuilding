@@ -1,6 +1,8 @@
 #Ignore anything in bin and obj folders
 #Ignore binary files that are not necessary to keep track
+#MS saved file backups
 HauntedBuilding/hauntedBuildinggrp3/bin/*
 HauntedBuilding/hauntedBuildinggrp3/obj/*
 *.exe
 *.suo
+~$*
