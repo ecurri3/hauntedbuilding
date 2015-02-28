@@ -26,19 +26,17 @@ namespace hauntedBuildinggrp3
             btnPlay.TabIndex = 0;
             btnHowToPlay.TabIndex = 1;
             btnExit.TabIndex = 2;
-            //btnExit.Text = "E&xit";
-            //btnHowToPlay.Text = "&How To Play";
-            //btnPlay.Text = "&Play";
+           
 
 
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            //fmPlayGame showfmPlayGame = new fmPlayGame();
-            //showfmPlayGame.ShowDialog();
-            fmLogin showfmLogin = new fmLogin();
-            showfmLogin.Show();
+            fmPlayGame showfmPlayGame = new fmPlayGame();
+            showfmPlayGame.ShowDialog();
+            //fmLogin showfmLogin = new fmLogin();
+            //showfmLogin.Show();
             
         }
 

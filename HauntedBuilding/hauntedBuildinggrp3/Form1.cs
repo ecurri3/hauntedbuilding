@@ -19,38 +19,42 @@ namespace hauntedBuildinggrp3
         private bool enteringCode; //Is the user entering a pass code?
         private bool helping; //used in Help click event
 
-        //Constructor
-        private int gStatus;
-        private string gPlayer;
-        private int gFloorNo;
-        private int gFloorX;
-        private int gFloorY;
-        private int gFirstDgt;
-        private int gSecDgt;
-        private int gThirdDgt;
-        private bool gCaseStatus;
-        private bool gHaveCase;
-        private bool gHaveNote;
-        private bool gHavePhone;
-        private bool gHaveAudio;
+        //N
+        //private int gStatus;
+        //private string gPlayer;
+        //private int gFloorNo;
+        //private int gFloorX;
+        //private int gFloorY;
+        //private int gFirstDgt;
+        //private int gSecDgt;
+        //private int gThirdDgt;
+        //private bool gCaseStatus;
+        //private bool gHaveCase;
+        //private bool gHaveNote;
+        //private bool gHavePhone;
+        //private bool gHaveAudio;
 
-        public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio )
+        public fmPlayGame()
         {
+            //N
+            //public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio )
+            //{
+            //InitializeComponent();
+            //gStatus = sStatus;
+            //gPlayer = sPlayer;
+            //gFloorNo = sFloorNo;
+            //gFloorX = sFloorX;
+            //gFloorY = sFloorY;
+            //gFirstDgt = sFirstDgtPass;
+            //gSecDgt = sSecDgtPass;
+            //gThirdDgt = sThirdDgtPass;
+            //gCaseStatus = Convert.ToBoolean(sCaseStatus);
+            //gHaveCase = Convert.ToBoolean(sHaveCase);
+            //gHaveNote = Convert.ToBoolean(sHaveNote);
+            //gHavePhone = Convert.ToBoolean(sHavePhone);
+            //gHaveAudio = Convert.ToBoolean(sHaveAudio);
+            //N
             InitializeComponent();
-            gStatus = sStatus;
-            gPlayer = sPlayer;
-            gFloorNo = sFloorNo;
-            gFloorX = sFloorX;
-            gFloorY = sFloorY;
-            gFirstDgt = sFirstDgtPass;
-            gSecDgt = sSecDgtPass;
-            gThirdDgt = sThirdDgtPass;
-            gCaseStatus = Convert.ToBoolean(sCaseStatus);
-            gHaveCase = Convert.ToBoolean(sHaveCase);
-            gHaveNote = Convert.ToBoolean(sHaveNote);
-            gHavePhone = Convert.ToBoolean(sHavePhone);
-            gHaveAudio = Convert.ToBoolean(sHaveAudio);
-
             currentGraphic = new Game.Graphic("");
             state = 0;
             enteringCode = false;
@@ -81,10 +85,17 @@ namespace hauntedBuildinggrp3
             //sql
             //if user wanted a new game;
             //change "Johnny" to real account username
-            if (gStatus==0)
-            {
-                writeGraphic(hb.startGame(new Game.GameState(gPlayer.ToString())));  
-            }
+
+            //N
+            //if (gStatus==0)
+            //{
+            //    writeGraphic(hb.startGame(new Game.GameState(gPlayer.ToString())));  
+            //}
+            //N
+
+
+            writeGraphic(hb.startGame(new Game.GameState("Johnny")));
+           
 
             //else
             //get SQL data for user name store as variables in GameState object
@@ -97,13 +108,16 @@ namespace hauntedBuildinggrp3
                                                        new Game.Coordinate(4,4),false,true,true,true,true);
                 writeGraphic(hb.startGame(gs));
              */
-            if (gStatus==1)
-            {
-                Game.GameState gs = new Game.GameState(gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
-                                                      new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, gHaveCase,
-                                                      gHaveNote, gHavePhone, gHaveAudio);
-                writeGraphic(hb.startGame(gs));
-            }
+
+            //N
+            //if (gStatus==1)
+            //{
+            //    Game.GameState gs = new Game.GameState(gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
+            //                                          new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, gHaveCase,
+            //                                          gHaveNote, gHavePhone, gHaveAudio);
+            //    writeGraphic(hb.startGame(gs));
+            //}
+            //N
             
 
             state = 1;
@@ -222,74 +236,75 @@ namespace hauntedBuildinggrp3
             //    Game.GameState gs = hb.currentState(); //this returns a GameState Object
             //                        //exmaple: use gs.PlayerName to get playerName.
             //}
+//N
+            //if (state == 1)
+            //{
+            //    Game.GameState gs = hb.currentState();
 
-            if (state == 1)
-            {
-                Game.GameState gs = hb.currentState();
-
-                string UserName = gs.playerName;
-                int FloorNo = gs.floorNumber;
-                int FloorX = gs.coord.x;
-                int FloorY = gs.coord.y;
-                int FirstDgtPass = gs.pc.a;
-                int SecondDgtPass = gs.pc.b;
-                int ThirdDgtPass = gs.pc.c;
-                bool CaseStatus = gs.caseLocked;
-                bool HaveCase = gs.haveCase;
-                bool HaveNote = gs.haveNote;
-                bool HavePhone = gs.havePhone;
-                bool HaveAudio = gs.haveAudio;
+            //    string UserName = gs.playerName;
+            //    int FloorNo = gs.floorNumber;
+            //    int FloorX = gs.coord.x;
+            //    int FloorY = gs.coord.y;
+            //    int FirstDgtPass = gs.pc.a;
+            //    int SecondDgtPass = gs.pc.b;
+            //    int ThirdDgtPass = gs.pc.c;
+            //    bool CaseStatus = gs.caseLocked;
+            //    bool HaveCase = gs.haveCase;
+            //    bool HaveNote = gs.haveNote;
+            //    bool HavePhone = gs.havePhone;
+            //    bool HaveAudio = gs.haveAudio;
                 
 
-                SqlConnection Cnn = new SqlConnection();
-                Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
-                SqlCommand oCmd = new SqlCommand();
-                //SqlDataReader DR= oCmd.ExecuteReader();
-                //oCmd.Connection.ConnectionString="Data Source=WIN-PC; Initial Ctalog=HauntedBuilding; Integrated Security=True"; //oConn is a Module which create a connection to sql
-                oCmd.Connection = Cnn;
-                oCmd.CommandTimeout = 0;
-                oCmd.CommandType = CommandType.StoredProcedure;
-                oCmd.CommandText = "spSaveGame";
-                oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
-                oCmd.Parameters.Add("@FloorNo", SqlDbType.Int);
-                oCmd.Parameters.Add("@FloorX", SqlDbType.Int);
-                oCmd.Parameters.Add("@FloorY", SqlDbType.Int);
-                oCmd.Parameters.Add("@FirstDgtPass", SqlDbType.Int);
-                oCmd.Parameters.Add("@SecDgtPass", SqlDbType.Int);
-                oCmd.Parameters.Add("@ThirdDgtPass", SqlDbType.Int);
-                oCmd.Parameters.Add("@CaseStatus", SqlDbType.Int);
-                oCmd.Parameters.Add("@HaveCase", SqlDbType.Int);
-                oCmd.Parameters.Add("@Note", SqlDbType.Int);
-                oCmd.Parameters.Add("@Phone", SqlDbType.Int);
-                oCmd.Parameters.Add("@Audio", SqlDbType.Int);
+            //    SqlConnection Cnn = new SqlConnection();
+            //    Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            //    SqlCommand oCmd = new SqlCommand();
+            //    //SqlDataReader DR= oCmd.ExecuteReader();
+            //    //oCmd.Connection.ConnectionString="Data Source=WIN-PC; Initial Ctalog=HauntedBuilding; Integrated Security=True"; //oConn is a Module which create a connection to sql
+            //    oCmd.Connection = Cnn;
+            //    oCmd.CommandTimeout = 0;
+            //    oCmd.CommandType = CommandType.StoredProcedure;
+            //    oCmd.CommandText = "spSaveGame";
+            //    oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+            //    oCmd.Parameters.Add("@FloorNo", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@FloorX", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@FloorY", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@FirstDgtPass", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@SecDgtPass", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@ThirdDgtPass", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@CaseStatus", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@HaveCase", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@Note", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@Phone", SqlDbType.Int);
+            //    oCmd.Parameters.Add("@Audio", SqlDbType.Int);
 
-                oCmd.Parameters["@UserName"].Value = UserName;
-                oCmd.Parameters["@FloorNo"].Value = FloorNo;
-                oCmd.Parameters["@FloorX"].Value = FloorX;
-                oCmd.Parameters["@FloorY"].Value = FloorY;
-                oCmd.Parameters["@FirstDgtPass"].Value = FirstDgtPass;
-                oCmd.Parameters["@SecDgtPass"].Value = SecondDgtPass;
-                oCmd.Parameters["@ThirdDgtPass"].Value = ThirdDgtPass;
-                oCmd.Parameters["@CaseStatus"].Value = CaseStatus;
-                oCmd.Parameters["@HaveCase"].Value = HaveCase;
-                oCmd.Parameters["@Note"].Value = HaveNote;
-                oCmd.Parameters["@Phone"].Value = HavePhone;
-                oCmd.Parameters["@Audio"].Value = HaveAudio;
+            //    oCmd.Parameters["@UserName"].Value = UserName;
+            //    oCmd.Parameters["@FloorNo"].Value = FloorNo;
+            //    oCmd.Parameters["@FloorX"].Value = FloorX;
+            //    oCmd.Parameters["@FloorY"].Value = FloorY;
+            //    oCmd.Parameters["@FirstDgtPass"].Value = FirstDgtPass;
+            //    oCmd.Parameters["@SecDgtPass"].Value = SecondDgtPass;
+            //    oCmd.Parameters["@ThirdDgtPass"].Value = ThirdDgtPass;
+            //    oCmd.Parameters["@CaseStatus"].Value = CaseStatus;
+            //    oCmd.Parameters["@HaveCase"].Value = HaveCase;
+            //    oCmd.Parameters["@Note"].Value = HaveNote;
+            //    oCmd.Parameters["@Phone"].Value = HavePhone;
+            //    oCmd.Parameters["@Audio"].Value = HaveAudio;
 
 
-                try
-                {
-                    Cnn.Open();
-                    oCmd.ExecuteNonQuery();
+            //    try
+            //    {
+            //        Cnn.Open();
+            //        oCmd.ExecuteNonQuery();
                     
-                }
-                catch (SqlException ex)
-                {
+            //    }
+            //    catch (SqlException ex)
+            //    {
 
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            this.Close();
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}
+            //this.Close();
+            //N
         }
 
 
