@@ -232,6 +232,10 @@ namespace Game
             return false;
         }
 
+        abstract public Boolean isCorrectElevator();
+        abstract public Boolean isWrongElevator();
+
+
         public Coordinate getCoord()
         {
             Coordinate coord = new Coordinate(this.x, this.y);
@@ -256,16 +260,27 @@ namespace Game
             this.floor = floor;
         }
 
-
         public override int go_up()
         {
-            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
+            //randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
+            randAbove = this.floor + 1;
             return randAbove;
+        }
+
+        public Boolean isWrongElevator()
+        {
+            return true;
+        }
+
+        public Boolean isCorrectElevaor()
+        {
+            return false;
         }
 
         public override int go_down()
         {
-            randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
+            //randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
+            randBelow = this.floor - 1;
             return randBelow;
         }
     }
@@ -280,6 +295,16 @@ namespace Game
             this.y = j;
             this.lastFloor = last;       //lest and next elevator keep track of where player is coming from 
             this.nextFloor = next;       //WrongElevator doesn't need to keep track thus inheritance
+        }
+
+        public Boolean isWrongElevator()
+        {
+            return false;
+        }
+
+        public Boolean isCorrectElevaor()
+        {
+            return true;
         }
 
         public override int go_up() { return lastFloor; }
