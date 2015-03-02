@@ -279,12 +279,12 @@ namespace Game
             return randAbove;
         }
 
-        public Boolean isWrongElevator()
+        public override Boolean isWrongElevator()
         {
             return true;
         }
 
-        public Boolean isCorrectElevaor()
+        public override Boolean isCorrectElevator()
         {
             return false;
         }
@@ -309,12 +309,12 @@ namespace Game
             this.nextFloor = next;       //WrongElevator doesn't need to keep track thus inheritance
         }
 
-        public Boolean isWrongElevator()
+        public override Boolean isWrongElevator()
         {
             return false;
         }
 
-        public Boolean isCorrectElevaor()
+        public override Boolean isCorrectElevator()
         {
             return true;
         }
