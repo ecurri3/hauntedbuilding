@@ -232,7 +232,14 @@ namespace Game
     //initialize an array of elevators that will change floors for the player
     abstract class Elevator
     {
-        protected int x, y;
+        protected int x, y, floor;
+
+        public Elevator(int i, int j, int floor)
+        {
+            this.x = i;
+            this.y = j;
+            this.floor = floor;
+        }
 
         public Boolean isThereElevator(int i, int j)
         {
@@ -244,9 +251,24 @@ namespace Game
             return false;
         }
 
-        abstract public Boolean isCorrectElevator();
-        abstract public Boolean isWrongElevator();
+        //Will make sure an elevator doesnt pass its boundary limits
+        public Boolean canGoUp()
+        {
+            if (this.floor != Constants.NUM_FLOORS){
+                return true;
+            }
 
+            return false;
+        }
+        public Boolean canGoDown()
+        {
+            if (this.floor != 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public Coordinate getCoord()
         {
@@ -263,30 +285,14 @@ namespace Game
     {
         protected int randAbove;    //randomly takes user to any floor above current floor
         protected int randBelow;    //will not take user to first floor
-        protected int floor;
 
-        public WrongElevator(int i, int j, int floor)
-        {
-            this.x = i;
-            this.y = j;
-            this.floor = floor;
-        }
+        public WrongElevator(int i, int j, int floor) : base (i, j, floor) { }
 
         public override int go_up()
         {
             //randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
             randAbove = this.floor + 1;
             return randAbove;
-        }
-
-        public override Boolean isWrongElevator()
-        {
-            return true;
-        }
-
-        public override Boolean isCorrectElevator()
-        {
-            return false;
         }
 
         public override int go_down()
@@ -301,22 +307,12 @@ namespace Game
     {
         protected int lastFloor, nextFloor;
 
-        public CorrectElevator(int i, int j, int last, int next)
-        {
-            this.x = i;
-            this.y = j;
-            this.lastFloor = last;       //lest and next elevator keep track of where player is coming from 
-            this.nextFloor = next;       //WrongElevator doesn't need to keep track thus inheritance
-        }
+        public CorrectElevator(int i, int j, int floor) : base (i, j, floor) { }
 
-        public override Boolean isWrongElevator()
+        public void setPattern(int last, int next)
         {
-            return false;
-        }
-
-        public override Boolean isCorrectElevator()
-        {
-            return true;
+            this.lastFloor = last;
+            this.nextFloor = next;
         }
 
         public override int go_up() { return lastFloor; }
