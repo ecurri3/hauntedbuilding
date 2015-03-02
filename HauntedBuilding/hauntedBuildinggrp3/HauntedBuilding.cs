@@ -43,6 +43,10 @@ namespace Game{
         private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
         private PassCode pc; //passcode
+        public Coordinate noteCoord = null;
+        public Coordinate phoneCoord = null;
+        public Coordinate audioCoord = null;
+        public Coordinate caseCoord = null;
 
         /*
          * Gives each place in the Floor a Tile class
@@ -74,8 +78,11 @@ namespace Game{
             else this.pc = pc;
 
             //Place case at random tile
-            if(!haveCase)
-                floor[x,y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", this.pc, true);
+            if (!haveCase)
+            {
+                floor[x, y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", this.pc, true);
+                this.caseCoord = new Coordinate(x, y);
+            }
 
             int x1,y1,x2,y2,x3,y3;
 
@@ -87,10 +94,14 @@ namespace Game{
                 y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
             } while (x1 == x && y1 == y); //can't be same as case
 
-            //rand = Constants.randGen.Next(0, 2);
-            if(!haveNote)
-                floor[x1,y1].Item = new Tool(Constants.ITEMS[0],"First digit: " + this.pc.a.ToString());
 
+
+            //rand = Constants.randGen.Next(0, 2);
+            if (!haveNote)
+            {
+                floor[x1, y1].Item = new Tool(Constants.ITEMS[0], "First digit: " + this.pc.a.ToString());
+                this.noteCoord = new Coordinate(x1, y1);
+            }
             do
             {
                 x2 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
@@ -98,9 +109,11 @@ namespace Game{
             } while ((x2 == x1 && y2 == y1) || (x2 == x && y2 == y));
 
             //rand = Constants.randGen.Next(0, 2);
-            if(!havePhone)
-                floor[x2,y2].Item = new Tool(Constants.ITEMS[1],"Second digit: " + this.pc.b.ToString());
-
+            if (!havePhone)
+            {
+                floor[x2, y2].Item = new Tool(Constants.ITEMS[1], "Second digit: " + this.pc.b.ToString());
+                this.phoneCoord = new Coordinate(x2, y2);
+            }
             do
             {
                 x3 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
@@ -108,9 +121,12 @@ namespace Game{
             } while ((x3 == x2 && y3 == y2) || (x3 == x1 && y3 == y1) || (x3 == x && y3 == y));
 
             //rand = Constants.randGen.Next(0, 2);
-            if(!haveAudio)
-                floor[x3,y3].Item = new Tool(Constants.ITEMS[2],"Third digit: " + this.pc.c.ToString());
-        }
+            if (!haveAudio)
+            {
+                floor[x3, y3].Item = new Tool(Constants.ITEMS[2], "Third digit: " + this.pc.c.ToString());
+                this.audioCoord = new Coordinate(x3, y3);
+            }
+            }
 
         //Picks up item at a given tile and removes the item from that tile
         public Item pickupItem(Coordinate c)
@@ -353,7 +369,7 @@ namespace Game{
             player.Coord = new Coordinate(0,0); //Floor matrix is zero indexed!! so 10th tile is 9
             */
 
-            Graphic graphic = new Graphic(player.Coord, player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
+            Graphic graphic = new Graphic(player.Coord,player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord ,player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
 
             return graphic;
         }
@@ -365,7 +381,7 @@ namespace Game{
 
         public Graphic enterCommand(String command)
         {
-            Graphic graphic = new Graphic(player.Coord, "Bad command! Click Help for help.");
+            Graphic graphic = new Graphic(player.Coord,player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord,"Bad command! Click Help for help.");
 
             Move where = Move.STALL;
             switch (command) //see if movement command
@@ -384,7 +400,7 @@ namespace Game{
                                         player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
                 else
                 {
-                    graphic.setImage(player.Coord);
+                    graphic.setImage(player.Coord, player.Floor.caseCoord, player.Floor.noteCoord, player.Floor.phoneCoord, player.Floor.audioCoord);
                     graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
                 }
             }
@@ -497,10 +513,10 @@ namespace Game{
 
             switch (result)
             {
-                case 0: return new Graphic(player.Coord, "You do not have a case.");
-                case 1: return new Graphic(player.Coord, "Case already unlocked.");
-                case 2: return new Graphic(player.Coord, "Case Unlocked!");
-                default: return new Graphic(player.Coord, "Wrong pass code, try again.");
+                case 0: return new Graphic(player.Coord, player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord, "You do not have a case.");
+                case 1: return new Graphic(player.Coord, player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord,"Case already unlocked.");
+                case 2: return new Graphic(player.Coord, player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord,"Case Unlocked!");
+                default: return new Graphic(player.Coord, player.Floor.caseCoord,player.Floor.noteCoord, player.Floor.phoneCoord,player.Floor.audioCoord, "Wrong pass code, try again.");
             }
         }
 

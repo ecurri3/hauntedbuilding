@@ -24,7 +24,7 @@ namespace Game
         private String image;
         private String text;
 
-        public Graphic(Coordinate coord, String text)
+        public Graphic(Coordinate coord, Coordinate icase, Coordinate note, Coordinate phone, Coordinate audio, String text)
         {
             this.image = "";
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
@@ -33,6 +33,12 @@ namespace Game
                 {
                     if (coord.x == i && coord.y == j)
                         this.image += "X";
+                    else if (icase.x == i && icase.y == j)
+                        this.image += "O";
+                    else if (note.x == i && note.y == j)
+                        this.image += "O";
+                    else if (audio.x == i && audio.y == j)
+                        this.image += "O";
                     else
                         this.image += "--";
                 }
@@ -55,7 +61,7 @@ namespace Game
             get { return text; }
         }
 
-        public void setImage(Coordinate coord)
+        public void setImage(Coordinate coord, Coordinate icase, Coordinate note, Coordinate phone, Coordinate audio)
         {
             this.image = "";
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
@@ -64,6 +70,12 @@ namespace Game
                 {
                     if (coord.x == i && coord.y == j)
                         this.image += "X";
+                    else if (icase.x == i && icase.y == j)
+                        this.image += "O";
+                    else if (note.x == i && note.y == j)
+                        this.image += "O";
+                    else if (audio.x == i && audio.y == j)
+                        this.image += "O";
                     else
                         this.image += "--";
                 }
