@@ -47,6 +47,7 @@ namespace Game{
         public Coordinate phoneCoord = null;
         public Coordinate audioCoord = null;
         public Coordinate caseCoord = null;
+        public Coordinate correctElevator = null;
 
         /*
          * Gives each place in the Floor a Tile class
@@ -54,7 +55,7 @@ namespace Game{
          * See Tile for more information
          */
 
-        public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase)
+        public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase, Coordinate correctElevator)
         {
             this.number = number;
             for(int i = 0; i < Constants.FLOOR_LENGTH;i++)
@@ -62,6 +63,8 @@ namespace Game{
                 {
                     floor[i, j] = new Tile();
                 }
+
+            this.correctElevator = correctElevator;
 
             int x, y; //random place of case
 
@@ -80,7 +83,7 @@ namespace Game{
             //Place case at random tile
             if (!haveCase)
             {
-                floor[x, y].Item = new Case(Constants.ITEMS[3], "Go to Elevator X", this.pc, true);
+                floor[x, y].Item = new Case(Constants.ITEMS[3], "Check at position (" + this.correctElevator.x + "," + this.correctElevator.y + ")", this.pc, true);
                 this.caseCoord = new Coordinate(x, y);
             }
 
@@ -305,6 +308,11 @@ namespace Game{
 
             return 0;//player does not have case
         }
+
+        public void dropItems()
+        {
+            inventory.Clear();
+        }
     }
 
     class HauntedBuilding
@@ -327,8 +335,8 @@ namespace Game{
 
         public Graphic startGame(GameState gs)
         {
-            correct_elevator = new CorrectElevator[10];
-            wrong_elevator = new WrongElevator[10];
+            correct_elevator = new CorrectElevator[Constants.NUM_FLOORS];
+            wrong_elevator = new WrongElevator[Constants.NUM_FLOORS];
 
             // Generate Elevator sequence
             //generate a random sequence of correct elevators
@@ -336,9 +344,13 @@ namespace Game{
             int numFloors =Constants.NUM_FLOORS;
 
             //initializes the elevators on each floor with an indication of its path
-            for (int i = 9; i >= 0; i--)
+            for (int i = numFloors-1; i >= 0; i--)
             {
-                correct_elevator[i] = new CorrectElevator(3, 1, i+1);
+                if(i == 7)
+                    correct_elevator[i] = new CorrectElevator(0, 0, i + 1);
+                else
+                    correct_elevator[i] = new CorrectElevator(3, 1, i+1);
+
                 wrong_elevator[i] = new WrongElevator(3, 2, i + 1);
             }
 
@@ -376,9 +388,9 @@ namespace Game{
             for (int i = 0; i < Constants.NUM_FLOORS; i++)
             {
                 if (gs.floorNumber == i + 1)
-                    floors[i] = new Floor(i+1, gs.pc, gs.haveNote, gs.havePhone, gs.haveAudio, gs.haveCase);
+                    floors[i] = new Floor(i+1, gs.pc, gs.haveNote, gs.havePhone, gs.haveAudio, gs.haveCase, correct_elevator[i].getCoord());
                 else
-                    floors[i] = new Floor(i + 1,null,false,false,false,false);
+                    floors[i] = new Floor(i + 1,null,false,false,false,false, correct_elevator[i].getCoord());
             }
 
             ArrayList items = new ArrayList();
@@ -445,12 +457,16 @@ namespace Game{
                         newFloor = correct_elevator[currfloor].go_down();
                         newFloor--;
 
+                        player.dropItems();
                         player.Floor = floors[newFloor];                   //set the new floor
                         player.Coord = correct_elevator[newFloor].getCoord();
 
                         graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                         player.Name + " is on floor " + player.Floor.Number + " at " +
                                         player.stringCoord() + System.Environment.NewLine;
+
+                        graphic.setImage(player.Coord, floors[newFloor].caseCoord, floors[newFloor].noteCoord, floors[newFloor].phoneCoord, floors[newFloor].audioCoord);
+                        
                     }
                         
                 }
@@ -462,6 +478,7 @@ namespace Game{
                         newFloor = wrong_elevator[currfloor].go_down();
                         newFloor--;
 
+                        player.dropItems();
                         player.Floor = floors[newFloor];                   //set the new floor
                         player.Coord = wrong_elevator[newFloor].getCoord();
 
@@ -469,6 +486,8 @@ namespace Game{
                         graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                             player.Name + " is on floor " + player.Floor.Number + " at " +
                                             player.stringCoord() + System.Environment.NewLine;
+
+                        graphic.setImage(player.Coord, floors[newFloor].caseCoord, floors[newFloor].noteCoord, floors[newFloor].phoneCoord, floors[newFloor].audioCoord);
                     }
                     
                 }
@@ -490,12 +509,15 @@ namespace Game{
                 {
                     if (correct_elevator[currfloor].canGoUp())
                     {
+                        player.dropItems();
                         newFloor = correct_elevator[currfloor].go_up();
                         player.Floor = floors[newFloor - 1];                   //set the new floor
 
                         graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                         player.Name + " is on floor " + player.Floor.Number + " at " +
                                         player.stringCoord() + System.Environment.NewLine;
+
+                        graphic.setImage(player.Coord, floors[newFloor].caseCoord, floors[newFloor].noteCoord, floors[newFloor].phoneCoord, floors[newFloor].audioCoord);
                     }
 
                 }
@@ -503,12 +525,15 @@ namespace Game{
                 {
                     if (wrong_elevator[currfloor].canGoUp())
                     {
+                        player.dropItems();
                         newFloor = wrong_elevator[currfloor].go_up();
                         player.Floor = floors[newFloor - 1];                   //set the new floor
 
                         graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                             player.Name + " is on floor " + player.Floor.Number + " at " +
                                             player.stringCoord() + System.Environment.NewLine;
+
+                        graphic.setImage(player.Coord, floors[newFloor].caseCoord, floors[newFloor].noteCoord, floors[newFloor].phoneCoord, floors[newFloor].audioCoord);
                     }
 
                 }

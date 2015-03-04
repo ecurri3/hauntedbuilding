@@ -37,6 +37,8 @@ namespace Game
                         this.image += "O";
                     else if (note.x == i && note.y == j)
                         this.image += "O";
+                    else if (phone.x == i && phone.y == j)
+                        this.image += "O";
                     else if (audio.x == i && audio.y == j)
                         this.image += "O";
                     else
@@ -73,6 +75,8 @@ namespace Game
                     else if (icase.x == i && icase.y == j)
                         this.image += "O";
                     else if (note.x == i && note.y == j)
+                        this.image += "O";
+                    else if (phone.x == i && phone.y == j)
                         this.image += "O";
                     else if (audio.x == i && audio.y == j)
                         this.image += "O";
