@@ -148,6 +148,8 @@ namespace hauntedBuildinggrp3
                     break;
                 case 'c': enterDown_Click(sender, e);
                     break;
+                case 'f': flashlight_Click(sender, e);
+                    break;
                 default:
                     return;
             }
@@ -356,6 +358,12 @@ namespace hauntedBuildinggrp3
         private void fmPlayGame_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void flashlight_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+                writeGraphic(hb.enterCommand("FLASHLIGHT"));
         }
     }
  

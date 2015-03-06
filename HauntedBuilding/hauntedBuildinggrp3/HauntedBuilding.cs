@@ -165,6 +165,9 @@ namespace Game{
         private Coordinate coord; //may need to init to something
         private ArrayList inventory;
 
+        private ArrayList marks;
+        private char[,] image;
+
         public Player(String name, Floor floor, Coordinate coord, ArrayList items)
         {
             this.name = name;
@@ -316,6 +319,66 @@ namespace Game{
             return 0;//player does not have case
         }
 
+
+        /*
+         * 
+         * WORK IN PROGRESS
+         * 
+         */
+        public Graphic flashlight(Coordinate coord, ArrayList marks)
+        {
+            //Reset floor to dashes
+            foreach (NamedCoord mark in marks)
+                this.image[mark.coord.x, mark.coord.y] = '-';
+
+            //Reset player coords to dashes
+            this.image[this.coord.x, this.coord.y] = '-';
+
+            this.marks = new ArrayList(marks);
+            this.coord = new Coordinate(coord.x, coord.y);
+
+            foreach (NamedCoord mark in marks)
+            {
+                //ABOVE
+                if (mark.coord.x == coord.x && mark.coord.y == coord.y + 1)
+                {
+                    if (mark.name == "CorrectElevator")
+                        this.image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        this.image[mark.coord.x, mark.coord.y] = 'o';
+                }
+                //BELOW
+                if (mark.coord.x == coord.x && mark.coord.y == coord.y - 1)
+                {
+                    if (mark.name == "CorrectElevator")
+                        this.image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        this.image[mark.coord.x, mark.coord.y] = 'o';
+                }
+                //TO THE RIGHT
+                if (mark.coord.x == coord.x + 1 && mark.coord.y == coord.y)
+                {
+                    if (mark.name == "CorrectElevator")
+                        this.image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        this.image[mark.coord.x, mark.coord.y] = 'o';
+                }
+                //TO THE LEFT
+                if (mark.coord.x == coord.x - 1 && mark.coord.y == coord.y)
+                {
+                    if (mark.name == "CorrectElevator")
+                        this.image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        this.image[mark.coord.x, mark.coord.y] = 'o';
+                }
+            }
+
+            this.image[coord.x, coord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
+
+            Graphic graphic = new Graphic(coord, marks, "Flashlight used");
+            return graphic;
+        }
+
         public void dropItems()
         {
             inventory.Clear();
@@ -446,13 +509,13 @@ namespace Game{
             }
             else if (command == "ENTER DOWN")
             {
-                int currX       = player.Coord.x;
-                int currY       = player.Coord.y;
-                int currfloor   = player.Floor.Number - 1;
-                int newFloor    = player.Floor.Number - 1;
-                bool took       = false;
+                int currX = player.Coord.x;
+                int currY = player.Coord.y;
+                int currfloor = player.Floor.Number - 1;
+                int newFloor = player.Floor.Number - 1;
+                bool took = false;
 
-                if (correct_elevator[currfloor].isThereElevator(currX,currY))  //for now, the elevator only goes down
+                if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
                 {
                     if (correct_elevator[currfloor].canGoDown())
                     {
@@ -492,22 +555,22 @@ namespace Game{
                 }
                 else
                     graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
-                
+
             }
 
             else if (command == "ENTER UP")
             {
-                int currX       = player.Coord.x;
-                int currY       = player.Coord.y;
-                int currfloor   = player.Floor.Number - 1;
-                int newFloor    = player.Floor.Number - 1;
-                bool took       = false;
+                int currX = player.Coord.x;
+                int currY = player.Coord.y;
+                int currfloor = player.Floor.Number - 1;
+                int newFloor = player.Floor.Number - 1;
+                bool took = false;
 
                 if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
                 {
                     if (correct_elevator[currfloor].canGoUp())
                     {
-                        
+
                         newFloor = correct_elevator[currfloor].go_up();
                         newFloor--;
 
@@ -525,7 +588,7 @@ namespace Game{
                 {
                     if (wrong_elevator[currfloor].canGoUp())
                     {
-                        
+
                         newFloor = wrong_elevator[currfloor].go_up();
                         newFloor--;
 
@@ -553,7 +616,7 @@ namespace Game{
 
             else if (command == "PICKUP")
             {
-                graphic.Text = "You picked up " + player.pickup() + 
+                graphic.Text = "You picked up " + player.pickup() +
                                " at " + player.stringCoord() + System.Environment.NewLine;
             }
             else if (command == "INVT")
@@ -562,7 +625,12 @@ namespace Game{
             }
             else if (command == "INSPECT")
             {
-                graphic.Text = player.inspectItems() +  System.Environment.NewLine;
+                graphic.Text = player.inspectItems() + System.Environment.NewLine;
+            }
+            else if (command == "FLASHLIGHT")
+            {
+                //reveal surrounding areas
+                graphic.flashlight(player.Coord, player.Floor.coordinates);
             }
 
             return graphic;
