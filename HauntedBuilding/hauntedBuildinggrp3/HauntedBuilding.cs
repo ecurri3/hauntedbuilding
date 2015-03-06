@@ -509,11 +509,12 @@ namespace Game{
                     {
                         
                         newFloor = correct_elevator[currfloor].go_up();
+                        newFloor--;
 
                         //buggy newFloor - 1 or +1?
                         player.dropItems();
-                        player.Floor = floors[newFloor - 1];                   //set the new floor
-                        player.Coord = correct_elevator[newFloor -1].getCoord();
+                        player.Floor = floors[newFloor];                   //set the new floor
+                        player.Coord = correct_elevator[newFloor].getCoord();
 
                         took = true;
                     }
@@ -526,11 +527,12 @@ namespace Game{
                     {
                         
                         newFloor = wrong_elevator[currfloor].go_up();
+                        newFloor--;
 
                         //buggy newFloor - 1 or +1?
                         player.dropItems();
-                        player.Floor = floors[newFloor - 1];                   //set the new floor
-                        player.Coord = wrong_elevator[newFloor -1].getCoord();
+                        player.Floor = floors[newFloor];                   //set the new floor
+                        player.Coord = wrong_elevator[newFloor].getCoord();
 
                         took = true;
                     }

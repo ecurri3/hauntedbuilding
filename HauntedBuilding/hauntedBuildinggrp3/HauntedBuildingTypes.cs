@@ -42,9 +42,9 @@ namespace Game
             foreach (NamedCoord mark in marks)
             {
                 if (mark.name == "CorrectElevator")
-                    image[mark.coord.x, mark.coord.y] = 'E';
+                    image[mark.coord.x, mark.coord.y] = 'e';
                 else
-                    image[mark.coord.x, mark.coord.y] = 'O';
+                    image[mark.coord.x, mark.coord.y] = 'o';
             }
 
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite a mark if on the same coordinate
@@ -84,9 +84,9 @@ namespace Game
             foreach (NamedCoord mark in marks)
             {
                 if (mark.name == "CorrectElevator")
-                    image[mark.coord.x, mark.coord.y] = 'E';
+                    image[mark.coord.x, mark.coord.y] = 'e';
                 else
-                    image[mark.coord.x, mark.coord.y] = 'O';
+                    image[mark.coord.x, mark.coord.y] = 'o';
             }
 
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
@@ -99,7 +99,9 @@ namespace Game
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
             {
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                    image_t += this.image[i, j];
+                {
+                    image_t += this.image[i, j] + "     ";
+                }
 
                 image_t += System.Environment.NewLine;
             }
