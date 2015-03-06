@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace Game
 {
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT };
-
+    enum iName { NOTE, PHONE, AUDIO, SECRETCASE}; //Used to index into ITEMS
     static class Constants
     {
-        public const int FLOOR_LENGTH = 4;
-        public const int FLOOR_WIDTH = 4;
+        public const int FLOOR_LENGTH = 4; //X
+        public const int FLOOR_WIDTH = 4; //Y
         public const int NUM_FLOORS = 10;
+        public const int NUM_ITEMS = 4;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case" };
         static public Random randGen = new Random();
     }
@@ -21,39 +22,44 @@ namespace Game
     class Graphic //simulate graphics (for now just text)
     {
 
-        private String image;
+        private char[,] image;
+        private Coordinate pCoord; //player Coordinate
+        private ArrayList marks; //array list of NamedCoord's
         private String text;
 
-        public Graphic(Coordinate coord, Coordinate icase, Coordinate note, Coordinate phone, Coordinate audio, String text)
+        public Graphic(Coordinate pCoord, ArrayList marks, String text)
         {
-            this.image = "";
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-            {
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                {
-                    if (coord.x == i && coord.y == j)
-                        this.image += "X";
-                    else if (icase.x == i && icase.y == j)
-                        this.image += "O";
-                    else if (note.x == i && note.y == j)
-                        this.image += "O";
-                    else if (phone.x == i && phone.y == j)
-                        this.image += "O";
-                    else if (audio.x == i && audio.y == j)
-                        this.image += "O";
-                    else
-                        this.image += "--";
-                }
+            this.pCoord = new Coordinate(pCoord.x, pCoord.y);
+            this.marks = new ArrayList(marks);
 
-                this.image += System.Environment.NewLine;
+            this.image = new char[Constants.FLOOR_LENGTH,Constants.FLOOR_WIDTH];
+
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                    image[i, j] = '-';
+
+
+            foreach (NamedCoord mark in marks)
+            {
+                if (mark.name == "CorrectElevator")
+                    image[mark.coord.x, mark.coord.y] = 'E';
+                else
+                    image[mark.coord.x, mark.coord.y] = 'O';
             }
+
+            this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite a mark if on the same coordinate
 
             this.text = text;
         }
 
         public Graphic(String text)
         {
-            this.image = "";
+            this.image = new char[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                    image[i, j] = '-';
+
             this.text = text;
         }
 
@@ -63,32 +69,43 @@ namespace Game
             get { return text; }
         }
 
-        public void setImage(Coordinate coord, Coordinate icase, Coordinate note, Coordinate phone, Coordinate audio)
+        public void setImage(Coordinate pCoord, ArrayList marks)
         {
-            this.image = "";
+            //Reset
+            foreach (NamedCoord mark in this.marks)
+                this.image[mark.coord.x, mark.coord.y] = '-'; //reset old marks
+
+            this.image[this.pCoord.x, this.pCoord.y] = '-';
+
+            this.marks = new ArrayList(marks);
+            this.pCoord = new Coordinate(pCoord.x, pCoord.y);
+
+            //Fill
+            foreach (NamedCoord mark in marks)
+            {
+                if (mark.name == "CorrectElevator")
+                    image[mark.coord.x, mark.coord.y] = 'E';
+                else
+                    image[mark.coord.x, mark.coord.y] = 'O';
+            }
+
+            this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
+        }
+
+
+        public String getImage()
+        { 
+            String image_t = "";
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
             {
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                {
-                    if (coord.x == i && coord.y == j)
-                        this.image += "X";
-                    else if (icase.x == i && icase.y == j)
-                        this.image += "O";
-                    else if (note.x == i && note.y == j)
-                        this.image += "O";
-                    else if (phone.x == i && phone.y == j)
-                        this.image += "O";
-                    else if (audio.x == i && audio.y == j)
-                        this.image += "O";
-                    else
-                        this.image += "--";
-                }
+                    image_t += this.image[i, j];
 
-                this.image += System.Environment.NewLine;
+                image_t += System.Environment.NewLine;
             }
-        }
 
-        public String getImage() { return image; }
+            return image_t;
+        }
     }
 
     //just helper class to pass coordinates around easier.
@@ -102,6 +119,34 @@ namespace Game
             this.y = y;
         }
 
+    }
+
+    class NamedCoord
+    {
+        public String name;
+        public Coordinate coord;
+        public NamedCoord(String name, Coordinate coord)
+        {
+            this.name = name;
+            this.coord = new Coordinate(coord.x, coord.y);
+        }
+
+        //Useful when removing from ArrayLists
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || (!(obj is NamedCoord) && !(obj is String)))
+                return false;
+            
+            if(obj is NamedCoord)
+                return this.name == ((NamedCoord)obj).name;
+            
+            return this.name == ((String)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.name.GetHashCode();
+        }
     }
 
     class PassCode
@@ -245,44 +290,17 @@ namespace Game
             this.floor = floor;
         }
 
-        public Boolean isThereElevator(int i, int j)
-        {
-            if (x == i && y == j)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        public Boolean isThereElevator(int i, int j){ return x==i && y==j; }
 
         //Will make sure an elevator doesnt pass its boundary limits
-        public Boolean canGoUp()
-        {
-            if (this.floor != Constants.NUM_FLOORS){
-                return true;
-            }
+        public Boolean canGoUp() { return this.floor != Constants.NUM_FLOORS; }
 
-            return false;
-        }
-        public Boolean canGoDown()
-        {
-            if (this.floor != 1)
-            {
-                return true;
-            }
+        public Boolean canGoDown() { return this.floor != 1; }
 
-            return false;
-        }
-
-        public Coordinate getCoord()
-        {
-            Coordinate coord = new Coordinate(this.x, this.y);
-            return coord;
-        }
+        public Coordinate getCoord() { return new Coordinate(this.x, this.y); }
 
         public abstract int go_up();
         public abstract int go_down();
-
     }
 
     class WrongElevator : Elevator
