@@ -13,7 +13,7 @@ namespace Game
     {
         public const int FLOOR_LENGTH = 4; //X
         public const int FLOOR_WIDTH = 4; //Y
-        public const int NUM_FLOORS = 10;
+        public const int NUM_FLOORS = 10; 
         public const int NUM_ITEMS = 4;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case" };
         static public Random randGen = new Random();
@@ -169,24 +169,23 @@ namespace Game
         public PassCode pc;
         public Coordinate coord;
         public bool caseLocked; //is the case locked? IF they don't have it, its a yes
-        public bool haveCase;
-        public bool haveNote;
-        public bool havePhone;
-        public bool haveAudio;
+        public bool[] have;
 
         public GameState(String playerName, int floorNumber,
                          PassCode pc, Coordinate coord, bool caseLocked,
-                         bool haveCase, bool haveNote, bool havePhone, bool haveAudio)
+                         bool[] have)
         {
             this.playerName = playerName;
             this.floorNumber = floorNumber;
             this.pc = pc;
             this.coord = coord;
             this.caseLocked = caseLocked;
-            this.haveCase = haveCase;
-            this.haveNote = haveNote;
-            this.havePhone = havePhone;
-            this.haveAudio = haveAudio;
+
+            this.have = new bool[Constants.NUM_ITEMS];
+            
+            for(int i = 0; i < Constants.NUM_ITEMS; i++)
+                this.have[i] = have[i];
+
         }
 
         public GameState(String playerName) //default constructor with an inital state
@@ -196,10 +195,12 @@ namespace Game
             pc = null;
             coord = new Coordinate(0, 0);
             caseLocked = true;
-            haveCase = false;
-            haveNote = false;
-            havePhone = false;
-            haveAudio = false;
+
+            this.have = new bool[Constants.NUM_ITEMS];
+
+            //set all too false, player doesn't have anything
+            for (int i = 0; i < Constants.NUM_ITEMS; i++)
+                this.have[i] = false;
         }
     }
 

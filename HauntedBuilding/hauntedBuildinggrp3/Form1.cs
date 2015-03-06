@@ -112,9 +112,14 @@ namespace hauntedBuildinggrp3
             //N
             //if (gStatus==1)
             //{
+            //  bool[] have = new bool[Constants.NUM_ITEMS];
+            //  have[(int)iName.NOTE] = ghaveNote;
+            //  have[(int)iName.PHONE] = ghavePhone;
+            //  have[(int)iName.AUDIO] = ghaveAudio;
+            //  have[(int)iName.SECRETCASE] = ghaveCase;
+
             //    Game.GameState gs = new Game.GameState(gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
-            //                                          new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, gHaveCase,
-            //                                          gHaveNote, gHavePhone, gHaveAudio);
+            //                                          new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have);
             //    writeGraphic(hb.startGame(gs));
             //}
             //N

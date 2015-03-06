@@ -51,7 +51,7 @@ namespace Game{
          * See Tile for more information
          */
 
-        public Floor(int number, PassCode pc, bool haveNote, bool havePhone, bool haveAudio, bool haveCase, Coordinate correctElevator)
+        public Floor(int number, PassCode pc, bool[] have, Coordinate correctElevator)
         {
             this.number = number;
             this.coordinates = new ArrayList();
@@ -83,7 +83,7 @@ namespace Game{
             y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
             //Place case at random tile
-            if (!haveCase)
+            if (!have[(int)iName.SECRETCASE])
             {
                 floor[x, y].Item = new Case(Constants.ITEMS[(int)iName.SECRETCASE], 
                                             "Check at position (" + correctElevator.x + "," + correctElevator.y + ")", 
@@ -101,7 +101,7 @@ namespace Game{
             } while (taken[x,y]); //can't be same as case
 
 
-            if (!haveNote)
+            if (!have[(int)iName.NOTE])
             {
                 floor[x, y].Item = new Tool(Constants.ITEMS[(int)iName.NOTE], "First digit: " + this.pc.a.ToString());
                 this.coordinates.Add(new NamedCoord(Constants.ITEMS[(int)iName.NOTE], new Coordinate(x, y)));
@@ -115,7 +115,7 @@ namespace Game{
             } while (taken[x,y]);
 
 
-            if (!havePhone)
+            if (!have[(int)iName.PHONE])
             {
                 floor[x, y].Item = new Tool(Constants.ITEMS[(int)iName.PHONE], "Second digit: " + this.pc.b.ToString());
                 this.coordinates.Add(new NamedCoord(Constants.ITEMS[(int)iName.PHONE], new Coordinate(x, y)));
@@ -129,7 +129,7 @@ namespace Game{
             } while (taken[x,y]);
 
 
-            if (!haveAudio)
+            if (!have[(int)iName.AUDIO])
             {
                 floor[x, y].Item = new Tool(Constants.ITEMS[(int)iName.AUDIO], "Third digit: " + this.pc.c.ToString());
                 this.coordinates.Add(new NamedCoord(Constants.ITEMS[(int)iName.AUDIO], new Coordinate(x, y)));
@@ -392,20 +392,26 @@ namespace Game{
                     gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
                     gs.coord = new Coordinate(0, 0); //change bad coord to default
 
-            for (int i = 0; i < Constants.NUM_FLOORS; i++)
-            {
-                if (gs.floorNumber == i + 1)
-                    floors[i] = new Floor(i+1, gs.pc, gs.haveNote, gs.havePhone, gs.haveAudio, gs.haveCase, correct_elevator[i].getCoord());
-                else
-                    floors[i] = new Floor(i + 1,null,false,false,false,false, correct_elevator[i].getCoord());
-            }
+
+            //bool[] have = new bool[Constants.NUM_ITEMS];
+
+            //for (int i = 0; i < Constants.NUM_ITEMS; i++)
+            //    have[i] = false;
+
+                for (int i = 0; i < Constants.NUM_FLOORS; i++)
+                {
+                    if (gs.floorNumber == i + 1)
+                        floors[i] = new Floor(i + 1, gs.pc, gs.have, correct_elevator[i].getCoord());
+                    else
+                        floors[i] = new Floor(i + 1, null, gs.have, correct_elevator[i].getCoord());
+                }
 
             ArrayList items = new ArrayList();
 
-            if (gs.haveNote) items.Add(new Tool(Constants.ITEMS[0], "First digit: " + gs.pc.a.ToString()));
-            if (gs.havePhone) items.Add(new Tool(Constants.ITEMS[1], "Second digit: " + gs.pc.b.ToString()));
-            if (gs.haveAudio) items.Add(new Tool(Constants.ITEMS[2], "Digit digit: " + gs.pc.c.ToString()));
-            if (gs.haveCase) items.Add(new Case(Constants.ITEMS[3], "Got to elevator X", gs.pc, gs.caseLocked));
+            if (gs.have[(int)iName.NOTE]) items.Add(new Tool(Constants.ITEMS[0], "First digit: " + gs.pc.a.ToString()));
+            if (gs.have[(int)iName.PHONE]) items.Add(new Tool(Constants.ITEMS[1], "Second digit: " + gs.pc.b.ToString()));
+            if (gs.have[(int)iName.AUDIO]) items.Add(new Tool(Constants.ITEMS[2], "Digit digit: " + gs.pc.c.ToString()));
+            if (gs.have[(int)iName.SECRETCASE]) items.Add(new Case(Constants.ITEMS[3], "Got to elevator X", gs.pc, gs.caseLocked));
 
             player = new Player(gs.playerName, floors[gs.floorNumber-1], gs.coord, items);
 
@@ -601,13 +607,16 @@ namespace Game{
         //returns the current State
         public GameState currentState()
         {
+            bool[] have = new bool[Constants.NUM_ITEMS];
+            have[(int)iName.AUDIO] = player.showInventory().Contains(Constants.ITEMS[(int)iName.AUDIO]);
+            have[(int)iName.PHONE] = player.showInventory().Contains(Constants.ITEMS[(int)iName.PHONE]);
+            have[(int)iName.NOTE] = player.showInventory().Contains(Constants.ITEMS[(int)iName.NOTE]);
+            have[(int)iName.SECRETCASE] = player.showInventory().Contains(Constants.ITEMS[(int)iName.SECRETCASE]);
+
             return new GameState(player.Name, player.Floor.Number, 
                                  player.Floor.getPassCode(), player.Coord,
                                  player.lockedCase(),
-                                 player.showInventory().Contains(Constants.ITEMS[3]),
-                                 player.showInventory().Contains(Constants.ITEMS[0]),
-                                 player.showInventory().Contains(Constants.ITEMS[1]),
-                                 player.showInventory().Contains(Constants.ITEMS[2]));
+                                 have);
         }
 
     }
