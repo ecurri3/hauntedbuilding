@@ -43,7 +43,7 @@ namespace Game{
         private int number;           //floor number
         private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
         private PassCode pc; //passcode
-        public ArrayList coordinates; //has all items and correct elevator
+        private ArrayList coordinates; //has all items and correct elevator
 
         /*
          * Gives each place in the Floor a Tile class
@@ -152,6 +152,12 @@ namespace Game{
             get{return this.number;}
         }
 
+        public ArrayList Coordinates
+        {
+            set { this.coordinates = value; }
+            get { return this.coordinates; }
+        }
+
         //returns passcode
         public PassCode getPassCode() { return pc; }
     }
@@ -162,7 +168,7 @@ namespace Game{
     class Player{
         private String name;
         private Floor floor;
-        private Coordinate coord; //may need to init to something
+        private Coordinate coord;
         private ArrayList inventory;
 
         private ArrayList marks;
@@ -325,6 +331,25 @@ namespace Game{
          * WORK IN PROGRESS
          * 
          */
+        //helper
+        private bool nearMe(Coordinate what)
+        {
+            return Math.Abs(what.x - coord.x) <= 1 && Math.Abs(what.y - coord.y) <= 1;
+        }
+        //Return a list of NamedCoord that are near the current player's coordinate;
+        public ArrayList useFlashLight()
+        {
+            ArrayList marks = new ArrayList();
+
+            foreach (NamedCoord mark in floor.Coordinates)
+            {
+                if (nearMe(mark.coord)) marks.Add(mark);
+            }
+
+            return marks;
+        }
+
+        /*
         public Graphic flashlight(Coordinate coord, ArrayList marks)
         {
             //Reset floor to dashes
@@ -377,7 +402,7 @@ namespace Game{
 
             Graphic graphic = new Graphic(coord, marks, "Flashlight used");
             return graphic;
-        }
+        }*/
 
         public void dropItems()
         {
@@ -456,11 +481,6 @@ namespace Game{
                     gs.coord = new Coordinate(0, 0); //change bad coord to default
 
 
-            //bool[] have = new bool[Constants.NUM_ITEMS];
-
-            //for (int i = 0; i < Constants.NUM_ITEMS; i++)
-            //    have[i] = false;
-
                 for (int i = 0; i < Constants.NUM_FLOORS; i++)
                 {
                     if (gs.floorNumber == i + 1)
@@ -478,7 +498,7 @@ namespace Game{
 
             player = new Player(gs.playerName, floors[gs.floorNumber-1], gs.coord, items);
 
-            Graphic graphic = new Graphic(player.Coord, player.Floor.coordinates,player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
+            Graphic graphic = new Graphic(player.Coord, null,player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
 
             return graphic;
         }
@@ -488,9 +508,59 @@ namespace Game{
             return player;
         }
 
+        //Command ENTER UP & ENTER Down helper
+        private void enterElevator(bool up, Graphic graphic)
+        {
+            int currX = player.Coord.x;
+            int currY = player.Coord.y;
+            int currfloor = player.Floor.Number - 1;
+            int newFloor = player.Floor.Number - 1;
+            bool took = false;
+
+            if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
+            {
+                if (up ? correct_elevator[currfloor].canGoUp() : correct_elevator[currfloor].canGoDown())
+                {
+                    newFloor = up ? correct_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
+                    newFloor--;
+
+                    player.Coord = correct_elevator[newFloor].getCoord();
+
+                    took = true;
+                }
+            }
+
+            if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
+            {
+                if (up ? wrong_elevator[currfloor].canGoUp() : wrong_elevator[currfloor].canGoDown())
+                {
+                    newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
+                    newFloor--;
+
+                    player.Coord = wrong_elevator[newFloor].getCoord();
+
+                    took = true;
+                }
+            }
+
+            if (took)
+            {
+                player.dropItems();
+                player.Floor = floors[newFloor];                   //set the new floor
+
+                graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
+                               player.Name + " is on floor " + player.Floor.Number + " at " +
+                               player.stringCoord() + System.Environment.NewLine;
+
+                graphic.setImage(player.Coord, null);
+            }
+            else
+                graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
+        }
+
         public Graphic enterCommand(String command)
         {
-            Graphic graphic = new Graphic(player.Coord,player.Floor.coordinates,"Bad command! Click Help for help.");
+            Graphic graphic = new Graphic(player.Coord,null,"Bad command! Click Help for help.");
 
             Move where = Move.STALL;
             switch (command) //see if movement command
@@ -509,115 +579,18 @@ namespace Game{
                                         player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
                 else
                 {
-                    graphic.setImage(player.Coord, player.Floor.coordinates);
+                    graphic.setImage(player.Coord, null);
                     graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
                 }
             }
             else if (command == "ENTER DOWN")
             {
-                int currX = player.Coord.x;
-                int currY = player.Coord.y;
-                int currfloor = player.Floor.Number - 1;
-                int newFloor = player.Floor.Number - 1;
-                bool took = false;
-
-                if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
-                {
-                    if (correct_elevator[currfloor].canGoDown())
-                    {
-                        newFloor = correct_elevator[currfloor].go_down(); //why not just -1 here?
-                        newFloor--;//?
-
-                        player.dropItems();
-                        player.Floor = floors[newFloor];                   //set the new floor
-                        player.Coord = correct_elevator[newFloor].getCoord();
-
-                        took = true;
-                    }
-                }
-
-                if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
-                {
-                    if (wrong_elevator[currfloor].canGoDown())
-                    {
-                        newFloor = wrong_elevator[currfloor].go_down();//why not just -1 here?
-                        newFloor--; //?
-
-                        player.dropItems();
-                        player.Floor = floors[newFloor];                   //set the new floor
-                        player.Coord = wrong_elevator[newFloor].getCoord();
-
-                        took = true;
-                    }
-                }
-
-                if (took)
-                {
-                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
-                                   player.Name + " is on floor " + player.Floor.Number + " at " +
-                                   player.stringCoord() + System.Environment.NewLine;
-
-                    graphic.setImage(player.Coord, floors[newFloor].coordinates);
-                }
-                else
-                    graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
-
+                enterElevator(false, graphic); //false for Down
             }
 
             else if (command == "ENTER UP")
             {
-                int currX = player.Coord.x;
-                int currY = player.Coord.y;
-                int currfloor = player.Floor.Number - 1;
-                int newFloor = player.Floor.Number - 1;
-                bool took = false;
-
-                if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
-                {
-                    if (correct_elevator[currfloor].canGoUp())
-                    {
-
-                        newFloor = correct_elevator[currfloor].go_up();
-                        newFloor--;
-
-                        //buggy newFloor - 1 or +1?
-                        player.dropItems();
-                        player.Floor = floors[newFloor];                   //set the new floor
-                        player.Coord = correct_elevator[newFloor].getCoord();
-
-                        took = true;
-                    }
-
-                }
-
-                if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
-                {
-                    if (wrong_elevator[currfloor].canGoUp())
-                    {
-
-                        newFloor = wrong_elevator[currfloor].go_up();
-                        newFloor--;
-
-                        //buggy newFloor - 1 or +1?
-                        player.dropItems();
-                        player.Floor = floors[newFloor];                   //set the new floor
-                        player.Coord = wrong_elevator[newFloor].getCoord();
-
-                        took = true;
-                    }
-
-                }
-
-                if (took)
-                {
-                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
-                                   player.Name + " is on floor " + player.Floor.Number + " at " +
-                                   player.stringCoord() + System.Environment.NewLine;
-
-                    graphic.setImage(player.Coord, floors[newFloor].coordinates);
-                }
-                else
-                    graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
+                enterElevator(true, graphic); //true for Up
             }
 
             else if (command == "PICKUP")
@@ -636,7 +609,8 @@ namespace Game{
             else if (command == "FLASHLIGHT")
             {
                 //reveal surrounding areas
-                graphic.flashlight(player.Coord, player.Floor.coordinates);
+                graphic.Text = "Used Flashlight" + System.Environment.NewLine;
+                graphic.setImage(player.Coord, player.useFlashLight());
             }
 
             return graphic;
@@ -649,10 +623,10 @@ namespace Game{
 
             switch (result)
             {
-                case 0: return new Graphic(player.Coord, player.Floor.coordinates, "You do not have a case.");
-                case 1: return new Graphic(player.Coord, player.Floor.coordinates, "Case already unlocked.");
-                case 2: return new Graphic(player.Coord, player.Floor.coordinates, "Case Unlocked!");
-                default: return new Graphic(player.Coord, player.Floor.coordinates, "Wrong pass code, try again.");
+                case 0: return new Graphic("You do not have a case.");
+                case 1: return new Graphic("Case already unlocked.");
+                case 2: return new Graphic("Case Unlocked!");
+                default: return new Graphic("Wrong pass code, try again.");
             }
         }
 

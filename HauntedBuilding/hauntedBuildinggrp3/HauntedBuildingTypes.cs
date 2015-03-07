@@ -26,11 +26,12 @@ namespace Game
         private Coordinate pCoord; //player Coordinate
         private ArrayList marks; //array list of NamedCoord's
         private String text;
+        private bool imageSet;
 
         public Graphic(Coordinate pCoord, ArrayList marks, String text)
         {
             this.pCoord = new Coordinate(pCoord.x, pCoord.y);
-            this.marks = new ArrayList(marks);
+            this.marks = marks != null ? new ArrayList(marks) : null;
 
             this.image = new char[Constants.FLOOR_LENGTH,Constants.FLOOR_WIDTH];
 
@@ -38,28 +39,33 @@ namespace Game
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
-
-            foreach (NamedCoord mark in marks)
-            {
-                if (mark.name == "CorrectElevator")
-                    image[mark.coord.x, mark.coord.y] = 'e';
-                else
-                    image[mark.coord.x, mark.coord.y] = 'o';
-            }
+            if(marks != null)
+                foreach (NamedCoord mark in marks)
+                {
+                    if (mark.name == "CorrectElevator")
+                        image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        image[mark.coord.x, mark.coord.y] = 'o';
+                }
 
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite a mark if on the same coordinate
 
+            this.imageSet = true;
             this.text = text;
         }
 
         public Graphic(String text)
         {
+            this.pCoord = null;
+            this.marks = null;
+
             this.image = new char[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
 
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
+            this.imageSet = false;
             this.text = text;
         }
 
@@ -72,77 +78,28 @@ namespace Game
         public void setImage(Coordinate pCoord, ArrayList marks)
         {
             //Reset
-            foreach (NamedCoord mark in this.marks)
-                this.image[mark.coord.x, mark.coord.y] = '-'; //reset old marks
+            if(this.marks != null)
+                foreach (NamedCoord mark in this.marks)
+                    this.image[mark.coord.x, mark.coord.y] = '-'; //reset old marks
 
             this.image[this.pCoord.x, this.pCoord.y] = '-';
 
-            this.marks = new ArrayList(marks);
             this.pCoord = new Coordinate(pCoord.x, pCoord.y);
+            this.marks = marks != null ? new ArrayList(marks) : null;
 
             //Fill
-            foreach (NamedCoord mark in marks)
-            {
-                if (mark.name == "CorrectElevator")
-                    image[mark.coord.x, mark.coord.y] = 'e';
-                else
-                    image[mark.coord.x, mark.coord.y] = 'o';
-            }
+            if(marks != null)
+                foreach (NamedCoord mark in marks)
+                {
+                    if (mark.name == "CorrectElevator")
+                        image[mark.coord.x, mark.coord.y] = 'e';
+                    else
+                        image[mark.coord.x, mark.coord.y] = 'o';
+                }
 
+            this.imageSet = true;
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
         }
-
-        public void flashlight(Coordinate pCoord, ArrayList marks)
-        {
-            //Reset floor to dashes
-            foreach (NamedCoord mark in this.marks)
-                this.image[mark.coord.x, mark.coord.y] = '-';
-         
-            //Reset player coords to dashes
-            this.image[this.pCoord.x, this.pCoord.y] = '-';
-
-            this.marks = new ArrayList(marks);
-            this.pCoord = new Coordinate(pCoord.x, pCoord.y);
-
-            foreach (NamedCoord mark in marks)
-            {
-                //ABOVE
-                if (mark.coord.x == pCoord.x && mark.coord.y == pCoord.y + 1 )
-                {
-                    if (mark.name == "CorrectElevator")
-                        this.image[mark.coord.x, mark.coord.y] = 'e';
-                    else
-                        this.image[mark.coord.x, mark.coord.y] = 'o';
-                }
-                //BELOW
-                if (mark.coord.x == pCoord.x && mark.coord.y == pCoord.y - 1)
-                {
-                    if (mark.name == "CorrectElevator")
-                        this.image[mark.coord.x, mark.coord.y] = 'e';
-                    else
-                        this.image[mark.coord.x, mark.coord.y] = 'o';
-                }
-                //TO THE RIGHT
-                if (mark.coord.x == pCoord.x + 1 && mark.coord.y == pCoord.y)
-                {
-                    if (mark.name == "CorrectElevator")
-                        this.image[mark.coord.x, mark.coord.y] = 'e';
-                    else
-                        this.image[mark.coord.x, mark.coord.y] = 'o';
-                }
-                //TO THE LEFT
-                if (mark.coord.x == pCoord.x - 1 && mark.coord.y == pCoord.y)
-                {
-                    if (mark.name == "CorrectElevator")
-                        this.image[mark.coord.x, mark.coord.y] = 'e';
-                    else
-                        this.image[mark.coord.x, mark.coord.y] = 'o';
-                }
-            }
-
-            this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
-        }
-
 
         public String getImage()
         { 
@@ -159,6 +116,8 @@ namespace Game
 
             return image_t;
         }
+
+        public bool isImageSet() { return this.imageSet; }
     }
 
     //just helper class to pass coordinates around easier.

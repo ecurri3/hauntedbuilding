@@ -73,7 +73,9 @@ namespace hauntedBuildinggrp3
         //helper function writes to textboxes
         private void writeGraphic(Game.Graphic graphic)
         {
-            textBox1.Text = graphic.getImage();
+            if(graphic.isImageSet())
+                textBox1.Text = graphic.getImage();
+
             textBox2.Text = graphic.Text;
 
             currentGraphic.Text = textBox2.Text;
@@ -166,8 +168,7 @@ namespace hauntedBuildinggrp3
         {
             if (helping)
             {
-                Game.Graphic graphic = hb.getHelp();
-                textBox2.Text = graphic.Text;
+                textBox2.Text = hb.getHelp().Text;
                 helping = false;
             }
             else
@@ -185,13 +186,6 @@ namespace hauntedBuildinggrp3
                                 "Press start to begin.";
 
             currentGraphic.Text = textBox2.Text;
-
-            
-           
-
-            
-
-
         }
 
         private void up_Click_1(object sender, EventArgs e)
