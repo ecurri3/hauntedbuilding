@@ -9,12 +9,16 @@ namespace Game
 {
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT };
     enum iName { NOTE, PHONE, AUDIO, SECRETCASE}; //Used to index into ITEMS
+    enum CaseState { STALL, UNLOCKED, LOCKED, NOTHAVE };//For use in tryCase methods
+
     static class Constants
     {
         public const int FLOOR_LENGTH = 4; //X
         public const int FLOOR_WIDTH = 4; //Y
+        public const int NUM_ELEVATORS = 2;
         public const int NUM_FLOORS = 10; 
         public const int NUM_ITEMS = 4;
+        public const int CODE_LENGTH = 3;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case" };
         static public Random randGen = new Random();
     }
@@ -42,7 +46,7 @@ namespace Game
             if(marks != null)
                 foreach (NamedCoord mark in marks)
                 {
-                    if (mark.name == "CorrectElevator")
+                    if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
                         image[mark.coord.x, mark.coord.y] = 'e';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
@@ -91,7 +95,7 @@ namespace Game
             if(marks != null)
                 foreach (NamedCoord mark in marks)
                 {
-                    if (mark.name == "CorrectElevator")
+                    if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
                         image[mark.coord.x, mark.coord.y] = 'e';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
@@ -163,13 +167,14 @@ namespace Game
 
     class PassCode
     {
-        public int a, b, c;
+        public int[] code;
         public PassCode(int a, int b, int c)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
+            code = new int[Constants.CODE_LENGTH];
+            code[0] = a;
+            code[1] = b;
+            code[2] = c;
+         }
     }
 
     class GameState
@@ -273,13 +278,21 @@ namespace Game
 
         public bool tryToUnlock(PassCode pc)
         {
-            if (this.pc.a == pc.a && this.pc.b == pc.b && this.pc.c == pc.c)
-            {
-                this.locked = false;
-                return true;
-            }
+            for (int i = 0; i < Constants.CODE_LENGTH; i++)
+                if (this.pc.code[i] != pc.code[i]) return false;
+
+            this.locked = false;
+            return true;
+
+            /*
+                if (this.pc.a == pc.a && this.pc.b == pc.b && this.pc.c == pc.c)
+                {
+                    this.locked = false;
+                    return true;
+                }
 
             return false;
+             * */
         }
 
         public bool isLocked() { return locked; }
