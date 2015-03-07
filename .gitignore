@@ -6,3 +6,4 @@ HauntedBuilding/hauntedBuildinggrp3/obj/*
 *.exe
 *.suo
 ~$*
+*.tmp
