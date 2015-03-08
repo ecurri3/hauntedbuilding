@@ -10,6 +10,7 @@ namespace Game
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT };
     enum iName { NOTE, PHONE, AUDIO, SECRETCASE}; //Used to index into ITEMS
     enum CaseState { STALL, UNLOCKED, LOCKED, NOTHAVE };//For use in tryCase methods
+    enum DoorState { STALL, UNLOCKED, LOCKED, NOTNEAR};
 
     static class Constants
     {
@@ -48,6 +49,8 @@ namespace Game
                 {
                     if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
                         image[mark.coord.x, mark.coord.y] = 'e';
+                    else if (mark.name == "Door")
+                        image[mark.coord.x, mark.coord.y] = 'd';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
                 }
@@ -71,6 +74,21 @@ namespace Game
 
             this.imageSet = false;
             this.text = text;
+        }
+
+        public Graphic()
+        {
+            this.pCoord = null;
+            this.marks = null;
+
+            this.image = new char[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                    image[i, j] = '*';
+
+            this.imageSet = true;
+            this.text = "Congratulations you win!";
         }
 
         public String Text
@@ -97,6 +115,8 @@ namespace Game
                 {
                     if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
                         image[mark.coord.x, mark.coord.y] = 'e';
+                    else if (mark.name == "Door")
+                        image[mark.coord.x, mark.coord.y] = 'd';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
                 }
@@ -276,23 +296,13 @@ namespace Game
             this.locked = locked;
         }
 
-        public bool tryToUnlock(PassCode pc)
+        public bool matchCode(PassCode pc)
         {
             for (int i = 0; i < Constants.CODE_LENGTH; i++)
                 if (this.pc.code[i] != pc.code[i]) return false;
 
             this.locked = false;
             return true;
-
-            /*
-                if (this.pc.a == pc.a && this.pc.b == pc.b && this.pc.c == pc.c)
-                {
-                    this.locked = false;
-                    return true;
-                }
-
-            return false;
-             * */
         }
 
         public bool isLocked() { return locked; }
@@ -366,5 +376,35 @@ namespace Game
         public override int go_up() { return lastFloor; }
 
         public override int go_down() { return nextFloor; }
+    }
+
+    //A door is not really an Item
+    class Door : Item
+    {
+        private PassCode pc; //passcode
+        private bool locked;
+        public Door(PassCode pc, bool locked) : base("Door", "Find the case")
+        {
+            this.pc = new PassCode(pc.code[0], pc.code[1], pc.code[2]);
+
+            this.locked = locked;
+        }
+
+        public bool matchCode(PassCode pc)
+        {
+            for (int i = 0; i < Constants.CODE_LENGTH; i++)
+                if (this.pc.code[i] != pc.code[i]) return false;
+
+            this.locked = false;
+            return true;
+        }
+
+        public bool isLocked() { return locked; }
+
+        override public String getHint()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

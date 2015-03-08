@@ -157,6 +157,8 @@ namespace hauntedBuildinggrp3
                     break;
                 case 'f': flashlight_Click(sender, e);
                     break;
+                case 'q': Enter_Click(sender, e);
+                    break;
                 default:
                     return;
             }
@@ -339,7 +341,11 @@ namespace hauntedBuildinggrp3
                     return;
                 }
 
-                writeGraphic(hb.tryCase(d1, d2, d3));
+                //based on the selection textbox
+                if (tryWhat.Text == "Case")
+                    writeGraphic(hb.tryUnlock(0, d1, d2, d3)); //0 means case tryunlock
+                else
+                    writeGraphic(hb.tryUnlock(1, d1, d2, d3));
             }
         }
 
@@ -363,6 +369,17 @@ namespace hauntedBuildinggrp3
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("FLASHLIGHT"));
+        }
+
+        private void Enter_Click(object sender, EventArgs e)
+        {
+            if (state == 1)
+                writeGraphic(hb.enterCommand("ENTER DOOR"));
+
+            //TODO better way of detecting the player successfully entered the door
+            //The game ends
+            if (textBox2.Text.Contains("win"))
+                state = 0;
         }
     }
  
