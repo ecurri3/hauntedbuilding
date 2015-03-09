@@ -133,6 +133,10 @@ namespace Game{
                                                     "Your way out is " + this.doorPC.code[0] + ", " + this.doorPC.code[1] + ", " + this.doorPC.code[2] ,
                                                     this.pc, true);
                     }
+                    else if (i == (int)iName.MONSTER)
+                    {
+                        floor[x, y].Item = new Monster(Constants.ITEMS[i], "Doesn't matter");
+                    }
                     else
                     {
                         floor[x, y].Item = new Tool(Constants.ITEMS[i],
@@ -351,12 +355,21 @@ namespace Game{
             return Math.Abs(what.x - coord.x) <= 1 && Math.Abs(what.y - coord.y) <= 1;
         }
         //Return a list of NamedCoord that are near the current player's coordinate;
-        public ArrayList useFlashLight()
+        public ArrayList useFlashLight(Graphic graphic)
         {
             ArrayList marks = new ArrayList();
 
             foreach (NamedCoord mark in floor.Coordinates)
-                if (nearMe(mark.coord)) marks.Add(mark);
+            {
+                if (nearMe(mark.coord))
+                {
+                    marks.Add(mark);
+                    if (mark.name == "Monster")
+                    {
+                        graphic.Text = "Monster!";
+                    }
+                }
+            }
 
             return marks;
         }
@@ -641,7 +654,7 @@ namespace Game{
             {
                 //reveal surrounding areas
                 graphic.Text = "Used Flashlight" + System.Environment.NewLine;
-                graphic.setImage(player.Coord, player.useFlashLight());
+                graphic.setImage(player.Coord, player.useFlashLight(graphic));
             }
 
             return graphic;

@@ -60,6 +60,11 @@ namespace hauntedBuildinggrp3
             enteringCode = false;
             helping = true;
 
+            //Sets frightened meter max and min
+            //Increment by a set amount to increase and decrease how scared player is
+            progressBar1.Maximum = 20;
+            progressBar1.Minimum = 0;
+
             //KeyPress event handlers that call appropriate handler
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_Keypress);
@@ -369,6 +374,15 @@ namespace hauntedBuildinggrp3
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("FLASHLIGHT"));
+            if (currentGraphic.Text == "Monster!")
+            {
+                progressBar1.Increment(5);
+            }
+
+            if (progressBar1.Value >= 20)
+            {
+                state = 0;
+            }
         }
 
         private void Enter_Click(object sender, EventArgs e)
@@ -380,6 +394,11 @@ namespace hauntedBuildinggrp3
             //The game ends
             if (textBox2.Text.Contains("win"))
                 state = 0;
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
         }
     }
  

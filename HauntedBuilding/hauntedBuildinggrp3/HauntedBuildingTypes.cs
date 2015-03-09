@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Game
 {
     enum Move { STALL, FORWARD, BACKWARD, LEFT, RIGHT };
-    enum iName { NOTE, PHONE, AUDIO, SECRETCASE}; //Used to index into ITEMS
+    enum iName { NOTE, PHONE, AUDIO, SECRETCASE, MONSTER}; //Used to index into ITEMS
     enum CaseState { STALL, UNLOCKED, LOCKED, NOTHAVE };//For use in tryCase methods
     enum DoorState { STALL, UNLOCKED, LOCKED, NOTNEAR};
 
@@ -18,9 +18,9 @@ namespace Game
         public const int FLOOR_WIDTH = 4; //Y
         public const int NUM_ELEVATORS = 2;
         public const int NUM_FLOORS = 10; 
-        public const int NUM_ITEMS = 4;
+        public const int NUM_ITEMS = 5;
         public const int CODE_LENGTH = 3;
-        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case" };
+        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case", "Monster" };
         static public Random randGen = new Random();
     }
 
@@ -51,6 +51,8 @@ namespace Game
                         image[mark.coord.x, mark.coord.y] = 'e';
                     else if (mark.name == "Door")
                         image[mark.coord.x, mark.coord.y] = 'd';
+                    else if (mark.name == "Monster")
+                        image[mark.coord.x, mark.coord.y] = 'm';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
                 }
@@ -117,6 +119,8 @@ namespace Game
                         image[mark.coord.x, mark.coord.y] = 'e';
                     else if (mark.name == "Door")
                         image[mark.coord.x, mark.coord.y] = 'd';
+                    else if (mark.name == "Monster")
+                        image[mark.coord.x, mark.coord.y] = 'm';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
                 }
@@ -311,6 +315,15 @@ namespace Game
         {
             if (!locked) return itemHint;
             return "Case Locked!";
+        }
+    }
+
+    class Monster : Item
+    {
+        public Monster(String name, String hint) : base(name, hint){ }
+
+        override public String getHint(){
+            return "A scary monster!";
         }
     }
 
