@@ -52,6 +52,7 @@
             this.Enter = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
+            this.clearCode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -211,7 +212,7 @@
             this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(102, 49);
-            this.button4.TabIndex = 19;
+            this.button4.TabIndex = 18;
             this.button4.Text = "Down (C)";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.enterDown_Click);
@@ -233,7 +234,7 @@
             this.digit3.MaxLength = 1;
             this.digit3.Name = "digit3";
             this.digit3.Size = new System.Drawing.Size(34, 26);
-            this.digit3.TabIndex = 19;
+            this.digit3.TabIndex = 20;
             this.digit3.Click += new System.EventHandler(this.clickDigits);
             // 
             // digit2
@@ -243,7 +244,7 @@
             this.digit2.MaxLength = 1;
             this.digit2.Name = "digit2";
             this.digit2.Size = new System.Drawing.Size(34, 26);
-            this.digit2.TabIndex = 20;
+            this.digit2.TabIndex = 19;
             this.digit2.Click += new System.EventHandler(this.clickDigits);
             // 
             // tryCase
@@ -308,11 +309,22 @@
             this.label2.TabIndex = 26;
             this.label2.Text = "Frightened Meter";
             // 
+            // clearCode
+            // 
+            this.clearCode.Location = new System.Drawing.Point(268, 452);
+            this.clearCode.Name = "clearCode";
+            this.clearCode.Size = new System.Drawing.Size(126, 35);
+            this.clearCode.TabIndex = 27;
+            this.clearCode.Text = "Clear";
+            this.clearCode.UseVisualStyleBackColor = true;
+            this.clearCode.Click += new System.EventHandler(this.clearCode_Click);
+            // 
             // fmPlayGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 635);
+            this.Controls.Add(this.clearCode);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.Enter);
@@ -375,6 +387,7 @@
         private System.Windows.Forms.Button Enter;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button clearCode;
     }
 }
 

@@ -155,7 +155,7 @@ namespace Game{
         //Picks up item at a given tile and removes the item from that tile
         public Item pickupItem(Coordinate c)
         {
-            if (floor[c.x, c.y].Item == null) return null;
+            if (floor[c.x, c.y].Item == null || floor[c.x, c.y].Item.name() == "Monster") return null; //condition for item being a monster
             Item i = floor[c.x,c.y].Item;
             floor[c.x, c.y].Item = null; //remove item from that tile
             coordinates.Remove(i.name());

@@ -400,6 +400,15 @@ namespace hauntedBuildinggrp3
         {
 
         }
+
+        //Clears text boxes for secret case/door codes
+        //Ease of life functionality
+        private void clearCode_Click(object sender, EventArgs e)
+        {
+            digit1.Text = "";
+            digit2.Text = "";
+            digit3.Text = "";
+        }
     }
  
 }
