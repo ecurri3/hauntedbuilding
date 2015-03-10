@@ -130,8 +130,8 @@ namespace hauntedBuildinggrp3
             //    writeGraphic(hb.startGame(gs));
             //}
             //N
-            
 
+            progressBar1.Increment(-20);
             state = 1;
         }
 
@@ -374,14 +374,16 @@ namespace hauntedBuildinggrp3
         {
             if (state == 1)
                 writeGraphic(hb.enterCommand("FLASHLIGHT"));
-            if (currentGraphic.Text == "Monster!")
-            {
-                progressBar1.Increment(5);
-            }
 
+            //If monster was revealed, increment scared meter
+            if (currentGraphic.Text == "Monster!")
+                progressBar1.Increment(5);
+
+            //If scared meter is too high, the game is over
             if (progressBar1.Value >= 20)
             {
                 state = 0;
+                textBox1.Text = "Game Over!";
             }
         }
 
