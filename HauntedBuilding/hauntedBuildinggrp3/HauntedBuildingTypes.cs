@@ -78,6 +78,7 @@ namespace Game
             this.text = text;
         }
 
+        //May need to be modified, only used when the game is won.
         public Graphic()
         {
             this.pCoord = null;

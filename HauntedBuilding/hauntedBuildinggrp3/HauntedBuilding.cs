@@ -119,7 +119,7 @@ namespace Game{
                     y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
                 } while (taken[x, y]);
 
-                //Place case at random tile
+                //Place item at random tile
                 if (have == null || !have[i])
                 {
                     if (i == (int)iName.SECRETCASE)
