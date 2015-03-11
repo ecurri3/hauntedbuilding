@@ -89,6 +89,9 @@ namespace hauntedBuildinggrp3
         //Start button click
         private void button1_Click(object sender, EventArgs e)
         {
+            lbTimer.Visible = true;
+            lbTimer.Text = "";
+            timer1.Start();
             //sql
             //if user wanted a new game;
             //change "Johnny" to real account username
@@ -189,6 +192,7 @@ namespace hauntedBuildinggrp3
         //When form loads
         private void Form1_Load(object sender, EventArgs e)
         {
+            lbTimer.Visible = false;
             textBox2.Text = hb.getTitle() + System.Environment.NewLine +
                                 "Press start to begin.";
 
@@ -410,6 +414,26 @@ namespace hauntedBuildinggrp3
             digit1.Text = "";
             digit2.Text = "";
             digit3.Text = "";
+        }
+        int hour, min, sec = 0;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbTimer.Text = hour + ":" + min + ":" + sec.ToString();
+            sec++;
+            if (sec > 60)
+            {
+                min++;
+                sec = 0;
+            }
+            else
+            {
+                sec++;
+            }
+            if (min > 60)
+            {
+                hour++;
+                min = 0;
+            }
         }
     }
  
