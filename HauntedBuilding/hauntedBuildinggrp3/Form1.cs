@@ -388,6 +388,8 @@ namespace hauntedBuildinggrp3
             {
                 state = 0;
                 textBox1.Text = "Game Over!";
+                sec = 0;
+                timer1.Stop();
             }
         }
 
@@ -420,6 +422,7 @@ namespace hauntedBuildinggrp3
         {
             lbTimer.Text = hour + ":" + min + ":" + sec.ToString();
             sec++;
+            sec = sec - 1;
             if (sec > 60)
             {
                 min++;
@@ -434,6 +437,11 @@ namespace hauntedBuildinggrp3
                 hour++;
                 min = 0;
             }
+        }
+
+        private void lbTimer_Click(object sender, EventArgs e)
+        {
+
         }
     }
  
