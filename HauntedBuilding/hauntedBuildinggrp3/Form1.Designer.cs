@@ -103,7 +103,7 @@
             // up
             // 
             this.up.Location = new System.Drawing.Point(365, 215);
-            this.up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.up.Margin = new System.Windows.Forms.Padding(2);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(33, 32);
             this.up.TabIndex = 7;
@@ -114,7 +114,7 @@
             // down
             // 
             this.down.Location = new System.Drawing.Point(365, 251);
-            this.down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.down.Margin = new System.Windows.Forms.Padding(2);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(33, 32);
             this.down.TabIndex = 8;
@@ -125,7 +125,7 @@
             // right
             // 
             this.right.Location = new System.Drawing.Point(402, 251);
-            this.right.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.right.Margin = new System.Windows.Forms.Padding(2);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(33, 32);
             this.right.TabIndex = 9;
@@ -136,7 +136,7 @@
             // left
             // 
             this.left.Location = new System.Drawing.Point(328, 251);
-            this.left.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.left.Margin = new System.Windows.Forms.Padding(2);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(33, 32);
             this.left.TabIndex = 10;
@@ -147,7 +147,7 @@
             // pickup
             // 
             this.pickup.Location = new System.Drawing.Point(455, 251);
-            this.pickup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pickup.Margin = new System.Windows.Forms.Padding(2);
             this.pickup.Name = "pickup";
             this.pickup.Size = new System.Drawing.Size(81, 23);
             this.pickup.TabIndex = 11;
@@ -158,7 +158,7 @@
             // inventory
             // 
             this.inventory.Location = new System.Drawing.Point(455, 278);
-            this.inventory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inventory.Margin = new System.Windows.Forms.Padding(2);
             this.inventory.Name = "inventory";
             this.inventory.Size = new System.Drawing.Size(81, 23);
             this.inventory.TabIndex = 12;
@@ -169,7 +169,7 @@
             // inspect
             // 
             this.inspect.Location = new System.Drawing.Point(455, 305);
-            this.inspect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inspect.Margin = new System.Windows.Forms.Padding(2);
             this.inspect.Name = "inspect";
             this.inspect.Size = new System.Drawing.Size(81, 23);
             this.inspect.TabIndex = 14;
@@ -261,7 +261,7 @@
             // flashlight
             // 
             this.flashlight.Location = new System.Drawing.Point(455, 224);
-            this.flashlight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flashlight.Margin = new System.Windows.Forms.Padding(2);
             this.flashlight.Name = "flashlight";
             this.flashlight.Size = new System.Drawing.Size(84, 23);
             this.flashlight.TabIndex = 22;
@@ -294,7 +294,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(306, 366);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(144, 23);
             this.progressBar1.TabIndex = 25;
@@ -313,7 +313,7 @@
             // clearCode
             // 
             this.clearCode.Location = new System.Drawing.Point(179, 294);
-            this.clearCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.clearCode.Margin = new System.Windows.Forms.Padding(2);
             this.clearCode.Name = "clearCode";
             this.clearCode.Size = new System.Drawing.Size(84, 23);
             this.clearCode.TabIndex = 27;

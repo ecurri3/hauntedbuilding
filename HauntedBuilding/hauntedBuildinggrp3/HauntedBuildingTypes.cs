@@ -14,14 +14,16 @@ namespace Game
 
     static class Constants
     {
-        public const int FLOOR_LENGTH = 4; //X
-        public const int FLOOR_WIDTH = 4; //Y
-        public const int NUM_ELEVATORS = 2;
+        public const int FLOOR_LENGTH = 7; //X
+        public const int FLOOR_WIDTH = 7; //Y
+        public const int NUM_ELEVATORS = 2; //Per Floor
         public const int NUM_FLOORS = 10; 
         public const int NUM_ITEMS = 5;
         public const int CODE_LENGTH = 3;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case", "Monster" };
         static public Random randGen = new Random();
+        static public int nextObjID = 1; //Used by floor to give each tile object a unique ID, helpful for reference
+        static public int[,] hourglassTypes = new int[,] { { 5, 10 , 20}, {5, 3, 1} };
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -31,8 +33,34 @@ namespace Game
         private Coordinate pCoord; //player Coordinate
         private ArrayList marks; //array list of NamedCoord's
         private String text;
+        private int extraFlag = 0; //right now used for updating time
         private bool imageSet;
         private bool textSet;
+
+        public int ExtraFlag
+        {
+            set { this.extraFlag = value; }
+            get { return this.extraFlag; }
+        }
+
+        //Helper for Graphic() and setImage()
+        private void labelMarks(ArrayList marks)
+        {
+            if (marks != null)
+                foreach (NamedCoord mark in marks)
+                {
+                    if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
+                        image[mark.coord.x, mark.coord.y] = 'e';
+                    else if (mark.name == "Door")
+                        image[mark.coord.x, mark.coord.y] = 'd';
+                    else if (mark.name == "Monster")
+                        image[mark.coord.x, mark.coord.y] = 'm';
+                    else if (mark.name == "Hourglass")
+                        image[mark.coord.x, mark.coord.y] = 'h';
+                    else
+                        image[mark.coord.x, mark.coord.y] = 'o';
+                }
+        }
 
         public Graphic(Coordinate pCoord, ArrayList marks, String text)
         {
@@ -45,18 +73,7 @@ namespace Game
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
-            if(marks != null)
-                foreach (NamedCoord mark in marks)
-                {
-                    if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
-                        image[mark.coord.x, mark.coord.y] = 'e';
-                    else if (mark.name == "Door")
-                        image[mark.coord.x, mark.coord.y] = 'd';
-                    else if (mark.name == "Monster")
-                        image[mark.coord.x, mark.coord.y] = 'm';
-                    else
-                        image[mark.coord.x, mark.coord.y] = 'o';
-                }
+            labelMarks(marks);
 
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite a mark if on the same coordinate
 
@@ -119,18 +136,7 @@ namespace Game
             this.marks = marks != null ? new ArrayList(marks) : null;
 
             //Fill
-            if(marks != null)
-                foreach (NamedCoord mark in marks)
-                {
-                    if (mark.name == "CorrectElevator" || mark.name == "WrongElevator")
-                        image[mark.coord.x, mark.coord.y] = 'e';
-                    else if (mark.name == "Door")
-                        image[mark.coord.x, mark.coord.y] = 'd';
-                    else if (mark.name == "Monster")
-                        image[mark.coord.x, mark.coord.y] = 'm';
-                    else
-                        image[mark.coord.x, mark.coord.y] = 'o';
-                }
+            labelMarks(marks);
 
             this.imageSet = true;
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite an 'O' if on the same coordinate
@@ -173,21 +179,30 @@ namespace Game
     {
         public String name;
         public Coordinate coord;
-        public NamedCoord(String name, Coordinate coord)
+        public int id; //some coordinates have the same name, distinguish with id
+        public NamedCoord(String name, Coordinate coord, int id)
         {
             this.name = name;
             this.coord = new Coordinate(coord.x, coord.y);
+            this.id = id;
         }
 
         //Useful when removing from ArrayLists
         public override bool Equals(Object obj)
         {
-            if (obj == null || (!(obj is NamedCoord) && !(obj is String)))
+            //Only compare NamedCoord, int, or String
+            if (obj == null || (!(obj is NamedCoord) && !(obj is int) && !(obj is String))) 
                 return false;
             
+            //If comparing to a NameCoord
             if(obj is NamedCoord)
-                return this.name == ((NamedCoord)obj).name;
-            
+                return (this.name == ((NamedCoord)obj).name) && (this.id == ((NamedCoord)obj).id);
+
+            //If comparing to an int
+            if (obj is int)
+                return this.id == (int)obj;
+
+            //If comparing to a String
             return this.name == ((String)obj);
         }
 
@@ -280,16 +295,19 @@ namespace Game
         private String objName;
         private bool canPickup;
         private bool barrier; //can the player share the same coordinate?
+        private int id;
         public tileObj(String objName, bool canPickup, bool barrier)
         {
             this.objName = objName;
             this.canPickup = canPickup;
             this.barrier = barrier;
+            this.id = Constants.nextObjID++;
         }
 
         public String name() { return objName; }
         public bool iCanPickup() { return canPickup; }
         public bool iBarrier() { return barrier; }
+        public int getID() { return id; }
     }
 
     //can't be instantiated!
@@ -340,6 +358,23 @@ namespace Game
             if (locked) return "Case Locked!";
             return description;
         }
+    }
+
+    class Hourglass : Item
+    {
+        int sec; //number of seconds to increase
+        public Hourglass(int sec)
+            : base("Hourglass", "More time added!")
+        {
+            this.sec = sec;
+        }
+
+        public override string getDescription()
+        {
+            return description;
+        }
+
+        public int getMoreTime() { return sec; }
     }
 
     //can't be instantiated!
