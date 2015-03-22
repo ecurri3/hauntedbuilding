@@ -32,6 +32,7 @@ namespace Game
         private ArrayList marks; //array list of NamedCoord's
         private String text;
         private bool imageSet;
+        private bool textSet;
 
         public Graphic(Coordinate pCoord, ArrayList marks, String text)
         {
@@ -60,9 +61,12 @@ namespace Game
             this.image[pCoord.x, pCoord.y] = 'X'; //may overwrite a mark if on the same coordinate
 
             this.imageSet = true;
+            
             this.text = text;
+            this.textSet = true;
         }
 
+        //Graphic with only text set
         public Graphic(String text)
         {
             this.pCoord = null;
@@ -76,9 +80,10 @@ namespace Game
 
             this.imageSet = false;
             this.text = text;
+            this.textSet = true;
         }
 
-        //May need to be modified, only used when the game is won.
+        //Empty Graphic
         public Graphic()
         {
             this.pCoord = null;
@@ -88,10 +93,11 @@ namespace Game
 
             for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
                 for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                    image[i, j] = '*';
+                    image[i, j] = '-';
 
-            this.imageSet = true;
-            this.text = "Congratulations you win!";
+            this.imageSet = false;
+            this.text = "";
+            this.textSet = false;
         }
 
         public String Text
@@ -147,6 +153,7 @@ namespace Game
         }
 
         public bool isImageSet() { return this.imageSet; }
+        public bool isTextSet() { return this.textSet; }
     }
 
     //just helper class to pass coordinates around easier.
@@ -246,7 +253,7 @@ namespace Game
 
     class Tile
     {
-        private Item item = null;
+        private tileObj obj = null;
 
         public Tile()
         {
@@ -259,34 +266,50 @@ namespace Game
             */
         }
 
-        public Item Item
+        public tileObj Obj
         {
-            set { this.item = value; }
-            get { return this.item; }
+            set { this.obj = value; }
+            get { return this.obj; }
         }
 
     }
 
     //can't be instantiated!
-    abstract class Item
+    abstract class tileObj
     {
-        private String itemName;
-        protected String itemHint;
-        public Item(String name, String hint)
+        private String objName;
+        private bool canPickup;
+        private bool barrier; //can the player share the same coordinate?
+        public tileObj(String objName, bool canPickup, bool barrier)
         {
-            itemName = name;
-            itemHint = hint;//String.Copy(hint);
+            this.objName = objName;
+            this.canPickup = canPickup;
+            this.barrier = barrier;
         }
 
-        public String name() { return itemName; }
-        abstract public String getHint();
+        public String name() { return objName; }
+        public bool iCanPickup() { return canPickup; }
+        public bool iBarrier() { return barrier; }
+    }
+
+    //can't be instantiated!
+    abstract class Item : tileObj
+    {
+        protected String description;
+        public Item(String itemName, String description)
+            : base(itemName, true, false) //Can pickup, not a barrier
+        {
+            this.description = description;
+        }
+
+        abstract public String getDescription(); 
     }
 
     //Regular Items
-    class Tool : Item
+    class Record : Item
     {
-        public Tool(String name, String hint) : base(name, hint) { }
-        override public String getHint() { return itemHint; }
+        public Record(String name, String hint) : base(name, hint) { }
+        override public String getDescription() { return description; }
     }
 
     //Special Item, a case
@@ -312,20 +335,61 @@ namespace Game
 
         public bool isLocked() { return locked; }
 
-        override public String getHint()
+        override public String getDescription()
         {
-            if (!locked) return itemHint;
-            return "Case Locked!";
+            if (locked) return "Case Locked!";
+            return description;
         }
     }
 
-    class Monster : Item
+    //can't be instantiated!
+    abstract class Monster : tileObj
     {
-        public Monster(String name, String hint) : base(name, hint){ }
-
-        override public String getHint(){
-            return "A scary monster!";
+        protected bool alive;
+        protected int health;
+        public Monster(String name, int health) 
+            : base(name, false, true) //Can't pickup, is a barrier
+        {
+            this.alive = true;
+            this.health = health;
         }
+
+        public bool isAlive() { return alive; }
+
+        //return true if after attacked monster was killed
+        public bool attacked()
+        {
+            if (--health == 0) return true;
+            return false;
+        }
+    }
+
+    class Zombie : Monster
+    {
+        public Zombie() : base("Zombie", 3) { }
+    }
+
+    class Door : tileObj
+    {
+        private PassCode pc; //passcode
+        private bool locked;
+        public Door(PassCode pc, bool locked)
+            : base("Door", false, false) //can't pickup, is not a barrier
+        {
+            this.pc = new PassCode(pc.code[0], pc.code[1], pc.code[2]);
+            this.locked = locked;
+        }
+
+        public bool matchCode(PassCode pc)
+        {
+            for (int i = 0; i < Constants.CODE_LENGTH; i++)
+                if (this.pc.code[i] != pc.code[i]) return false;
+
+            this.locked = false;
+            return true;
+        }
+
+        public bool isLocked() { return locked; }
     }
 
     //initialize an array of elevators that will change floors for the player
@@ -390,35 +454,5 @@ namespace Game
         public override int go_up() { return lastFloor; }
 
         public override int go_down() { return nextFloor; }
-    }
-
-    //A door is not really an Item
-    class Door : Item
-    {
-        private PassCode pc; //passcode
-        private bool locked;
-        public Door(PassCode pc, bool locked) : base("Door", "Find the case")
-        {
-            this.pc = new PassCode(pc.code[0], pc.code[1], pc.code[2]);
-
-            this.locked = locked;
-        }
-
-        public bool matchCode(PassCode pc)
-        {
-            for (int i = 0; i < Constants.CODE_LENGTH; i++)
-                if (this.pc.code[i] != pc.code[i]) return false;
-
-            this.locked = false;
-            return true;
-        }
-
-        public bool isLocked() { return locked; }
-
-        override public String getHint()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

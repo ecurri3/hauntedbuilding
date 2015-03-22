@@ -63,22 +63,20 @@
             this.textBox1.BackColor = System.Drawing.SystemColors.MenuText;
             this.textBox1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(18, 28);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Location = new System.Drawing.Point(12, 18);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(474, 290);
+            this.textBox1.Size = new System.Drawing.Size(317, 190);
             this.textBox1.TabIndex = 0;
             this.textBox1.Click += new System.EventHandler(this.windowClick);
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(36, 365);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(24, 237);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 35);
+            this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
@@ -87,16 +85,16 @@
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 15;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(36, 408);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Location = new System.Drawing.Point(24, 265);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 35);
+            this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 5;
             this.button3.Text = "Help";
             this.button3.UseVisualStyleBackColor = true;
@@ -104,9 +102,10 @@
             // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(548, 331);
+            this.up.Location = new System.Drawing.Point(365, 215);
+            this.up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.up.Name = "up";
-            this.up.Size = new System.Drawing.Size(50, 49);
+            this.up.Size = new System.Drawing.Size(33, 32);
             this.up.TabIndex = 7;
             this.up.Text = "W";
             this.up.UseVisualStyleBackColor = true;
@@ -114,9 +113,10 @@
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(548, 386);
+            this.down.Location = new System.Drawing.Point(365, 251);
+            this.down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.down.Name = "down";
-            this.down.Size = new System.Drawing.Size(50, 49);
+            this.down.Size = new System.Drawing.Size(33, 32);
             this.down.TabIndex = 8;
             this.down.Text = "S";
             this.down.UseVisualStyleBackColor = true;
@@ -124,9 +124,10 @@
             // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(603, 386);
+            this.right.Location = new System.Drawing.Point(402, 251);
+            this.right.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.right.Name = "right";
-            this.right.Size = new System.Drawing.Size(50, 49);
+            this.right.Size = new System.Drawing.Size(33, 32);
             this.right.TabIndex = 9;
             this.right.Text = "D";
             this.right.UseVisualStyleBackColor = true;
@@ -134,9 +135,10 @@
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(492, 386);
+            this.left.Location = new System.Drawing.Point(328, 251);
+            this.left.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.left.Name = "left";
-            this.left.Size = new System.Drawing.Size(50, 49);
+            this.left.Size = new System.Drawing.Size(33, 32);
             this.left.TabIndex = 10;
             this.left.Text = "A";
             this.left.UseVisualStyleBackColor = true;
@@ -144,9 +146,10 @@
             // 
             // pickup
             // 
-            this.pickup.Location = new System.Drawing.Point(682, 386);
+            this.pickup.Location = new System.Drawing.Point(455, 251);
+            this.pickup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pickup.Name = "pickup";
-            this.pickup.Size = new System.Drawing.Size(122, 35);
+            this.pickup.Size = new System.Drawing.Size(81, 23);
             this.pickup.TabIndex = 11;
             this.pickup.Text = "Pick Up (E)";
             this.pickup.UseVisualStyleBackColor = true;
@@ -154,9 +157,10 @@
             // 
             // inventory
             // 
-            this.inventory.Location = new System.Drawing.Point(682, 428);
+            this.inventory.Location = new System.Drawing.Point(455, 278);
+            this.inventory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.inventory.Name = "inventory";
-            this.inventory.Size = new System.Drawing.Size(122, 35);
+            this.inventory.Size = new System.Drawing.Size(81, 23);
             this.inventory.TabIndex = 12;
             this.inventory.Text = "Inventory (1)";
             this.inventory.UseVisualStyleBackColor = true;
@@ -164,9 +168,10 @@
             // 
             // inspect
             // 
-            this.inspect.Location = new System.Drawing.Point(682, 469);
+            this.inspect.Location = new System.Drawing.Point(455, 305);
+            this.inspect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.inspect.Name = "inspect";
-            this.inspect.Size = new System.Drawing.Size(122, 35);
+            this.inspect.Size = new System.Drawing.Size(81, 23);
             this.inspect.TabIndex = 14;
             this.inspect.Text = "Inspect (R)";
             this.inspect.UseVisualStyleBackColor = true;
@@ -177,22 +182,20 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Window;
             this.textBox2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.textBox2.Location = new System.Drawing.Point(532, 18);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox2.Location = new System.Drawing.Point(355, 12);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(286, 292);
+            this.textBox2.Size = new System.Drawing.Size(192, 191);
             this.textBox2.TabIndex = 16;
             this.textBox2.Click += new System.EventHandler(this.windowClick);
             // 
             // save
             // 
-            this.save.Location = new System.Drawing.Point(36, 452);
-            this.save.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.save.Location = new System.Drawing.Point(24, 294);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(112, 35);
+            this.save.Size = new System.Drawing.Size(75, 23);
             this.save.TabIndex = 17;
             this.save.Text = "Save";
             this.save.UseVisualStyleBackColor = true;
@@ -200,10 +203,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(459, 449);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Location = new System.Drawing.Point(306, 292);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 49);
+            this.button2.Size = new System.Drawing.Size(70, 32);
             this.button2.TabIndex = 18;
             this.button2.Text = "Up (X)";
             this.button2.UseVisualStyleBackColor = true;
@@ -211,10 +213,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(573, 449);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button4.Location = new System.Drawing.Point(382, 292);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(102, 49);
+            this.button4.Size = new System.Drawing.Size(68, 32);
             this.button4.TabIndex = 18;
             this.button4.Text = "Down (C)";
             this.button4.UseVisualStyleBackColor = true;
@@ -222,40 +223,36 @@
             // 
             // digit1
             // 
-            this.digit1.Location = new System.Drawing.Point(268, 365);
-            this.digit1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.digit1.Location = new System.Drawing.Point(179, 237);
             this.digit1.MaxLength = 1;
             this.digit1.Name = "digit1";
-            this.digit1.Size = new System.Drawing.Size(34, 26);
+            this.digit1.Size = new System.Drawing.Size(24, 20);
             this.digit1.TabIndex = 18;
             this.digit1.Click += new System.EventHandler(this.clickDigits);
             // 
             // digit3
             // 
-            this.digit3.Location = new System.Drawing.Point(358, 365);
-            this.digit3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.digit3.Location = new System.Drawing.Point(239, 237);
             this.digit3.MaxLength = 1;
             this.digit3.Name = "digit3";
-            this.digit3.Size = new System.Drawing.Size(34, 26);
+            this.digit3.Size = new System.Drawing.Size(24, 20);
             this.digit3.TabIndex = 20;
             this.digit3.Click += new System.EventHandler(this.clickDigits);
             // 
             // digit2
             // 
-            this.digit2.Location = new System.Drawing.Point(314, 365);
-            this.digit2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.digit2.Location = new System.Drawing.Point(209, 237);
             this.digit2.MaxLength = 1;
             this.digit2.Name = "digit2";
-            this.digit2.Size = new System.Drawing.Size(34, 26);
+            this.digit2.Size = new System.Drawing.Size(24, 20);
             this.digit2.TabIndex = 19;
             this.digit2.Click += new System.EventHandler(this.clickDigits);
             // 
             // tryCase
             // 
-            this.tryCase.Location = new System.Drawing.Point(268, 408);
-            this.tryCase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tryCase.Location = new System.Drawing.Point(179, 265);
             this.tryCase.Name = "tryCase";
-            this.tryCase.Size = new System.Drawing.Size(126, 35);
+            this.tryCase.Size = new System.Drawing.Size(84, 23);
             this.tryCase.TabIndex = 21;
             this.tryCase.Text = "Send";
             this.tryCase.UseVisualStyleBackColor = true;
@@ -263,9 +260,10 @@
             // 
             // flashlight
             // 
-            this.flashlight.Location = new System.Drawing.Point(682, 345);
+            this.flashlight.Location = new System.Drawing.Point(455, 224);
+            this.flashlight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flashlight.Name = "flashlight";
-            this.flashlight.Size = new System.Drawing.Size(126, 35);
+            this.flashlight.Size = new System.Drawing.Size(84, 23);
             this.flashlight.TabIndex = 22;
             this.flashlight.Text = "Flashlight (F)";
             this.flashlight.UseVisualStyleBackColor = true;
@@ -273,23 +271,21 @@
             // 
             // tryWhat
             // 
+            this.tryWhat.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tryWhat.FormattingEnabled = true;
-            this.tryWhat.ItemHeight = 20;
             this.tryWhat.Items.AddRange(new object[] {
             "Case",
             "Door"});
-            this.tryWhat.Location = new System.Drawing.Point(190, 365);
-            this.tryWhat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tryWhat.Location = new System.Drawing.Point(127, 237);
             this.tryWhat.Name = "tryWhat";
-            this.tryWhat.Size = new System.Drawing.Size(67, 44);
+            this.tryWhat.Size = new System.Drawing.Size(46, 26);
             this.tryWhat.TabIndex = 23;
             // 
             // Enter
             // 
-            this.Enter.Location = new System.Drawing.Point(682, 508);
-            this.Enter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Enter.Location = new System.Drawing.Point(455, 330);
             this.Enter.Name = "Enter";
-            this.Enter.Size = new System.Drawing.Size(122, 35);
+            this.Enter.Size = new System.Drawing.Size(81, 23);
             this.Enter.TabIndex = 24;
             this.Enter.Text = "Enter (Q)";
             this.Enter.UseVisualStyleBackColor = true;
@@ -297,26 +293,29 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(459, 563);
+            this.progressBar1.Location = new System.Drawing.Point(306, 366);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(216, 36);
+            this.progressBar1.Size = new System.Drawing.Size(144, 23);
             this.progressBar1.TabIndex = 25;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(500, 532);
+            this.label2.Location = new System.Drawing.Point(333, 346);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(131, 20);
+            this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 26;
             this.label2.Text = "Frightened Meter";
             // 
             // clearCode
             // 
-            this.clearCode.Location = new System.Drawing.Point(268, 452);
+            this.clearCode.Location = new System.Drawing.Point(179, 294);
+            this.clearCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.clearCode.Name = "clearCode";
-            this.clearCode.Size = new System.Drawing.Size(126, 35);
+            this.clearCode.Size = new System.Drawing.Size(84, 23);
             this.clearCode.TabIndex = 27;
             this.clearCode.Text = "Clear";
             this.clearCode.UseVisualStyleBackColor = true;
@@ -325,10 +324,10 @@
             // lbTimer
             // 
             this.lbTimer.AutoSize = true;
-            this.lbTimer.Location = new System.Drawing.Point(104, 557);
-            this.lbTimer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbTimer.Location = new System.Drawing.Point(69, 362);
+            this.lbTimer.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.lbTimer.Name = "lbTimer";
-            this.lbTimer.Size = new System.Drawing.Size(48, 20);
+            this.lbTimer.Size = new System.Drawing.Size(33, 13);
             this.lbTimer.TabIndex = 28;
             this.lbTimer.Text = "Timer";
             this.lbTimer.Click += new System.EventHandler(this.lbTimer_Click);
@@ -340,9 +339,9 @@
             // 
             // fmPlayGame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 635);
+            this.ClientSize = new System.Drawing.Size(560, 413);
             this.Controls.Add(this.lbTimer);
             this.Controls.Add(this.clearCode);
             this.Controls.Add(this.label2);
@@ -370,7 +369,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "fmPlayGame";
             this.Text = "Haunted Building";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.fmPlayGame_FormClosed);

@@ -15,7 +15,6 @@ namespace hauntedBuildinggrp3
     {
         private Game.HauntedBuilding hb;
         private Game.Graphic currentGraphic;
-        private int state;
         private bool enteringCode; //Is the user entering a pass code?
         private bool helping; //used in Help click event
 
@@ -56,7 +55,6 @@ namespace hauntedBuildinggrp3
             //N
             InitializeComponent();
             currentGraphic = new Game.Graphic("");
-            state = 0;
             enteringCode = false;
             helping = true;
 
@@ -81,16 +79,17 @@ namespace hauntedBuildinggrp3
             if(graphic.isImageSet())
                 textBox1.Text = graphic.getImage();
 
-            textBox2.Text = graphic.Text;
+            if(graphic.isTextSet())
+                textBox2.Text = graphic.Text;
 
-            currentGraphic.Text = textBox2.Text;
+            currentGraphic = graphic;
         }
 
         //Start button click
         private void button1_Click(object sender, EventArgs e)
         {
             lbTimer.Visible = true;
-            lbTimer.Text = "";
+            lbTimer.Text = "00:05:00"; //start with 5 minutes, may change with difficulty
             timer1.Start();
             //sql
             //if user wanted a new game;
@@ -135,7 +134,6 @@ namespace hauntedBuildinggrp3
             //N
 
             progressBar1.Increment(-20);
-            state = 1;
         }
 
         private void Form1_Keypress(object sender, KeyPressEventArgs e)
@@ -201,44 +199,37 @@ namespace hauntedBuildinggrp3
 
         private void up_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("FORWARD"));
+            writeGraphic(hb.enterCommand("FORWARD"));
         }
 
         private void down_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("BACKWARD"));
+            writeGraphic(hb.enterCommand("BACKWARD"));
         }
 
         private void right_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("RIGHT"));
+             writeGraphic(hb.enterCommand("RIGHT"));
         }
 
         private void left_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("LEFT"));
+            writeGraphic(hb.enterCommand("LEFT"));
         }
 
         private void pickup_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("PICKUP"));
+            writeGraphic(hb.enterCommand("PICKUP"));
         }
 
         private void inventory_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("INVT"));
+            writeGraphic(hb.enterCommand("INVT"));
         }
 
         private void inspect_Click_1(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("INSPECT"));
+            writeGraphic(hb.enterCommand("INSPECT"));
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -322,40 +313,35 @@ namespace hauntedBuildinggrp3
 
         private void enterUp_Click(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("ENTER UP"));
+            writeGraphic(hb.enterCommand("ENTER UP"));
         }
 
         private void enterDown_Click(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("ENTER DOWN"));
+            writeGraphic(hb.enterCommand("ENTER DOWN"));
         }
 
         //TryCase
         private void button2_Click(object sender, EventArgs e)
         {
-            if (state == 1)
+            int d1, d2, d3;
+            try
             {
-                int d1, d2, d3;
-                try
-                {
-                    d1 = System.Convert.ToInt32(digit1.Text);
-                    d2 = System.Convert.ToInt32(digit2.Text);
-                    d3 = System.Convert.ToInt32(digit3.Text);
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Enter numerical digits only.");
-                    return;
-                }
-
-                //based on the selection textbox
-                if (tryWhat.Text == "Case")
-                    writeGraphic(hb.tryUnlock(0, d1, d2, d3)); //0 means case tryunlock
-                else
-                    writeGraphic(hb.tryUnlock(1, d1, d2, d3));
+                d1 = System.Convert.ToInt32(digit1.Text);
+                d2 = System.Convert.ToInt32(digit2.Text);
+                d3 = System.Convert.ToInt32(digit3.Text);
             }
+            catch (FormatException)
+            {
+                MessageBox.Show("Enter numerical digits only.");
+                return;
+            }
+
+            //based on the selection textbox
+            if (tryWhat.Text == "Door")
+                writeGraphic(hb.tryUnlock(1, d1, d2, d3)); //0 means case
+            else
+                writeGraphic(hb.tryUnlock(0, d1, d2, d3));
         }
 
         //When user clicks on digit textboxes, turn off keypress event handling
@@ -376,32 +362,25 @@ namespace hauntedBuildinggrp3
 
         private void flashlight_Click(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("FLASHLIGHT"));
+            writeGraphic(hb.enterCommand("FLASHLIGHT"));
 
             //If monster was revealed, increment scared meter
-            if (currentGraphic.Text == "Monster!")
+            if (currentGraphic.Text.Contains("Monster"))
                 progressBar1.Increment(5);
 
             //If scared meter is too high, the game is over
             if (progressBar1.Value >= 20)
             {
-                state = 0;
+                hb.endGame();
                 textBox1.Text = "Game Over!";
-                sec = 0;
+                sec = 300;
                 timer1.Stop();
             }
         }
 
         private void Enter_Click(object sender, EventArgs e)
         {
-            if (state == 1)
-                writeGraphic(hb.enterCommand("ENTER DOOR"));
-
-            //TODO better way of detecting the player successfully entered the door
-            //The game ends
-            if (textBox2.Text.Contains("win"))
-                state = 0;
+            writeGraphic(hb.enterCommand("ENTER DOOR"));
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
@@ -418,8 +397,10 @@ namespace hauntedBuildinggrp3
             digit3.Text = "";
         }
         int hour, min, sec = 0;
+        //int sec = 10;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            
             lbTimer.Text = hour + ":" + min + ":" + sec.ToString();
             sec++;
             sec = sec - 1;
@@ -437,6 +418,22 @@ namespace hauntedBuildinggrp3
                 hour++;
                 min = 0;
             }
+
+            /*
+            if (--sec <= 0)
+            {
+                timer1.Stop();
+                hb.endGame();
+                textBox2.Text = "You ran out of time!";
+            }
+
+            int minutes = sec / 60;
+            int seconds = sec % 60;
+            int hours = minutes / 60;
+            minutes %= 60;
+
+            lbTimer.Text = hours.ToString("D2") + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
+            */
         }
 
         private void lbTimer_Click(object sender, EventArgs e)

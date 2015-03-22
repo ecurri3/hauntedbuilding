@@ -28,10 +28,6 @@ namespace Game{
      * 9 [][][][][x][][][][][]
      * */
 
-    //TODO 
-    /* Find a way to setup the three elevators for each floor and
-     * have them references the appropriate floors.
-     * */
 
     /*
      * Handles the creation and initialization of Floor
@@ -71,6 +67,7 @@ namespace Game{
 
             for (int i = 0; i < Constants.NUM_ELEVATORS; i++)
             {
+                //store the coordinates of all elevators
                 this.elevators[i] = new Coordinate(elevators[i].x, elevators[i].y);
                 taken[elevators[i].x, elevators[i].y] = true;
 
@@ -103,7 +100,7 @@ namespace Game{
                     y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
                 } while (taken[x, y]);
 
-                floor[x, y].Item = new Door(this.doorPC, true);
+                floor[x, y].Obj = new Door(this.doorPC, true);
 
                 taken[x, y] = true;
 
@@ -125,22 +122,21 @@ namespace Game{
                     if (i == (int)iName.SECRETCASE)
                     {
                         if(number != 1)
-                        floor[x, y].Item = new Case(Constants.ITEMS[i],
+                        floor[x, y].Obj = new Case(Constants.ITEMS[i],
                                                     "Check at position (" + this.elevators[0].x + "," + this.elevators[0].y + ")",
                                                     this.pc, true);
                         else //The case has a hint on how to unlock the door on the first floor
-                        floor[x, y].Item = new Case(Constants.ITEMS[i],
+                        floor[x, y].Obj = new Case(Constants.ITEMS[i],
                                                     "Your way out is " + this.doorPC.code[0] + ", " + this.doorPC.code[1] + ", " + this.doorPC.code[2] ,
                                                     this.pc, true);
                     }
                     else if (i == (int)iName.MONSTER)
                     {
-                        floor[x, y].Item = new Monster(Constants.ITEMS[i], "Doesn't matter");
+                        floor[x, y].Obj = new Zombie();
                     }
                     else
                     {
-                        floor[x, y].Item = new Tool(Constants.ITEMS[i],
-                                                    "Digit " + (i+1) + ": " + this.pc.code[i]);
+                        floor[x, y].Obj = new Record(Constants.ITEMS[i], "Digit " + (i+1) + ": " + this.pc.code[i]);
                     }
 
                     this.coordinates.Add(new NamedCoord(Constants.ITEMS[i], new Coordinate(x, y)));
@@ -155,19 +151,26 @@ namespace Game{
         //Picks up item at a given tile and removes the item from that tile
         public Item pickupItem(Coordinate c)
         {
-            if (floor[c.x, c.y].Item == null || floor[c.x, c.y].Item.name() == "Monster") return null; //condition for item being a monster
-            Item i = floor[c.x,c.y].Item;
-            floor[c.x, c.y].Item = null; //remove item from that tile
+            if (floor[c.x, c.y].Obj == null || !floor[c.x, c.y].Obj.iCanPickup()) return null;
+            Item i = (Item) floor[c.x,c.y].Obj;
+            floor[c.x, c.y].Obj = null; //remove item from that tile
             coordinates.Remove(i.name());
             return i;
         }
 
+        //return a reference to a tileObj given coordinates
+        public tileObj peek(int x, int y)
+        {
+            return floor[x, y].Obj;
+        }
+
+        //return a reference to the Door object
         public Door refDoor(Coordinate c)
         {
             //no door at that coordinate
-            if (floor[c.x, c.y].Item == null || floor[c.x, c.y].Item.name() != "Door") return null;
+            if (floor[c.x, c.y].Obj == null || floor[c.x, c.y].Obj.name() != "Door") return null;
 
-            return (Door)floor[c.x, c.y].Item;
+            return (Door)floor[c.x, c.y].Obj;
         }
 
         public int Number{
@@ -185,7 +188,7 @@ namespace Game{
         public PassCode getPassCode() { return pc; }
 
         //Helper to get random elevator coord
-        public Coordinate someElevatorCoord()
+        public Coordinate randElevatorCoord()
         {
             Coordinate e = elevators[Constants.randGen.Next(0, Constants.NUM_ELEVATORS)];
             return new Coordinate(e.x, e.y);
@@ -236,22 +239,37 @@ namespace Game{
             get { return this.name; }
         }
 
+        
+
+        //helper for move()
+        private bool isBarrier(int x, int y)
+        {
+            tileObj i = floor.peek(x, y);
+            if (i == null) return false;
+            if (i.iBarrier()) return true;
+            return false;
+        }
         //Move player given direction based on command
         //Checks for boundaries
         public bool move(Move where)
         {
             switch (where)
             {
-                case Move.FORWARD: if(coord.x - 1 < 0) return false; //they hit boundary 
+                case Move.FORWARD: if(coord.x - 1 < 0) return false; //they hit boundary
+                        //check if tring to walk into blocking object (e.g. walls, monsters)
+                    if (isBarrier(coord.x - 1, coord.y)) return false;
                         coord.x--; break;
 
                 case Move.RIGHT: if (coord.y + 1 > Constants.FLOOR_WIDTH-1) return false;
+                    if (isBarrier(coord.x, coord.y + 1)) return false;
                         coord.y++; break;
 
                 case Move.BACKWARD: if (coord.x + 1 > Constants.FLOOR_LENGTH-1) return false;
+                    if (isBarrier(coord.x + 1, coord.y)) return false;
                         coord.x++; break;
 
                 case Move.LEFT: if (coord.y - 1 < 0) return false;
+                    if (isBarrier(coord.x, coord.y - 1)) return false;
                         coord.y--; break;
                 default:
                     return false; //bad direction
@@ -298,12 +316,11 @@ namespace Game{
         public String inspectItems()
         {
             if (inventory.Count == 0)
-                return "Empty Inventory!";
-
+                return "Empty Inventory.";
 
             String hints = "";
             foreach (Item item in inventory)
-                hints = hints + item.name() + ": "+ item.getHint() + System.Environment.NewLine;
+                hints = hints + item.name() + ": "+ item.getDescription() + System.Environment.NewLine;
 
             return hints;
         }
@@ -314,10 +331,10 @@ namespace Game{
             foreach (Item item in inventory)
             {
                 if (item.name() == name)
-                    return item.getHint();
+                    return item.getDescription();
             }
 
-            return "You don't have that Item!";
+            return "You don't have that Item.";
         }
 
         //Check if the case is locked
@@ -366,7 +383,7 @@ namespace Game{
                     marks.Add(mark);
                     if (mark.name == "Monster")
                     {
-                        graphic.Text = "Monster!";
+                        graphic.Text += "Monster!" + System.Environment.NewLine;
                     }
                 }
             }
@@ -402,50 +419,180 @@ namespace Game{
         }
     }
 
+    //Trying out State Pattern
+    abstract class GameCondition
+    {
+        abstract public Graphic enterCommand(String command);
+        abstract public Graphic tryUnlock(int what, int digit1, int digit2, int digit3);
+    }
+
+    class ReadyCondition : GameCondition
+    {
+        override public Graphic enterCommand(String command)
+        {
+            return new Graphic();
+        }
+
+        public override Graphic tryUnlock(int what, int digit1, int digit2, int digit3)
+        {
+            return new Graphic();
+        }
+    }
+
+    class PlayingCondition : GameCondition
+    {
+        private HauntedBuilding hb;
+        public PlayingCondition(HauntedBuilding hb)
+        {
+            this.hb = hb;
+        }
+
+        override public Graphic enterCommand(String command)
+        {
+            Graphic graphic = new Graphic(hb.getPlayer().Coord, null, "Bad command! Click Help for help.");
+
+            Move where = Move.STALL;
+            switch (command) //see if movement command
+            {
+                case "FORWARD": where = Move.FORWARD; break;
+                case "RIGHT": where = Move.RIGHT; break;
+                case "BACKWARD": where = Move.BACKWARD; break;
+                case "LEFT": where = Move.LEFT; break;
+            }
+
+            if (where != Move.STALL) //It is a move command
+            {
+                //TODO not just a wall but maybe an elevator.
+                if (!hb.getPlayer().move(where))
+                    graphic.Text = "You can't move there." + System.Environment.NewLine +
+                                        hb.getPlayer().Name + " is at " + hb.getPlayer().stringCoord() + System.Environment.NewLine;
+                else
+                {
+                    graphic.setImage(hb.getPlayer().Coord, null);
+                    graphic.Text = hb.getPlayer().Name + " moved to " + hb.getPlayer().stringCoord() + System.Environment.NewLine;
+                }
+            }
+            else if (command == "ENTER DOWN")
+            {
+                hb.enterElevator(false, graphic); //false for Down
+            }
+            else if (command == "ENTER UP")
+            {
+                hb.enterElevator(true, graphic); //true for Up
+            }
+            else if (command == "ENTER DOOR")
+            {
+                DoorState result = hb.getPlayer().enterDoor();
+
+                switch (result)
+                {
+                    case DoorState.UNLOCKED: hb.endGame();
+                        return new Graphic("You escaped the haunted building!");
+                    case DoorState.LOCKED: graphic.Text = "The door is locked.";
+                        break;
+                    case DoorState.NOTNEAR: graphic.Text = "You are not near a door.";
+                        break;
+                    default:
+                        graphic.Text = "This should not happen.";
+                        break;
+                }
+            }
+            else if (command == "PICKUP")
+            {
+                graphic.Text = "You picked up " + hb.getPlayer().pickup() +
+                               " at " + hb.getPlayer().stringCoord() + System.Environment.NewLine;
+            }
+            else if (command == "INVT")
+            {
+                graphic.Text = "You are carrying: " + hb.getPlayer().showInventory() + System.Environment.NewLine;
+            }
+            else if (command == "INSPECT")
+            {
+                graphic.Text = hb.getPlayer().inspectItems() + System.Environment.NewLine;
+            }
+            else if (command == "FLASHLIGHT")
+            {
+                //reveal surrounding areas
+                graphic.Text = "Used Flashlight." + System.Environment.NewLine;
+                graphic.setImage(hb.getPlayer().Coord, hb.getPlayer().useFlashLight(graphic));
+            }
+
+            return graphic;
+        }
+
+        override public Graphic tryUnlock(int what, int digit1, int digit2, int digit3)
+        {
+            if (what == 0)
+            {
+                CaseState result1 = hb.getPlayer().tryUnlock(new PassCode(digit1, digit2, digit3));
+
+                switch (result1)
+                {
+                    case CaseState.NOTHAVE: return new Graphic("You do not have a case.");
+                    case CaseState.STALL: return new Graphic("Case already unlocked.");
+                    case CaseState.UNLOCKED: return new Graphic("Case Unlocked!");
+                    case CaseState.LOCKED:
+                    default: return new Graphic("Wrong pass code, try again.");
+                }
+            }
+
+            DoorState result = hb.getPlayer().tryUnlockDoor(new PassCode(digit1, digit2, digit3));
+
+            switch (result)
+            {
+                case DoorState.NOTNEAR: return new Graphic("You are not near a door.");
+                case DoorState.STALL: return new Graphic("Door already unlocked.");
+                case DoorState.UNLOCKED: return new Graphic("Door Unlocked!");
+                case DoorState.LOCKED:
+                default: return new Graphic("Wrong pass code, try again.");
+            }
+        }
+    }
+
     class HauntedBuilding
     {
+        private GameCondition condition;
         private String title;
         private Floor[] floors;
         private Player player;
         private CorrectElevator[] correct_elevator; 
         private WrongElevator[] wrong_elevator;
 
-        public HauntedBuilding(){
-            title = "Welcome to Haunted Building\n";
-
-        }
-
-        public String getTitle(){
-            return title;
-        }
-
-        public Graphic startGame(GameState gs)
+        public HauntedBuilding()
         {
-            floors = new Floor[Constants.NUM_FLOORS]; //Creating 10 foors
+            condition = new ReadyCondition();
+            title = "Welcome to Haunted Building\n";
+        }
+
+        public String getTitle() { return title; }
+
+        private void errorCheck(GameState gs)
+        {
+            //TODO error check gs floor number, coord, and pass code digits
+            //error check coord
+            if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
+                gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
+                gs.coord = new Coordinate(0, 0); //change bad coord to default
+        }
+
+        private void setupElevators()
+        {
             correct_elevator = new CorrectElevator[Constants.NUM_FLOORS];
             wrong_elevator = new WrongElevator[Constants.NUM_FLOORS];
 
             // Generate Elevator sequence
             //generate a random sequence of correct elevators
-            int[] correct_seq = new int[10] {1,3,5,7,9,2,4,6,8,10};
+            int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
             int numFloors = Constants.NUM_FLOORS;
-            int x1, y1, x2,y2;
-
-            /* may be needed later
-            bool[,] taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
-
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                    taken[i, j] = false;
-             */
+            int x1, y1, x2, y2;
 
             //initializes the elevators on each floor with an indication of its path
-            for (int i = numFloors-1; i >= 0; i--)
+            for (int i = numFloors - 1; i >= 0; i--)
             {
                 x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
                 y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
-                correct_elevator[i] = new CorrectElevator(x1, y1, i+1);
+                correct_elevator[i] = new CorrectElevator(x1, y1, i + 1);
 
                 do
                 {
@@ -480,13 +627,19 @@ namespace Game{
                 }
 
             }
+        }
 
-           //TODO error check gs floor number, coord, and pass code digits
-           //error check coord
-            if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
-                gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
-                gs.coord = new Coordinate(0, 0); //change bad coord to default
+        private void setupFloors(GameState gs)
+        {
+            floors = new Floor[Constants.NUM_FLOORS]; //Creating 10 foors
 
+            /* may be needed later
+            bool[,] taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                    taken[i, j] = false;
+             */
 
             Coordinate[] elevators = new Coordinate[Constants.NUM_ELEVATORS];
             for (int i = 0; i < Constants.NUM_FLOORS; i++)
@@ -499,29 +652,49 @@ namespace Game{
                 else
                     floors[i] = new Floor(i + 1, null, null, elevators);
             }
+        }
 
+        private void setupPlayer(GameState gs)
+        {
             ArrayList items = new ArrayList();
             for (int i = 0; i < Constants.NUM_ITEMS; i++)
                 if (gs.have[i])
                 {
-                    if(i == (int)iName.SECRETCASE)
+                    if (i == (int)iName.SECRETCASE)
                         items.Add(new Case(Constants.ITEMS[i], "Got to elevator X", gs.pc, gs.caseLocked)); //get real hint form DB
                     else
-                        items.Add(new Tool(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + gs.pc.code[i]));
+                        items.Add(new Record(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + gs.pc.code[i]));
                 }
 
-            player = new Player(gs.playerName, floors[gs.floorNumber-1], gs.coord, items);
+            player = new Player(gs.playerName, floors[gs.floorNumber - 1], gs.coord, items);
+        }
+        
+
+        public Graphic startGame(GameState gs)
+        {
+            condition = new PlayingCondition(this);
+            errorCheck(gs);
+            setupElevators();
+            setupFloors(gs);
+            setupPlayer(gs);
 
             return new Graphic(player.Coord, null,player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
         }
 
-        public Player getPlayer()
-        {
-            return player;
+        public void endGame()
+        { 
+            //we're letting garabage collector clean up memory
+            condition = new ReadyCondition();
+            correct_elevator = null;
+            wrong_elevator = null;
+            floors = null;
+            player = null;
         }
 
+        public Player getPlayer(){ return player; }
+
         //Command ENTER UP & ENTER Down helper
-        private void enterElevator(bool up, Graphic graphic)
+        public void enterElevator(bool up, Graphic graphic)
         {
             int currX = player.Coord.x;
             int currY = player.Coord.y;
@@ -560,7 +733,7 @@ namespace Game{
                 case 2: //Elevator taken
                     player.dropItems();
                     player.Floor = floors[newFloor];                   //set the new floor
-                    player.Coord = player.Floor.someElevatorCoord();
+                    player.Coord = player.Floor.randElevatorCoord();
 
                     graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
                                    player.Name + " is on floor " + player.Floor.Number + " at " +
@@ -577,117 +750,17 @@ namespace Game{
             }
         }
 
-        private void endGame(){
-            floors = null;
-            player = null;
-            correct_elevator = null; 
-            wrong_elevator = null;
-        }
-
         public Graphic enterCommand(String command)
         {
-            Graphic graphic = new Graphic(player.Coord,null,"Bad command! Click Help for help.");
-
-            Move where = Move.STALL;
-            switch (command) //see if movement command
-            {
-                case "FORWARD": where = Move.FORWARD; break;
-                case "RIGHT": where = Move.RIGHT; break;
-                case "BACKWARD": where = Move.BACKWARD; break;
-                case "LEFT": where = Move.LEFT; break;
-            }
-
-            if (where != Move.STALL) //It is a move command
-            {
-                //TODO not just a wall but maybe an elevator.
-                if (!player.move(where))
-                    graphic.Text = "Your trying to move into a wall!" + System.Environment.NewLine +
-                                        player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
-                else
-                {
-                    graphic.setImage(player.Coord, null);
-                    graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
-                }
-            }
-            else if (command == "ENTER DOWN")
-            {
-                enterElevator(false, graphic); //false for Down
-            }
-
-            else if (command == "ENTER UP")
-            {
-                enterElevator(true, graphic); //true for Up
-            }
-
-            else if (command == "ENTER DOOR")
-            {
-                DoorState result = player.enterDoor();
-
-                switch (result)
-                {
-                    case DoorState.UNLOCKED: endGame();
-                                             return new Graphic();
-                    case DoorState.LOCKED: graphic.Text = "The door is locked.";
-                        break;
-                    case DoorState.NOTNEAR: graphic.Text = "You are not near a door.";
-                        break;
-                    default:
-                        graphic.Text = "This should not happen.";
-                        break;
-                }
-            }
-
-            else if (command == "PICKUP")
-            {
-                graphic.Text = "You picked up " + player.pickup() +
-                               " at " + player.stringCoord() + System.Environment.NewLine;
-            }
-            else if (command == "INVT")
-            {
-                graphic.Text = "You are carrying: " + player.showInventory() + System.Environment.NewLine;
-            }
-            else if (command == "INSPECT")
-            {
-                graphic.Text = player.inspectItems() + System.Environment.NewLine;
-            }
-            else if (command == "FLASHLIGHT")
-            {
-                //reveal surrounding areas
-                graphic.Text = "Used Flashlight" + System.Environment.NewLine;
-                graphic.setImage(player.Coord, player.useFlashLight(graphic));
-            }
-
-            return graphic;
+            return condition.enterCommand(command);
         }
 
         //attempt at cracking the case
         public Graphic tryUnlock(int what, int digit1, int digit2, int digit3)
         {
-            if (what == 0)
-            {
-                CaseState result1 = player.tryUnlock(new PassCode(digit1, digit2, digit3));
-
-                switch (result1)
-                {
-                    case CaseState.NOTHAVE: return new Graphic("You do not have a case.");
-                    case CaseState.STALL: return new Graphic("Case already unlocked.");
-                    case CaseState.UNLOCKED: return new Graphic("Case Unlocked!");
-                    case CaseState.LOCKED:
-                    default: return new Graphic("Wrong pass code, try again.");
-                }
-            }
-
-            DoorState result = player.tryUnlockDoor(new PassCode(digit1, digit2, digit3));
-
-            switch (result)
-            {
-                case DoorState.NOTNEAR: return new Graphic("You are not near a door.");
-                case DoorState.STALL: return new Graphic("Door already unlocked.");
-                case DoorState.UNLOCKED: return new Graphic("Door Unlocked!");
-                case DoorState.LOCKED:
-                default: return new Graphic("Wrong pass code, try again.");
-            }
+            return condition.tryUnlock(what, digit1, digit2, digit3);
         }
+        
 
         public Graphic getHelp()
         {
