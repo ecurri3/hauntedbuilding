@@ -14,8 +14,9 @@ namespace Game
 
     static class Constants
     {
-        public const int FLOOR_LENGTH = 7; //X
-        public const int FLOOR_WIDTH = 7; //Y
+
+        static public int FLOOR_LENGTH = 10; //X
+        static public int FLOOR_WIDTH = 10; //Y
         public const int NUM_ELEVATORS = 2; //Per Floor
         public const int NUM_FLOORS = 10; 
         public const int NUM_ITEMS = 5;
@@ -23,7 +24,7 @@ namespace Game
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case", "Monster" };
         static public Random randGen = new Random();
         static public int nextObjID = 1; //Used by floor to give each tile object a unique ID, helpful for reference
-        static public int[,] hourglassTypes = new int[,] { { 5, 10 , 20}, {5, 3, 1} };
+        static public int[,] hourglassTypes = new int[,] { { 5, 10 , 20}, {5, 3, 1} }; //hourglass timer bonus times and upper limit amount per floor
     }
 
     class Graphic //simulate graphics (for now just text)
@@ -57,6 +58,8 @@ namespace Game
                         image[mark.coord.x, mark.coord.y] = 'm';
                     else if (mark.name == "Hourglass")
                         image[mark.coord.x, mark.coord.y] = 'h';
+                    else if (mark.name == "Wall")
+                        image[mark.coord.x, mark.coord.y] = '*';
                     else
                         image[mark.coord.x, mark.coord.y] = 'o';
                 }
@@ -232,12 +235,14 @@ namespace Game
         public Coordinate coord;
         public bool caseLocked; //is the case locked? IF they don't have it, its a yes
         public bool[] have;
+        public int difficulty;
 
-        public GameState(String playerName, int floorNumber,
+        public GameState(int difficulty, String playerName, int floorNumber,
                          PassCode pc, Coordinate coord, bool caseLocked,
                          bool[] have)
         {
             this.playerName = playerName;
+            this.difficulty = difficulty;
             this.floorNumber = floorNumber;
             this.pc = pc;
             this.coord = coord;
@@ -247,12 +252,12 @@ namespace Game
             
             for(int i = 0; i < Constants.NUM_ITEMS; i++)
                 this.have[i] = have[i];
-
         }
 
-        public GameState(String playerName) //default constructor with an inital state
+        public GameState(int difficulty, String playerName) //default constructor with an inital state
         {
             this.playerName = playerName;
+            this.difficulty = difficulty;
             floorNumber = Constants.NUM_FLOORS;
             pc = null;
             coord = new Coordinate(0, 0);
@@ -321,6 +326,11 @@ namespace Game
         }
 
         abstract public String getDescription(); 
+    }
+
+    class Wall : tileObj
+    {
+        public Wall() : base("Wall", false, true) { }//can't pickup, is a barrier
     }
 
     //Regular Items

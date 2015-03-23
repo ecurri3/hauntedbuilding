@@ -45,6 +45,102 @@ namespace Game
         private Coordinate[] elevators;
         private ArrayList coordinates; //has coordinates for all items/elevators
 
+        private delegate void Arch(Floor f, bool[,] taken);
+        //array of "pointers" to functions. Used to build walls
+        static private Arch[] architect = new Arch[] {architect1, architect2};
+
+
+        //prototype for making floors complex with rooms
+        //NOTE: Buggy, for some reason some items are still placed on taken spots after architect runs
+        //TODO find a better way to create this
+        private static void architect1(Floor f, bool[,] taken)
+        {
+            Tile[,] floor = f.floor;
+            ArrayList coordinates = f.coordinates;
+
+            //too small to design on that floor
+            if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
+
+            //int fl = Constants.FLOOR_LENGTH;
+            //int fw = Constants.FLOOR_WIDTH;
+
+            taken[0, 3] = true;
+
+            //Avoids entrance being blocked
+            taken[1, 3] = true;
+            taken[1, 2] = true;
+            taken[1, 4] = true;
+
+            taken[2, 3] = true;
+            taken[3, 3] = true;
+            taken[3, 2] = true;
+            taken[3, 1] = true;
+            taken[3, 0] = true;
+
+            //Add wall objects
+            floor[0, 3].Obj = new Wall();
+
+            floor[2, 3].Obj = new Wall();
+            floor[3, 3].Obj = new Wall();
+            floor[3, 2].Obj = new Wall();
+            floor[3, 1].Obj = new Wall();
+            floor[3, 0].Obj = new Wall();
+
+
+            //add to floor coordinates list, useful for displaying to graphic
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(0,3), 0));
+            
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(2, 3), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 3), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 2), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 1), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 0), 0));
+        }
+
+        private static void architect2(Floor f, bool[,] taken)
+        {
+            Tile[,] floor = f.floor;
+            ArrayList coordinates = f.coordinates;
+
+            //too small to design on that floor
+            if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
+
+            //int fl = Constants.FLOOR_LENGTH - 1; //floor length index based
+            int fw = Constants.FLOOR_WIDTH - 1; //floor width index based
+
+            taken[0, fw - 3] = true;
+
+            //Avoids entrance being blocked
+            taken[1, fw - 3] = true;
+            taken[1, fw - 2] = true;
+            taken[1, fw - 4] = true;
+
+            taken[2, fw - 3] = true;
+            taken[3, fw - 3] = true;
+            taken[3, fw - 2] = true;
+            taken[3, fw - 1] = true;
+            taken[3, fw - 0] = true;
+
+            //Add wall objects
+            floor[0, fw - 3].Obj = new Wall();
+
+            floor[2, fw - 3].Obj = new Wall();
+            floor[3, fw - 3].Obj = new Wall();
+            floor[3, fw - 2].Obj = new Wall();
+            floor[3, fw - 1].Obj = new Wall();
+            floor[3, fw - 0].Obj = new Wall();
+
+
+            //add to floor coordinates list, useful for displaying to graphic
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(0, fw-3), 0));
+
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(2, fw-3), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-3), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-2), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-1), 0));
+            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-0), 0));
+        }
+
         private void firstFloorSetup(bool[,] taken)
         {
             //Only needed on floor 1
@@ -148,7 +244,7 @@ namespace Game
             //Max amount of hourglasses placed per time amount
             for (int j = 0; j < arrCols; j++)
             {
-                limit = Constants.randGen.Next(0, Constants.hourglassTypes[1, j]); //limit density for this type of hourglass
+                limit = Constants.randGen.Next(0, Constants.hourglassTypes[1, j] + 1); //limit density for this type of hourglass
                 for (int i = 0; i < limit; i++)
                 {
                     do
@@ -186,6 +282,9 @@ namespace Game
                     taken[i, j] = false;
                 }
 
+            //Call a random architect function
+            int x = Constants.randGen.Next(0,architect.GetUpperBound(0) + 1);
+            architect[x](this, taken);
             if (number == 1) firstFloorSetup(taken);
             storeElevatorCoords(taken, elevators);
             setUpPassCode(pc);

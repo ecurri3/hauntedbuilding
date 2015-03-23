@@ -18,9 +18,11 @@ namespace hauntedBuildinggrp3
         private bool enteringCode; //Is the user entering a pass code?
         private bool helping; //used in Help click event
         //Timing the game
+        private bool gameStarted; //just used for help(), to avoid a timer bug
         private int hour;
         private int min;
         private int sec;
+        private String scores;
 
         //N
         //private int gStatus;
@@ -61,6 +63,8 @@ namespace hauntedBuildinggrp3
             currentGraphic = new Game.Graphic("");
             enteringCode = false;
             helping = true;
+            gameStarted = false;
+            scores = "";
 
             //Sets frightened meter max and min
             //Increment by a set amount to increase and decrease how scared player is
@@ -96,6 +100,7 @@ namespace hauntedBuildinggrp3
             resetTime(); //Sets hour,min,sec to default
             lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
             timer1.Start();
+            gameStarted = true;
             //sql
             //if user wanted a new game;
             //change "Johnny" to real account username
@@ -108,7 +113,13 @@ namespace hauntedBuildinggrp3
             //N
 
 
-            writeGraphic(hb.startGame(new Game.GameState("Johnny")));
+            //difficulty as int 0 = easy, 1 = medium, 2 = hard
+            int difficulty;
+            if (difficultyBox.Text == "Easy") difficulty = 0;
+            else if (difficultyBox.Text == "Medium") difficulty = 1;
+            else difficulty = 2;
+
+            writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny")));
            
 
             //else
@@ -139,6 +150,16 @@ namespace hauntedBuildinggrp3
             //N
 
             progressBar1.Increment(-20);
+        }
+
+        //Helper function for ending games.
+        private void endGame(String message, bool won)
+        {
+            scores += hb.getPlayer().Name + ": " + (won ? "Win" : "Loss") + "   Time Left: " + lbTimer.Text + "   Difficulty: " + hb.getDifficulty() + System.Environment.NewLine;
+            hb.endGame();
+            timer1.Stop();
+            gameStarted = false;
+            textBox2.Text = message;
         }
 
         private void Form1_Keypress(object sender, KeyPressEventArgs e)
@@ -181,11 +202,17 @@ namespace hauntedBuildinggrp3
         {
             if (helping)
             {
+                timer1.Stop();
+                if(gameStarted) textBox1.Text = "Paused...";
                 textBox2.Text = hb.getHelp().Text;
                 helping = false;
             }
             else
             {
+                if(gameStarted) timer1.Start();
+                if(currentGraphic.isImageSet())
+                    textBox1.Text = currentGraphic.getImage();
+
                 textBox2.Text = currentGraphic.Text;
                 helping = true;
             }
@@ -232,9 +259,11 @@ namespace hauntedBuildinggrp3
                 //get overall time in seconds, useful for recalculation
                 sec = sec + min * 60 + (hour * 60 * 60);
 
-                min = sec / 60;
+                if (sec > 59) lbTimer.ForeColor = System.Drawing.Color.Lime;
+
+                min = sec / 60; //recalc num of minutes
                 sec %= 60;
-                hour = min / 60;
+                hour = min / 60; //recalc num of hours
                 min %= 60;
 
                 lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2");
@@ -340,7 +369,7 @@ namespace hauntedBuildinggrp3
             writeGraphic(hb.enterCommand("ENTER DOWN"));
         }
 
-        //TryCase
+        //Entering a code
         private void button2_Click(object sender, EventArgs e)
         {
             int d1, d2, d3;
@@ -357,10 +386,10 @@ namespace hauntedBuildinggrp3
             }
 
             //based on the selection textbox
-            if (tryWhat.Text == "Door")
-                writeGraphic(hb.tryUnlock(1, d1, d2, d3)); //1 means door
+            if (caseRadio.Checked == true)
+                writeGraphic(hb.tryUnlock(0, d1, d2, d3)); //0 means case
             else
-                writeGraphic(hb.tryUnlock(0, d1, d2, d3));
+                writeGraphic(hb.tryUnlock(1, d1, d2, d3));
         }
 
         //When user clicks on digit textboxes, turn off keypress event handling
@@ -385,21 +414,24 @@ namespace hauntedBuildinggrp3
 
             //If monster was revealed, increment scared meter
             if (currentGraphic.Text.Contains("Monster"))
-                progressBar1.Increment(1);
-                //progressBar1.PerformStep();
-
-            //If scared meter is too high, the game is over
-            if (progressBar1.Value >= 20)
             {
-                timer1.Stop();
-                hb.endGame();
-                textBox1.Text = "Game Over!";
+                progressBar1.Increment(1);
+
+                //If scared meter is too high, the game is over
+                if (gameStarted && progressBar1.Value >= 20)
+                    endGame("Game Over!", false);
             }
+
         }
 
         private void Enter_Click(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("ENTER DOOR"));
+
+            if (currentGraphic.ExtraFlag == 1)
+            {
+                endGame("Congraluations you win!", true);
+            }
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
@@ -420,8 +452,8 @@ namespace hauntedBuildinggrp3
         private void resetTime()
         {
             hour = 0;
-            min = 5;
-            sec = 0;
+            min = 1;
+            sec = 10;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -432,9 +464,7 @@ namespace hauntedBuildinggrp3
                 {
                     if (--hour < 0)
                     {
-                        timer1.Stop();
-                        hb.endGame();
-                        textBox1.Text = "Time is up";
+                        endGame("Time is up", false);
                         return;
                     }
                     else min = 59;
@@ -444,6 +474,10 @@ namespace hauntedBuildinggrp3
 
 
             lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2");
+
+            if ((hour * 60 * 60) + (min * 60) + sec < 60)
+                lbTimer.ForeColor = System.Drawing.Color.Red;
+
             //sec++;
             //sec = sec - 1;
             /*
@@ -468,6 +502,11 @@ namespace hauntedBuildinggrp3
         private void lbTimer_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void scoresButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(scores);
         }
     }
  

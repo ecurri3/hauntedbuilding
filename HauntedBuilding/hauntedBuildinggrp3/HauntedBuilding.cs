@@ -136,11 +136,15 @@ namespace Game{
 
                 switch (result)
                 {
-                    case DoorState.UNLOCKED: hb.endGame();
-                        return new Graphic("You escaped the haunted building!");
-                    case DoorState.LOCKED: graphic.Text = "The door is locked.";
+                    case DoorState.UNLOCKED:
+                        graphic.Text = "";
+                        graphic.ExtraFlag = 1;
                         break;
-                    case DoorState.NOTNEAR: graphic.Text = "You are not near a door.";
+                    case DoorState.LOCKED: 
+                        graphic.Text = "The door is locked.";
+                        break;
+                    case DoorState.NOTNEAR: 
+                        graphic.Text = "You are not near a door.";
                         break;
                     default:
                         graphic.Text = "This should not happen.";
@@ -207,6 +211,7 @@ namespace Game{
     class HauntedBuilding
     {
         private GameCondition condition;
+        private int difficulty; //Maybe part of GameCondition?
         private String title;
         private Floor[] floors;
         private Player player;
@@ -216,9 +221,24 @@ namespace Game{
         public HauntedBuilding()
         {
             condition = new ReadyCondition();
+            difficulty = 0; //Maybe part of GameCondition?
             title = "Welcome to Haunted Building\n";
+            floors = null;
+            player = null;
+            correct_elevator = null; 
+            wrong_elevator = null;
         }
 
+        public String getDifficulty()
+        {
+            switch (difficulty)
+            {
+                case 0: return "Easy";
+                case 1: return "Medium";
+                case 2:
+                default: return "Hard";
+            }
+        }
         //Return as references
         public String getTitle() { return title; }
         public Player getPlayer() { return player; }
@@ -233,6 +253,26 @@ namespace Game{
             if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
                 gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
                 gs.coord = new Coordinate(0, 0); //change bad coord to default
+        }
+
+        private void setupDifficulty(GameState gs)
+        {
+            difficulty = gs.difficulty;
+            switch (difficulty)
+            {
+                case 0: //easy
+                    Constants.FLOOR_LENGTH = 10;
+                    Constants.FLOOR_WIDTH = 10;
+                    break;
+                case 1: //medium
+                    Constants.FLOOR_LENGTH = 15;
+                    Constants.FLOOR_WIDTH = 15;
+                    break;
+                case 2: //hard
+                    Constants.FLOOR_LENGTH = 20;
+                    Constants.FLOOR_WIDTH = 20;
+                    break;
+            }
         }
 
         private void setupElevators()
@@ -334,6 +374,7 @@ namespace Game{
         {
             condition = new PlayingCondition(this);
             errorCheck(gs);
+            setupDifficulty(gs);
             setupElevators();
             setupFloors(gs);
             setupPlayer(gs);
@@ -365,18 +406,17 @@ namespace Game{
 
         public Graphic getHelp()
         {
-            String howto = "Enter commands in the textbox and click 'Enter'" + System.Environment.NewLine +
-                            "The following are supported commands" + System.Environment.NewLine;
-            String move = "LEFT: Move left" + System.Environment.NewLine +
-                            "RIGHT: Move right" + System.Environment.NewLine +
-                            "FORWARD: Move forward" + System.Environment.NewLine +
-                            "BACKWARD: Move backward" + System.Environment.NewLine;
-            String enter = "ENTER: Enter the elevator" + System.Environment.NewLine;
-            String pickup = "PICKUP: Pickup an item" + System.Environment.NewLine;
-            String invt = "INVT: Display items currently held by the player" + System.Environment.NewLine;
+            String howto = "Use the following controls to navigate your character:" + System.Environment.NewLine;
+            String move = "W, A, S, D to move." + System.Environment.NewLine;
+            String enter = "Q to enter a door." + System.Environment.NewLine;
+            String elevator = "X to go up in an elevator and C to go down." + System.Environment.NewLine;
+            String pickup = "E to pickup an Item." + System.Environment.NewLine;
+            String invt = "1 to show inventory and R to inspect inventory." + System.Environment.NewLine;
+            String flashlight = "F to shine your flashlight" + System.Environment.NewLine;
+            String code = "Enter 3 digits in the textboxes and select which device you plan to break." + System.Environment.NewLine;
             String backTogame = "Click 'Help' to go back to game screen" + System.Environment.NewLine;
             
-            return new Graphic(howto + move + enter + pickup + invt + backTogame);
+            return new Graphic(howto + move + enter + elevator + pickup + invt + flashlight + code + backTogame);
         } 
 
         //returns the current State
@@ -388,7 +428,7 @@ namespace Game{
             for (int i = 0; i < Constants.NUM_ITEMS;  i++)
                 have[i] = inventory.Contains(Constants.ITEMS[i]);
 
-            return new GameState(player.Name, player.Floor.Number, 
+            return new GameState(difficulty, player.Name, player.Floor.Number, 
                                  player.Floor.getPassCode(), player.Coord,
                                  player.lockedCase(),
                                  have);
