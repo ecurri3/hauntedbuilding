@@ -35,19 +35,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.pickup = new System.Windows.Forms.Button();
-            this.inventory = new System.Windows.Forms.Button();
-            this.inspect = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.save = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.digit1 = new System.Windows.Forms.TextBox();
             this.digit3 = new System.Windows.Forms.TextBox();
             this.digit2 = new System.Windows.Forms.TextBox();
             this.tryCase = new System.Windows.Forms.Button();
-            this.flashlight = new System.Windows.Forms.Button();
-            this.Enter = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.clearCode = new System.Windows.Forms.Button();
@@ -56,7 +49,13 @@
             this.caseRadio = new System.Windows.Forms.RadioButton();
             this.difficultyBox = new System.Windows.Forms.ComboBox();
             this.scoresButton = new System.Windows.Forms.Button();
+            this.gameScreen = new System.Windows.Forms.PictureBox();
+            this.pCoordLabel = new System.Windows.Forms.Label();
+            this.pFloorLabel = new System.Windows.Forms.Label();
+            this.labelFloor = new System.Windows.Forms.Label();
+            this.coordinateLabel = new System.Windows.Forms.Label();
             doorRadio = new System.Windows.Forms.RadioButton();
+            ((System.ComponentModel.ISupportInitialize)(this.gameScreen)).BeginInit();
             this.SuspendLayout();
             // 
             // doorRadio
@@ -75,7 +74,7 @@
             this.textBox1.BackColor = System.Drawing.SystemColors.MenuText;
             this.textBox1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(12, 18);
+            this.textBox1.Location = new System.Drawing.Point(12, 50);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -86,7 +85,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 609);
+            this.button1.Location = new System.Drawing.Point(12, 641);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -104,7 +103,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(93, 609);
+            this.button3.Location = new System.Drawing.Point(93, 641);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 5;
@@ -112,82 +111,29 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // pickup
-            // 
-            this.pickup.Location = new System.Drawing.Point(582, 378);
-            this.pickup.Margin = new System.Windows.Forms.Padding(2);
-            this.pickup.Name = "pickup";
-            this.pickup.Size = new System.Drawing.Size(81, 23);
-            this.pickup.TabIndex = 11;
-            this.pickup.Text = "Pick Up (E)";
-            this.pickup.UseVisualStyleBackColor = true;
-            this.pickup.Click += new System.EventHandler(this.pickup_Click_1);
-            // 
-            // inventory
-            // 
-            this.inventory.Location = new System.Drawing.Point(582, 405);
-            this.inventory.Margin = new System.Windows.Forms.Padding(2);
-            this.inventory.Name = "inventory";
-            this.inventory.Size = new System.Drawing.Size(81, 23);
-            this.inventory.TabIndex = 12;
-            this.inventory.Text = "Inventory (1)";
-            this.inventory.UseVisualStyleBackColor = true;
-            this.inventory.Click += new System.EventHandler(this.inventory_Click_1);
-            // 
-            // inspect
-            // 
-            this.inspect.Location = new System.Drawing.Point(582, 432);
-            this.inspect.Margin = new System.Windows.Forms.Padding(2);
-            this.inspect.Name = "inspect";
-            this.inspect.Size = new System.Drawing.Size(81, 23);
-            this.inspect.TabIndex = 14;
-            this.inspect.Text = "Inspect (R)";
-            this.inspect.UseVisualStyleBackColor = true;
-            this.inspect.Click += new System.EventHandler(this.inspect_Click_1);
-            // 
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Window;
             this.textBox2.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.textBox2.Location = new System.Drawing.Point(12, 427);
+            this.textBox2.Location = new System.Drawing.Point(12, 459);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(534, 139);
+            this.textBox2.Size = new System.Drawing.Size(381, 139);
             this.textBox2.TabIndex = 16;
             this.textBox2.Click += new System.EventHandler(this.windowClick);
             // 
             // save
             // 
-            this.save.Location = new System.Drawing.Point(174, 609);
+            this.save.Location = new System.Drawing.Point(174, 641);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(75, 23);
             this.save.TabIndex = 17;
             this.save.Text = "Save";
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(588, 494);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 32);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Up (X)";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.enterUp_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(588, 532);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(68, 32);
-            this.button4.TabIndex = 18;
-            this.button4.Text = "Down (C)";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.enterDown_Click);
             // 
             // digit1
             // 
@@ -225,27 +171,6 @@
             this.tryCase.Text = "Send";
             this.tryCase.UseVisualStyleBackColor = true;
             this.tryCase.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // flashlight
-            // 
-            this.flashlight.Location = new System.Drawing.Point(582, 351);
-            this.flashlight.Margin = new System.Windows.Forms.Padding(2);
-            this.flashlight.Name = "flashlight";
-            this.flashlight.Size = new System.Drawing.Size(84, 23);
-            this.flashlight.TabIndex = 22;
-            this.flashlight.Text = "Flashlight (F)";
-            this.flashlight.UseVisualStyleBackColor = true;
-            this.flashlight.Click += new System.EventHandler(this.flashlight_Click);
-            // 
-            // Enter
-            // 
-            this.Enter.Location = new System.Drawing.Point(582, 457);
-            this.Enter.Name = "Enter";
-            this.Enter.Size = new System.Drawing.Size(81, 23);
-            this.Enter.TabIndex = 24;
-            this.Enter.Text = "Enter (Q)";
-            this.Enter.UseVisualStyleBackColor = true;
-            this.Enter.Click += new System.EventHandler(this.Enter_Click);
             // 
             // progressBar1
             // 
@@ -316,7 +241,7 @@
             "Easy",
             "Medium",
             "Hard"});
-            this.difficultyBox.Location = new System.Drawing.Point(12, 572);
+            this.difficultyBox.Location = new System.Drawing.Point(12, 604);
             this.difficultyBox.Name = "difficultyBox";
             this.difficultyBox.Size = new System.Drawing.Size(121, 21);
             this.difficultyBox.TabIndex = 31;
@@ -324,7 +249,7 @@
             // 
             // scoresButton
             // 
-            this.scoresButton.Location = new System.Drawing.Point(256, 608);
+            this.scoresButton.Location = new System.Drawing.Point(256, 640);
             this.scoresButton.Name = "scoresButton";
             this.scoresButton.Size = new System.Drawing.Size(75, 23);
             this.scoresButton.TabIndex = 32;
@@ -332,11 +257,66 @@
             this.scoresButton.UseVisualStyleBackColor = true;
             this.scoresButton.Click += new System.EventHandler(this.scoresButton_Click);
             // 
+            // gameScreen
+            // 
+            this.gameScreen.Location = new System.Drawing.Point(399, 459);
+            this.gameScreen.Name = "gameScreen";
+            this.gameScreen.Size = new System.Drawing.Size(250, 150);
+            this.gameScreen.TabIndex = 33;
+            this.gameScreen.TabStop = false;
+            // 
+            // pCoordLabel
+            // 
+            this.pCoordLabel.AutoSize = true;
+            this.pCoordLabel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pCoordLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pCoordLabel.ForeColor = System.Drawing.Color.Lime;
+            this.pCoordLabel.Location = new System.Drawing.Point(69, 30);
+            this.pCoordLabel.Name = "pCoordLabel";
+            this.pCoordLabel.Size = new System.Drawing.Size(37, 15);
+            this.pCoordLabel.TabIndex = 34;
+            this.pCoordLabel.Text = "(0,0)";
+            // 
+            // pFloorLabel
+            // 
+            this.pFloorLabel.AutoSize = true;
+            this.pFloorLabel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pFloorLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pFloorLabel.ForeColor = System.Drawing.Color.Lime;
+            this.pFloorLabel.Location = new System.Drawing.Point(30, 31);
+            this.pFloorLabel.Name = "pFloorLabel";
+            this.pFloorLabel.Size = new System.Drawing.Size(15, 15);
+            this.pFloorLabel.TabIndex = 35;
+            this.pFloorLabel.Text = "0";
+            // 
+            // labelFloor
+            // 
+            this.labelFloor.AutoSize = true;
+            this.labelFloor.Location = new System.Drawing.Point(23, 15);
+            this.labelFloor.Name = "labelFloor";
+            this.labelFloor.Size = new System.Drawing.Size(30, 13);
+            this.labelFloor.TabIndex = 36;
+            this.labelFloor.Text = "Floor";
+            // 
+            // coordinateLabel
+            // 
+            this.coordinateLabel.AutoSize = true;
+            this.coordinateLabel.Location = new System.Drawing.Point(59, 15);
+            this.coordinateLabel.Name = "coordinateLabel";
+            this.coordinateLabel.Size = new System.Drawing.Size(58, 13);
+            this.coordinateLabel.TabIndex = 37;
+            this.coordinateLabel.Text = "Coordinate";
+            // 
             // fmPlayGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 643);
+            this.ClientSize = new System.Drawing.Size(707, 694);
+            this.Controls.Add(this.coordinateLabel);
+            this.Controls.Add(this.labelFloor);
+            this.Controls.Add(this.pFloorLabel);
+            this.Controls.Add(this.pCoordLabel);
+            this.Controls.Add(this.gameScreen);
             this.Controls.Add(this.scoresButton);
             this.Controls.Add(this.difficultyBox);
             this.Controls.Add(doorRadio);
@@ -345,19 +325,12 @@
             this.Controls.Add(this.clearCode);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.Enter);
-            this.Controls.Add(this.flashlight);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.tryCase);
             this.Controls.Add(this.digit2);
             this.Controls.Add(this.digit3);
             this.Controls.Add(this.digit1);
             this.Controls.Add(this.save);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.inspect);
-            this.Controls.Add(this.inventory);
-            this.Controls.Add(this.pickup);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -369,6 +342,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.fmPlayGame_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Click += new System.EventHandler(this.windowClick);
+            ((System.ComponentModel.ISupportInitialize)(this.gameScreen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,19 +354,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button pickup;
-        private System.Windows.Forms.Button inventory;
-        private System.Windows.Forms.Button inspect;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button save;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox digit1;
         private System.Windows.Forms.TextBox digit3;
         private System.Windows.Forms.TextBox digit2;
         private System.Windows.Forms.Button tryCase;
-        private System.Windows.Forms.Button flashlight;
-        private System.Windows.Forms.Button Enter;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button clearCode;
@@ -401,6 +368,11 @@
         private System.Windows.Forms.RadioButton caseRadio;
         private System.Windows.Forms.ComboBox difficultyBox;
         private System.Windows.Forms.Button scoresButton;
+        private System.Windows.Forms.PictureBox gameScreen;
+        private System.Windows.Forms.Label pCoordLabel;
+        private System.Windows.Forms.Label pFloorLabel;
+        private System.Windows.Forms.Label labelFloor;
+        private System.Windows.Forms.Label coordinateLabel;
     }
 }
 

@@ -80,9 +80,7 @@ namespace Game{
                     player.Floor = floors[newFloor];                   //set the new floor
                     player.Coord = player.Floor.randElevatorCoord();
 
-                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine +
-                                   player.Name + " is on floor " + player.Floor.Number + " at " +
-                                   player.stringCoord() + System.Environment.NewLine;
+                    graphic.Text = "Taking Elevator..." + System.Environment.NewLine;
 
                     graphic.setImage(player.Coord, null);
                     break;
@@ -99,7 +97,7 @@ namespace Game{
         override public Graphic enterCommand(String command)
         {
             Player player = hb.getPlayer();
-            Graphic graphic = new Graphic(player.Coord, null, "Bad command! Click Help for help.");
+            Graphic graphic = new Graphic(player.Coord, null, "");
 
             Move where = Move.STALL;
             switch (command) //see if movement command
@@ -114,12 +112,10 @@ namespace Game{
             {
                 //TODO not just a wall but maybe an elevator.
                 if (!player.move(where))
-                    graphic.Text = "You can't move there." + System.Environment.NewLine +
-                                        player.Name + " is at " + player.stringCoord() + System.Environment.NewLine;
+                    graphic.Text = "You can't move there." + System.Environment.NewLine;
                 else
                 {
                     graphic.setImage(player.Coord, null);
-                    graphic.Text = player.Name + " moved to " + player.stringCoord() + System.Environment.NewLine;
                 }
             }
             else if (command == "ENTER DOWN")
@@ -289,6 +285,7 @@ namespace Game{
             //initializes the elevators on each floor with an indication of its path
             for (int i = numFloors - 1; i >= 0; i--)
             {
+                
                 x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
                 y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 

@@ -51,7 +51,7 @@ namespace Game
 
 
         //prototype for making floors complex with rooms
-        //NOTE: Buggy, for some reason some items are still placed on taken spots after architect runs
+        //NOTE: Buggy, elevators are placed where there are walls
         //TODO find a better way to create this
         private static void architect1(Floor f, bool[,] taken)
         {

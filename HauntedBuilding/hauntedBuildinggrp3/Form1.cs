@@ -96,6 +96,7 @@ namespace hauntedBuildinggrp3
         //Start button click
         private void button1_Click(object sender, EventArgs e)
         {
+            gameScreen.Hide();
             lbTimer.Visible = true;
             resetTime(); //Sets hour,min,sec to default
             lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
@@ -149,12 +150,21 @@ namespace hauntedBuildinggrp3
             //}
             //N
 
+            pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
+            pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
+
             progressBar1.Increment(-20);
         }
 
         //Helper function for ending games.
         private void endGame(String message, bool won)
         {
+            if (!won)
+            {
+                gameScreen.Show();
+                gameScreen.Image = Properties.Resources.gameOver;
+            }
+
             scores += hb.getPlayer().Name + ": " + (won ? "Win" : "Loss") + "   Time Left: " + lbTimer.Text + "   Difficulty: " + hb.getDifficulty() + System.Environment.NewLine;
             hb.endGame();
             timer1.Stop();
@@ -166,6 +176,9 @@ namespace hauntedBuildinggrp3
         {
             //So the user can enter pass code without casuing the game to play
             if (enteringCode) return;
+
+            if(gameStarted)
+                gameScreen.Hide();
 
             switch (e.KeyChar)
             {
@@ -232,21 +245,33 @@ namespace hauntedBuildinggrp3
         private void up_Click_1(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("FORWARD"));
+
+            if(gameStarted)
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
         }
 
         private void down_Click_1(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("BACKWARD"));
+
+            if(gameStarted)
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
         }
 
         private void right_Click_1(object sender, EventArgs e)
         {
              writeGraphic(hb.enterCommand("RIGHT"));
+
+            if(gameStarted)
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
         }
 
         private void left_Click_1(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("LEFT"));
+
+            if(gameStarted)
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
         }
 
         private void pickup_Click_1(object sender, EventArgs e)
@@ -362,11 +387,23 @@ namespace hauntedBuildinggrp3
         private void enterUp_Click(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("ENTER UP"));
+
+            if (gameStarted)
+            {
+                pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
+            }
         }
 
         private void enterDown_Click(object sender, EventArgs e)
         {
             writeGraphic(hb.enterCommand("ENTER DOWN"));
+
+            if (gameStarted)
+            {
+                pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
+                pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
+            }
         }
 
         //Entering a code
@@ -395,11 +432,20 @@ namespace hauntedBuildinggrp3
         //When user clicks on digit textboxes, turn off keypress event handling
         private void clickDigits(object sender, EventArgs e)
         {
+            if (gameStarted)
+            {
+                gameScreen.Show();
+                gameScreen.Image = Properties.Resources.enteringCodeImg;
+            }
             enteringCode = true;
         }
         //When they click on the game windows, turn on keypress evenexit handling
         private void windowClick(object sender, EventArgs e)
         {
+            if (gameStarted)
+            {
+                gameScreen.Hide();
+            }
             enteringCode = false;
         }
 
@@ -415,6 +461,10 @@ namespace hauntedBuildinggrp3
             //If monster was revealed, increment scared meter
             if (currentGraphic.Text.Contains("Monster"))
             {
+                gameScreen.Show();
+                gameScreen.Image = Properties.Resources.monsterEncounter;
+
+
                 progressBar1.Increment(1);
 
                 //If scared meter is too high, the game is over
