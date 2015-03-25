@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComplexFloor.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="fmHowToPlay.cs">
       <SubType>Form</SubType>

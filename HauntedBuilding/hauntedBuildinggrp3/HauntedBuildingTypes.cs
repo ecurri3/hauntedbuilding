@@ -27,6 +27,21 @@ namespace Game
         static public int[,] hourglassTypes = new int[,] { { 5, 10 , 20}, {5, 3, 1} }; //hourglass timer bonus times and upper limit amount per floor
     }
 
+    static class ComplexFloorConstants
+    {
+        static public int CFLOOR_LENGTH = 10; //X
+        static public Random rndNumWidth = new Random();
+        public const int NUM_ELEVATORS = 2; //Per Floor
+        public const int NUM_FLOORS = 10;
+        public const int NUM_ITEMS = 5;
+        public const int CODE_LENGTH = 3;
+        static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case", "Monster" };
+        static public Random randGen = new Random();
+        static public int nextObjID = 1; //Used by floor to give each tile object a unique ID, helpful for reference
+        static public int[,] hourglassTypes = new int[,] { { 5, 10, 20 }, { 5, 3, 1 } }; //hourglass timer bonus times and upper limit amount per floor
+
+    }
+
     class Graphic //simulate graphics (for now just text)
     {
 
