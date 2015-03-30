@@ -486,15 +486,13 @@ namespace Game
 
         public override int go_up()
         {
-            //randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
-            randAbove = this.floor + 1;
+            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
             return randAbove;
         }
 
         public override int go_down()
         {
-            //randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
-            randBelow = this.floor - 1;
+            randBelow = Constants.randGen.Next(2, this.floor);     //avoids a random ride to first floor
             return randBelow;
         }
     }
@@ -509,6 +507,15 @@ namespace Game
         {
             this.lastFloor = last;
             this.nextFloor = next;
+        }
+
+        public int getLast()
+        {
+            return this.lastFloor;
+        }
+        public int getNext()
+        {
+            return this.nextFloor;
         }
 
         public override int go_up() { return lastFloor; }

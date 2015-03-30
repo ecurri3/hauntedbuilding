@@ -16,6 +16,7 @@ namespace Game
         private Floor floor;
         private Coordinate coord;
         private ArrayList inventory;
+        private int cameFrom;
 
         public Player(String name, Floor floor, Coordinate coord, ArrayList items)
         {
@@ -23,6 +24,7 @@ namespace Game
             this.floor = floor;
             this.coord = coord;
             this.inventory = new ArrayList(items);
+            this.cameFrom = -1;
         }
         public String stringCoord()
         {
@@ -89,6 +91,15 @@ namespace Game
             return true; //success!
         }
 
+        public void UpdateLastFloor(int lastFloor)
+        {
+            this.cameFrom = lastFloor;
+        }
+
+        public int getLastFloor()
+        {
+            return this.cameFrom;
+        }
         //TODO
         public bool enterElevator()
         {

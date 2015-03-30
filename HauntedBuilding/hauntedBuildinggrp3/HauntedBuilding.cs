@@ -47,14 +47,31 @@ namespace Game{
             int newFloor = player.Floor.Number - 1;
             int flag = 0;
 
-            if (correct_elevator[currfloor].isThereElevator(currX, currY))  //for now, the elevator only goes down
+            if (correct_elevator[currfloor].isThereElevator(currX, currY))  
             {
+                //An attempt to go up or down a correct elevator is made and an elevator exists
                 if (up ? correct_elevator[currfloor].canGoUp() : correct_elevator[currfloor].canGoDown())
                 {
-                    newFloor = up ? correct_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
-                    newFloor--;
+                    int lastFloor = correct_elevator[currfloor].getLast();
+                    int nextFloor = correct_elevator[currfloor].getNext();
 
-                    flag = 2;
+                    //determined that you are out of sequence
+                    if ( (player.getLastFloor() == lastFloor) || (player.getLastFloor() == nextFloor)) 
+                    {
+                        //save the last floor of where the player was
+                        player.UpdateLastFloor(currfloor);
+
+                        //obtain the nextfloor in sequence 
+                        newFloor = up ? correct_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
+                        newFloor--;
+
+                        flag = 2;
+                    }
+                    else
+                    {
+                        flag = 0;
+                    }
+                    
                 }
                 else
                     flag = 1;
@@ -64,6 +81,10 @@ namespace Game{
             {
                 if (up ? wrong_elevator[currfloor].canGoUp() : wrong_elevator[currfloor].canGoDown())
                 {
+                    //save the last floor of where the player was
+                    player.UpdateLastFloor(currfloor);
+
+                    //obtain the nextfloor in sequence 
                     newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
                     newFloor--;
 
@@ -81,11 +102,15 @@ namespace Game{
                     player.Coord = player.Floor.randElevatorCoord();
 
                     graphic.Text = "Taking Elevator..." + System.Environment.NewLine;
+                    graphic.Text = "Came from elevator " + (player.getLastFloor() + 1) + System.Environment.NewLine;
 
                     graphic.setImage(player.Coord, null);
                     break;
                 case 1: //Elevator limit reached
                     graphic.Text = "You can't go further " + (up ? "up." : "down.");
+                    break;
+                case 0: //Attempting to take correct elevator out of sequence
+                    graphic.Text = "Unfortunately you can't take this elevator! (out of sequence)" + System.Environment.NewLine;
                     break;
                 default:
                     graphic.Text = "You are not near an elevator! You are at " + player.stringCoord() + System.Environment.NewLine;
@@ -284,8 +309,7 @@ namespace Game{
 
             //initializes the elevators on each floor with an indication of its path
             for (int i = numFloors - 1; i >= 0; i--)
-            {
-                
+            {     
                 x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
                 y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
 
