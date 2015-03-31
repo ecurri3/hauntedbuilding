@@ -58,13 +58,12 @@ namespace Game{
                     //determined that you are out of sequence
                     if ( (player.getLastFloor() == lastFloor) || (player.getLastFloor() == nextFloor)) 
                     {
-                        //save the last floor of where the player was
-                        player.UpdateLastFloor(currfloor+1);
-
                         //obtain the nextfloor in sequence 
                         newFloor = up ? correct_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
                         newFloor--;
 
+                        //save the last floor of where the player was
+                        player.UpdateLastFloor(currfloor+1);
                         flag = 2;
                     }
                     else
@@ -81,12 +80,13 @@ namespace Game{
             {
                 if (up ? wrong_elevator[currfloor].canGoUp() : wrong_elevator[currfloor].canGoDown())
                 {
-                    //save the last floor of where the player was
-                    player.UpdateLastFloor(currfloor);
-
                     //obtain the nextfloor in sequence 
                     newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
                     newFloor--;
+
+                    //save the last floor of where the player was
+                    if (newFloor == 9) { player.UpdateLastFloor(-1); } //allows for another chance to reach the first floor in sequence
+                    else { player.UpdateLastFloor(currfloor + 1); }
 
                     flag = 2;
                 }
