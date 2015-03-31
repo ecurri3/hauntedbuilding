@@ -45,7 +45,7 @@ namespace Game{
             int currY = player.Coord.y;
             int currfloor = player.Floor.Number - 1;
             int newFloor = player.Floor.Number - 1;
-            int flag = 0;
+            int flag = -1;
 
             if (correct_elevator[currfloor].isThereElevator(currX, currY))  
             {
@@ -59,7 +59,7 @@ namespace Game{
                     if ( (player.getLastFloor() == lastFloor) || (player.getLastFloor() == nextFloor)) 
                     {
                         //save the last floor of where the player was
-                        player.UpdateLastFloor(currfloor);
+                        player.UpdateLastFloor(currfloor+1);
 
                         //obtain the nextfloor in sequence 
                         newFloor = up ? correct_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
@@ -102,7 +102,7 @@ namespace Game{
                     player.Coord = player.Floor.randElevatorCoord();
 
                     graphic.Text = "Taking Elevator..." + System.Environment.NewLine;
-                    graphic.Text = "Came from elevator " + (player.getLastFloor() + 1) + System.Environment.NewLine;
+                    graphic.Text = "Came from elevator " + (player.getLastFloor()) + System.Environment.NewLine;
 
                     graphic.setImage(player.Coord, null);
                     break;

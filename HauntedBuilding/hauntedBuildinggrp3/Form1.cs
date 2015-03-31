@@ -502,7 +502,7 @@ namespace hauntedBuildinggrp3
         private void resetTime()
         {
             hour = 0;
-            min = 1;
+            min = 60;   //was 1min
             sec = 10;
         }
         private void timer1_Tick(object sender, EventArgs e)
@@ -557,6 +557,16 @@ namespace hauntedBuildinggrp3
         private void scoresButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show(scores);
+        }
+
+        private void pFloorLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelFloor_Click(object sender, EventArgs e)
+        {
+
         }
     }
  

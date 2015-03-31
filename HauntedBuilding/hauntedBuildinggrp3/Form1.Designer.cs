@@ -288,6 +288,7 @@
             this.pFloorLabel.Size = new System.Drawing.Size(15, 15);
             this.pFloorLabel.TabIndex = 35;
             this.pFloorLabel.Text = "0";
+            this.pFloorLabel.Click += new System.EventHandler(this.pFloorLabel_Click);
             // 
             // labelFloor
             // 
@@ -297,6 +298,7 @@
             this.labelFloor.Size = new System.Drawing.Size(30, 13);
             this.labelFloor.TabIndex = 36;
             this.labelFloor.Text = "Floor";
+            this.labelFloor.Click += new System.EventHandler(this.labelFloor_Click);
             // 
             // coordinateLabel
             // 
