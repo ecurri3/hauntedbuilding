@@ -70,6 +70,12 @@
     <Compile Include="fmSelectGame.Designer.cs">
       <DependentUpon>fmSelectGame.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmShowScores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmShowScores.Designer.cs">
+      <DependentUpon>fmShowScores.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmStartGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmSelectGame.resx">
       <DependentUpon>fmSelectGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmShowScores.resx">
+      <DependentUpon>fmShowScores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fmStartGame.resx">
       <DependentUpon>fmStartGame.cs</DependentUpon>

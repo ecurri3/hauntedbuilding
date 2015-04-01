@@ -307,6 +307,7 @@ namespace hauntedBuildinggrp3
 
         private void save_Click(object sender, EventArgs e)
         {
+           
             //if (state == 1)
             //{
             //    Game.GameState gs = hb.currentState(); //this returns a GameState Object
@@ -325,8 +326,8 @@ namespace hauntedBuildinggrp3
             //    int SecondDgtPass = gs.pc.b;
             //    int ThirdDgtPass = gs.pc.c;
             //    bool CaseStatus = gs.caseLocked;
-            //    bool HaveCase = gs.haveCase;
-            //    bool HaveNote = gs.haveNote;
+            //    bool HaveCase = gs.haveCase;       //bool HaveSecCase=gs.have[3];
+            //    bool HaveNote = gs.haveNote;    
             //    bool HavePhone = gs.havePhone;
             //    bool HaveAudio = gs.haveAudio;
                 

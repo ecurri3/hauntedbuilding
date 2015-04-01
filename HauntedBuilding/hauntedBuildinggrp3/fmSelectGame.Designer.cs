@@ -30,6 +30,7 @@
         {
             this.btnPlaySaved = new System.Windows.Forms.Button();
             this.btnPlayNew = new System.Windows.Forms.Button();
+            this.btnShowScores = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPlaySaved
@@ -52,11 +53,22 @@
             this.btnPlayNew.UseVisualStyleBackColor = true;
             this.btnPlayNew.Click += new System.EventHandler(this.btnPlayNew_Click);
             // 
+            // btnShowScores
+            // 
+            this.btnShowScores.Location = new System.Drawing.Point(64, 470);
+            this.btnShowScores.Name = "btnShowScores";
+            this.btnShowScores.Size = new System.Drawing.Size(380, 128);
+            this.btnShowScores.TabIndex = 2;
+            this.btnShowScores.Text = "Scores";
+            this.btnShowScores.UseVisualStyleBackColor = true;
+            this.btnShowScores.Click += new System.EventHandler(this.button1_Click);
+            // 
             // fmSelectGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(516, 481);
+            this.ClientSize = new System.Drawing.Size(513, 669);
+            this.Controls.Add(this.btnShowScores);
             this.Controls.Add(this.btnPlayNew);
             this.Controls.Add(this.btnPlaySaved);
             this.Name = "fmSelectGame";
@@ -70,5 +82,6 @@
 
         private System.Windows.Forms.Button btnPlaySaved;
         private System.Windows.Forms.Button btnPlayNew;
+        private System.Windows.Forms.Button btnShowScores;
     }
 }

@@ -13,8 +13,8 @@ namespace hauntedBuildinggrp3
 {
     public partial class fmSelectGame : Form
     {
-        //private string PlayerName;
-        //private int PlayerStatus;
+        private string PlayerName;
+        private int PlayerStatus;
         //int StartGameStatus;
         //int FloorNo;
         //int FloorX;
@@ -29,9 +29,9 @@ namespace hauntedBuildinggrp3
         //int HaveAudio;
         public fmSelectGame(string UserName, int UserStatus)
         {
-            //InitializeComponent();
-            //PlayerName = UserName;
-            //PlayerStatus = UserStatus;
+           InitializeComponent();
+            PlayerName = UserName;
+            PlayerStatus = UserStatus;
         }
 
         
@@ -118,7 +118,8 @@ namespace hauntedBuildinggrp3
 
         private void btnPlayNew_Click(object sender, EventArgs e)
         {
-            
+            fmPlayGame fg = new fmPlayGame();
+            fg.Show();
             //StartGameStatus = 0;
             //FloorNo=0;
             //FloorX=0;
@@ -147,6 +148,12 @@ namespace hauntedBuildinggrp3
             //{
             //    this.btnPlaySaved.Enabled = false;
             //}
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            fmShowScores fscore = new fmShowScores(PlayerName);
+            fscore.Show();
         }
     }
 }
