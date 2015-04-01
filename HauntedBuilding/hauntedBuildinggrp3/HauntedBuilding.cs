@@ -78,10 +78,19 @@ namespace Game{
 
             if (wrong_elevator[currfloor].isThereElevator(currX, currY))    //ive yet to work on it
             {
+                //the last and next elevator that is correct in 
+                int lastCorrect = correct_elevator[currfloor].getLast();
+                int nextCorrect = correct_elevator[currfloor].getNext();
+
                 if (up ? wrong_elevator[currfloor].canGoUp() : wrong_elevator[currfloor].canGoDown())
                 {
-                    //obtain the nextfloor in sequence 
-                    newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
+                    //We want to avoid sending a player to a correct floor and thus allowing entrance to a correct elevator 
+                    do
+                    {
+                        //obtain a random floor to go to. 
+                        newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
+                    } while ((newFloor != lastCorrect) && (newFloor != nextCorrect));
+                  
                     newFloor--;
 
                     //save the last floor of where the player was
