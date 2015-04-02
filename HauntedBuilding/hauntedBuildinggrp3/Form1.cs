@@ -25,41 +25,57 @@ namespace hauntedBuildinggrp3
         private String scores;
 
         //N
-        //private int gStatus;
-        //private string gPlayer;
-        //private int gFloorNo;
-        //private int gFloorX;
-        //private int gFloorY;
-        //private int gFirstDgt;
-        //private int gSecDgt;
-        //private int gThirdDgt;
-        //private bool gCaseStatus;
-        //private bool gHaveCase;
-        //private bool gHaveNote;
-        //private bool gHavePhone;
-        //private bool gHaveAudio;
+        private string DffValue;
+        private int Dffint;
+        private int gStatus;
+        private string gPlayer;
+        private int gFloorNo;
+        private int gFloorX;
+        private int gFloorY;
+        private int gFirstDgt;
+        private int gSecDgt;
+        private int gThirdDgt;
+        private bool gCaseStatus;
+        private bool gHaveCase;
+        private bool gHaveNote;
+        private bool gHavePhone;
+        private bool gHaveAudio;
+        private int gDifficulty;
+        private int gTimeRemain;
+        private string gCaseHint;
+        private int gScareMeter;
+        //N
 
-        public fmPlayGame()
+        //N changed fmplayGame()
+        public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio, int sDifficulty, int sTimeRemain, string sCaseHint, int sScareMeter)
         {
             //N
             //public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio )
             //{
             //InitializeComponent();
-            //gStatus = sStatus;
-            //gPlayer = sPlayer;
-            //gFloorNo = sFloorNo;
-            //gFloorX = sFloorX;
-            //gFloorY = sFloorY;
-            //gFirstDgt = sFirstDgtPass;
-            //gSecDgt = sSecDgtPass;
-            //gThirdDgt = sThirdDgtPass;
-            //gCaseStatus = Convert.ToBoolean(sCaseStatus);
-            //gHaveCase = Convert.ToBoolean(sHaveCase);
-            //gHaveNote = Convert.ToBoolean(sHaveNote);
-            //gHavePhone = Convert.ToBoolean(sHavePhone);
-            //gHaveAudio = Convert.ToBoolean(sHaveAudio);
+
             //N
+
             InitializeComponent();
+            //N
+            gStatus = sStatus;
+            gPlayer = sPlayer;
+            gFloorNo = sFloorNo;
+            gFloorX = sFloorX;
+            gFloorY = sFloorY;
+            gFirstDgt = sFirstDgtPass;
+            gSecDgt = sSecDgtPass;
+            gThirdDgt = sThirdDgtPass;
+            gCaseStatus = Convert.ToBoolean(sCaseStatus);
+            gHaveCase = Convert.ToBoolean(sHaveCase);
+            gHaveNote = Convert.ToBoolean(sHaveNote);
+            gHavePhone = Convert.ToBoolean(sHavePhone);
+            gHaveAudio = Convert.ToBoolean(sHaveAudio);
+            gDifficulty = sDifficulty;
+            gTimeRemain = sTimeRemain;
+            gCaseHint = sCaseHint;
+            gScareMeter = sScareMeter;
+            //N
             currentGraphic = new Game.Graphic("");
             enteringCode = false;
             helping = true;
@@ -106,12 +122,7 @@ namespace hauntedBuildinggrp3
             //if user wanted a new game;
             //change "Johnny" to real account username
 
-            //N
-            //if (gStatus==0)
-            //{
-            //    writeGraphic(hb.startGame(new Game.GameState(gPlayer.ToString())));  
-            //}
-            //N
+           
 
 
             //difficulty as int 0 = easy, 1 = medium, 2 = hard
@@ -120,8 +131,15 @@ namespace hauntedBuildinggrp3
             else if (difficultyBox.Text == "Medium") difficulty = 1;
             else difficulty = 2;
 
-            writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny")));
-           
+            //writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny")));
+
+            //N
+            if (gStatus == 0)
+            {
+                
+                writeGraphic(hb.startGame(new Game.GameState(difficulty,gPlayer.ToString())));
+            }
+            //N
 
             //else
             //get SQL data for user name store as variables in GameState object
@@ -135,19 +153,26 @@ namespace hauntedBuildinggrp3
                 writeGraphic(hb.startGame(gs));
              */
 
-            //N
-            //if (gStatus==1)
-            //{
-            //  bool[] have = new bool[Constants.NUM_ITEMS];
-            //  have[(int)iName.NOTE] = ghaveNote;
-            //  have[(int)iName.PHONE] = ghavePhone;
-            //  have[(int)iName.AUDIO] = ghaveAudio;
-            //  have[(int)iName.SECRETCASE] = ghaveCase;
 
-            //    Game.GameState gs = new Game.GameState(gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
-            //                                          new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have);
-            //    writeGraphic(hb.startGame(gs));
-            //}
+            
+
+            
+
+            //N
+            if (gStatus == 1)
+            {
+                bool[] have = new bool[Game.Constants.NUM_ITEMS];
+                have[(int)Game.iName.NOTE] = gHaveNote;
+                //have[(int)iName.NOTE] = ghaveNote;
+                have[(int)Game.iName.PHONE] = gHavePhone;
+                have[(int)Game.iName.AUDIO] = gHaveAudio;
+                have[(int)Game.iName.SECRETCASE] = gHaveCase;
+
+
+                Game.GameState gs = new Game.GameState(difficulty,gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
+                                                      new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have);
+                writeGraphic(hb.startGame(gs));
+            }
             //N
 
             pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
@@ -235,6 +260,7 @@ namespace hauntedBuildinggrp3
         //When form loads
         private void Form1_Load(object sender, EventArgs e)
         {
+            label3.Text = DateTime.Now.Date.Month.ToString()+"/"+DateTime.Now.Date.Day.ToString()+"/"+DateTime.Now.Date.Year.ToString();
             lbTimer.Visible = false;
             textBox2.Text = hb.getTitle() + System.Environment.NewLine +
                                 "Press start to begin.";
@@ -316,71 +342,88 @@ namespace hauntedBuildinggrp3
 //N
             //if (state == 1)
             //{
-            //    Game.GameState gs = hb.currentState();
+                Game.GameState gs = hb.currentState();
 
-            //    string UserName = gs.playerName;
-            //    int FloorNo = gs.floorNumber;
-            //    int FloorX = gs.coord.x;
-            //    int FloorY = gs.coord.y;
-            //    int FirstDgtPass = gs.pc.a;
-            //    int SecondDgtPass = gs.pc.b;
-            //    int ThirdDgtPass = gs.pc.c;
-            //    bool CaseStatus = gs.caseLocked;
-            //    bool HaveCase = gs.haveCase;       //bool HaveSecCase=gs.have[3];
-            //    bool HaveNote = gs.haveNote;    
-            //    bool HavePhone = gs.havePhone;
-            //    bool HaveAudio = gs.haveAudio;
+                string UserName = gs.playerName;
+                int FloorNo = gs.floorNumber;
+                int FloorX = gs.coord.x;
+                int FloorY = gs.coord.y;
+                //int FirstDgtPass = gs.pc.a;
+                int FirstDgtPass = gs.pc.code[0];
+                int SecondDgtPass = gs.pc.code[1];
+                int ThirdDgtPass = gs.pc.code[2];
+                bool CaseStatus = gs.caseLocked;
+                bool HaveCase = gs.have[(int)Game.iName.SECRETCASE];       //bool HaveSecCase=gs.have[3];
+                bool HaveNote = gs.have[(int)Game.iName.NOTE];    
+                bool HavePhone = gs.have[(int)Game.iName.PHONE];
+                bool HaveAudio = gs.have[(int)Game.iName.AUDIO];
+                
+                int Difficulty=Dffint;
+                
+                int TimeRemain=hour*3600+min*60+sec;
+                string CaseHint="";
+                int ScareMeter=2;
+                //bool HaveAudio = gs.haveAudio;
                 
 
-            //    SqlConnection Cnn = new SqlConnection();
-            //    Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
-            //    SqlCommand oCmd = new SqlCommand();
-            //    //SqlDataReader DR= oCmd.ExecuteReader();
-            //    //oCmd.Connection.ConnectionString="Data Source=WIN-PC; Initial Ctalog=HauntedBuilding; Integrated Security=True"; //oConn is a Module which create a connection to sql
-            //    oCmd.Connection = Cnn;
-            //    oCmd.CommandTimeout = 0;
-            //    oCmd.CommandType = CommandType.StoredProcedure;
-            //    oCmd.CommandText = "spSaveGame";
-            //    oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
-            //    oCmd.Parameters.Add("@FloorNo", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@FloorX", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@FloorY", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@FirstDgtPass", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@SecDgtPass", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@ThirdDgtPass", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@CaseStatus", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@HaveCase", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@Note", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@Phone", SqlDbType.Int);
-            //    oCmd.Parameters.Add("@Audio", SqlDbType.Int);
-
-            //    oCmd.Parameters["@UserName"].Value = UserName;
-            //    oCmd.Parameters["@FloorNo"].Value = FloorNo;
-            //    oCmd.Parameters["@FloorX"].Value = FloorX;
-            //    oCmd.Parameters["@FloorY"].Value = FloorY;
-            //    oCmd.Parameters["@FirstDgtPass"].Value = FirstDgtPass;
-            //    oCmd.Parameters["@SecDgtPass"].Value = SecondDgtPass;
-            //    oCmd.Parameters["@ThirdDgtPass"].Value = ThirdDgtPass;
-            //    oCmd.Parameters["@CaseStatus"].Value = CaseStatus;
-            //    oCmd.Parameters["@HaveCase"].Value = HaveCase;
-            //    oCmd.Parameters["@Note"].Value = HaveNote;
-            //    oCmd.Parameters["@Phone"].Value = HavePhone;
-            //    oCmd.Parameters["@Audio"].Value = HaveAudio;
+                SqlConnection Cnn = new SqlConnection();
+                Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+                SqlCommand oCmd = new SqlCommand();
+                //SqlDataReader DR= oCmd.ExecuteReader();
+                //oCmd.Connection.ConnectionString="Data Source=WIN-PC; Initial Ctalog=HauntedBuilding; Integrated Security=True"; //oConn is a Module which create a connection to sql
+                oCmd.Connection = Cnn;
+                oCmd.CommandTimeout = 0;
+                oCmd.CommandType = CommandType.StoredProcedure;
+                oCmd.CommandText = "spSaveGame";
+                oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@FloorNo", SqlDbType.Int);
+                oCmd.Parameters.Add("@FloorX", SqlDbType.Int);
+                oCmd.Parameters.Add("@FloorY", SqlDbType.Int);
+                oCmd.Parameters.Add("@FirstDgtPass", SqlDbType.Int);
+                oCmd.Parameters.Add("@SecDgtPass", SqlDbType.Int);
+                oCmd.Parameters.Add("@ThirdDgtPass", SqlDbType.Int);
+                oCmd.Parameters.Add("@CaseStatus", SqlDbType.Int);
+                oCmd.Parameters.Add("@HaveCase", SqlDbType.Int);
+                oCmd.Parameters.Add("@Note", SqlDbType.Int);
+                oCmd.Parameters.Add("@Phone", SqlDbType.Int);
+                oCmd.Parameters.Add("@Audio", SqlDbType.Int);
+                oCmd.Parameters.Add("@Difficulty", SqlDbType.Int);
+                oCmd.Parameters.Add("@TimeRemain", SqlDbType.Int);
+                oCmd.Parameters.Add("@CaseHint", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@ScareMeter", SqlDbType.Int);
 
 
-            //    try
-            //    {
-            //        Cnn.Open();
-            //        oCmd.ExecuteNonQuery();
+                oCmd.Parameters["@UserName"].Value = UserName;
+                oCmd.Parameters["@FloorNo"].Value = FloorNo;
+                oCmd.Parameters["@FloorX"].Value = FloorX;
+                oCmd.Parameters["@FloorY"].Value = FloorY;
+                oCmd.Parameters["@FirstDgtPass"].Value = FirstDgtPass;
+                oCmd.Parameters["@SecDgtPass"].Value = SecondDgtPass;
+                oCmd.Parameters["@ThirdDgtPass"].Value = ThirdDgtPass;
+                oCmd.Parameters["@CaseStatus"].Value = CaseStatus;
+                oCmd.Parameters["@HaveCase"].Value = HaveCase;
+                oCmd.Parameters["@Note"].Value = HaveNote;
+                oCmd.Parameters["@Phone"].Value = HavePhone;
+                oCmd.Parameters["@Audio"].Value = HaveAudio;
+                oCmd.Parameters["@Difficulty"].Value = Difficulty;
+                oCmd.Parameters["@TimeRemain"].Value = TimeRemain;
+                oCmd.Parameters["@CaseHint"].Value = CaseHint;
+                oCmd.Parameters["@ScareMeter"].Value = ScareMeter;
+
+
+                try
+                {
+                    Cnn.Open();
+                    oCmd.ExecuteNonQuery();
                     
-            //    }
-            //    catch (SqlException ex)
-            //    {
+                }
+                catch (SqlException ex)
+                {
 
-            //        MessageBox.Show(ex.Message);
-            //    }
+                    MessageBox.Show(ex.Message);
+                }
             //}
-            //this.Close();
+            this.Close();
             //N
         }
 
@@ -482,6 +525,42 @@ namespace hauntedBuildinggrp3
             if (currentGraphic.ExtraFlag == 1)
             {
                 endGame("Congraluations you win!", true);
+                //N
+                SqlConnection Cnn = new SqlConnection();
+                Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+                SqlCommand oCmd = new SqlCommand();
+
+                oCmd.Connection = Cnn;
+                oCmd.CommandTimeout = 0;
+                oCmd.CommandType = CommandType.StoredProcedure;
+                oCmd.CommandText = "spSaveScore";
+                oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@Difficulty", SqlDbType.Int);
+                oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
+                oCmd.Parameters.Add("@Score", SqlDbType.Int);
+                oCmd.Parameters["@UserName"].Value = gPlayer;
+                oCmd.Parameters["@DatePlayed"].Value = label1.Text;
+                oCmd.Parameters["@Difficulty"].Value = Dffint;
+                oCmd.Parameters["@TimePlayed"].Value = 3600*hour+60*min+sec;
+                oCmd.Parameters["@Score"].Value = "100"+ Convert.ToString(3600 * hour + 60 * min + sec);
+
+
+                try
+                {
+                    Cnn.Open();
+                    oCmd.ExecuteNonQuery();
+                    this.Close();
+
+
+                }
+                catch (SqlException ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                    
+                }
+           //N
             }
         }
 
@@ -568,6 +647,30 @@ namespace hauntedBuildinggrp3
         private void labelFloor_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void difficultyBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            DffValue = difficultyBox.SelectedItem.ToString();
+            switch (DffValue)
+            {
+                case "easy":
+                    {
+                        Dffint = 0;
+                        break;
+                    }
+                case "medium":
+                    {
+                        Dffint = 1;
+                        break;
+                    }
+                case "hard":
+                    {
+                        Dffint = 2;
+                        break;
+                    }
+
+            }
         }
     }
  

@@ -12,6 +12,7 @@ namespace hauntedBuildinggrp3
 {
     public partial class fmStartGame : Form
     {
+        // string test;
         public fmStartGame()
         {
             InitializeComponent();
@@ -50,5 +51,18 @@ namespace hauntedBuildinggrp3
         {
             this.Close();
         }
+
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    MessageBox.Show(test);
+        //}
+
+        
+
+        //private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        //{
+        //     //test = comboBox1.SelectedItem.ToString();
+             
+        //}
     }
 }
