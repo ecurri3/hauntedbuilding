@@ -251,10 +251,11 @@ namespace Game
         public bool caseLocked; //is the case locked? IF they don't have it, its a yes
         public bool[] have;
         public int difficulty;
+        public String caseHint;
 
         public GameState(int difficulty, String playerName, int floorNumber,
                          PassCode pc, Coordinate coord, bool caseLocked,
-                         bool[] have)
+                         bool[] have, String caseHint)
         {
             this.playerName = playerName;
             this.difficulty = difficulty;
@@ -262,6 +263,7 @@ namespace Game
             this.pc = pc;
             this.coord = coord;
             this.caseLocked = caseLocked;
+            this.caseHint = caseHint;
 
             this.have = new bool[Constants.NUM_ITEMS];
             

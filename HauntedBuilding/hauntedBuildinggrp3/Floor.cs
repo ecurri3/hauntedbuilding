@@ -44,10 +44,13 @@ namespace Game
         private PassCode doorPC = null; //be default only first floor has a doorPC
         private Coordinate[] elevators;
         private ArrayList coordinates; //has coordinates for all items/elevators
+        private String caseHint;
 
         private delegate void Arch(Floor f, bool[,] taken);
         //array of "pointers" to functions. Used to build walls
         static private Arch[] architect = new Arch[] {architect1, architect2};
+
+        public String getCaseHint() { return caseHint; }
 
 
         //prototype for making floors complex with rooms
@@ -212,9 +215,10 @@ namespace Game
                     if (i == (int)iName.SECRETCASE)
                     {
                         if (number != 1)
-                            floor[x, y].Obj = new Case(Constants.ITEMS[i],
-                                                        "Check at position (" + this.elevators[0].x + "," + this.elevators[0].y + ")",
-                                                        this.pc, true);
+                        {
+                            this.caseHint = "Check at position (" + this.elevators[0].x + "," + this.elevators[0].y + ")";
+                            floor[x, y].Obj = new Case(Constants.ITEMS[i], this.caseHint, this.pc, true);
+                        }
                         else //The case has a hint on how to unlock the door on the first floor
                             floor[x, y].Obj = new Case(Constants.ITEMS[i],
                                                         "Your way out is " + this.doorPC.code[0] + ", " + this.doorPC.code[1] + ", " + this.doorPC.code[2],

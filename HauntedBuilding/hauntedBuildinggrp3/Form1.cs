@@ -112,32 +112,30 @@ namespace hauntedBuildinggrp3
         //Start button click
         private void button1_Click(object sender, EventArgs e)
         {
-            gameScreen.Hide();
+            gameScreen.Hide(); //The .gif images
             lbTimer.Visible = true;
-            resetTime(); //Sets hour,min,sec to default
-            lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
-            timer1.Start();
+
             gameStarted = true;
             //sql
             //if user wanted a new game;
             //change "Johnny" to real account username
-
-           
-
-
-            //difficulty as int 0 = easy, 1 = medium, 2 = hard
-            int difficulty;
-            if (difficultyBox.Text == "Easy") difficulty = 0;
-            else if (difficultyBox.Text == "Medium") difficulty = 1;
-            else difficulty = 2;
-
+            
             //writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny")));
 
             //N
             if (gStatus == 0)
             {
-                
+                //difficulty as int 0 = easy, 1 = medium, 2 = hard
+                int difficulty;
+                if (difficultyBox.Text == "Easy") difficulty = 0;
+                else if (difficultyBox.Text == "Medium") difficulty = 1;
+                else difficulty = 2;
+
+                resetTime(); //Sets hour,min,sec to default
+                progressBar1.Increment(-20);
                 writeGraphic(hb.startGame(new Game.GameState(difficulty,gPlayer.ToString())));
+
+                
             }
             //N
 
@@ -161,6 +159,12 @@ namespace hauntedBuildinggrp3
             //N
             if (gStatus == 1)
             {
+                sec = gTimeRemain % 60;
+                min = gTimeRemain / 60;
+                hour = min / 60;
+                min %= 60;
+                progressBar1.Value = gScareMeter;
+
                 bool[] have = new bool[Game.Constants.NUM_ITEMS];
                 have[(int)Game.iName.NOTE] = gHaveNote;
                 //have[(int)iName.NOTE] = ghaveNote;
@@ -169,16 +173,20 @@ namespace hauntedBuildinggrp3
                 have[(int)Game.iName.SECRETCASE] = gHaveCase;
 
 
-                Game.GameState gs = new Game.GameState(difficulty,gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
-                                                      new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have);
+                Game.GameState gs = new Game.GameState(gDifficulty,gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
+                                                      new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have, gCaseHint);
                 writeGraphic(hb.startGame(gs));
+
+
+                
             }
             //N
 
+            lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
+            timer1.Start();
             pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
             pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
-
-            progressBar1.Increment(-20);
+            
         }
 
         //Helper function for ending games.
@@ -357,12 +365,13 @@ namespace hauntedBuildinggrp3
                 bool HaveNote = gs.have[(int)Game.iName.NOTE];    
                 bool HavePhone = gs.have[(int)Game.iName.PHONE];
                 bool HaveAudio = gs.have[(int)Game.iName.AUDIO];
+
+                String CaseHint = gs.caseHint;
                 
-                int Difficulty=Dffint;
+                int Difficulty=gs.difficulty;
                 
                 int TimeRemain=hour*3600+min*60+sec;
-                string CaseHint="";
-                int ScareMeter=2;
+                int ScareMeter=progressBar1.Value;
                 //bool HaveAudio = gs.haveAudio;
                 
 

@@ -391,7 +391,7 @@ namespace Game{
                 if (gs.have[i])
                 {
                     if (i == (int)iName.SECRETCASE)
-                        items.Add(new Case(Constants.ITEMS[i], "Got to elevator X", gs.pc, gs.caseLocked)); //get real hint form DB
+                        items.Add(new Case(Constants.ITEMS[i], gs.caseHint, gs.pc, gs.caseLocked)); //get real hint form DB
                     else
                         items.Add(new Record(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + gs.pc.code[i]));
                 }
@@ -432,7 +432,7 @@ namespace Game{
         {
             return condition.tryUnlock(what, digit1, digit2, digit3);
         }
-        
+
 
         public Graphic getHelp()
         {
@@ -445,10 +445,10 @@ namespace Game{
             String flashlight = "F to shine your flashlight" + System.Environment.NewLine;
             String code = "Enter 3 digits in the textboxes and select which device you plan to break." + System.Environment.NewLine;
             String backTogame = "Click 'Help' to go back to game screen" + System.Environment.NewLine;
-            
-            return new Graphic(howto + move + enter + elevator + pickup + invt + flashlight + code + backTogame);
-        } 
 
+            return new Graphic(howto + move + enter + elevator + pickup + invt + flashlight + code + backTogame);
+        }
+  
         //returns the current State
         public GameState currentState()
         {
@@ -461,7 +461,7 @@ namespace Game{
             return new GameState(difficulty, player.Name, player.Floor.Number, 
                                  player.Floor.getPassCode(), player.Coord,
                                  player.lockedCase(),
-                                 have);
+                                 have, player.Floor.getCaseHint());
         }
 
     }
