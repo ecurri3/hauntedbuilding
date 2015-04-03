@@ -305,6 +305,55 @@ namespace Game{
             }
         }
 
+        //Code to generate a random sequence
+
+        /**
+                 * Generates a string representation of the sequence of
+                 * elevators needed to be taken in order to get to the 
+                 * first floor
+                 * 
+                 * the general format of this int[] array is
+                 * 
+                 * {1, #, #, #, .... , NUM_FLOORS}
+                 * 
+                 * @returns 
+                 * int[] correct_seq;
+                 * 
+                 * */
+        int[] generateRandomSequence(int numFloors)
+        {
+            int[] seq = new int[numFloors];
+
+            bool[] checks = new bool[numFloors];
+            for (int i = 0; i < numFloors; i++)
+            {
+                bool[i] = false;
+            }
+
+            //the first and last have to be 1 and numFloors respectively
+            seq[0] = 1;
+            bool[0] = true;
+
+            seq[numFloors-1] = numFloors;
+            bool[numFloors-1] = true;
+
+            for (int i = 1; i < (numFloors-1); i++)
+            {
+                int randNum;
+                do
+                {
+                    randNum = Constants.randGen.Next(1, Constants.NUM_FLOORS);
+
+                }while(bool[randNum-1] != true);
+
+                bool[randNum-1] = true;
+                seq[i] = randNum;
+            }
+
+            //seq =  new int[]{ 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
+            return seq;
+        }
+
         private void setupElevators()
         {
             correct_elevator = new CorrectElevator[Constants.NUM_FLOORS];
@@ -313,6 +362,8 @@ namespace Game{
             // Generate Elevator sequence
             //generate a random sequence of correct elevators
             int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
+            //int[] correct_seq = generateRandomSequence(Constants.NUM_FLOORS);
+
             int numFloors = Constants.NUM_FLOORS;
             int x1, y1, x2, y2;
 
