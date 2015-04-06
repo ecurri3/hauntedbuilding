@@ -88,8 +88,8 @@ namespace Game{
                     do
                     {
                         //obtain a random floor to go to. 
-                        newFloor = up ? wrong_elevator[currfloor].go_up() : correct_elevator[currfloor].go_down();
-                    } while ((newFloor != lastCorrect) && (newFloor != nextCorrect));
+                        newFloor = up ? wrong_elevator[currfloor].go_up() : wrong_elevator[currfloor].go_down();
+                    } while ((newFloor == lastCorrect) || (newFloor == nextCorrect));
                   
                     newFloor--;
 
@@ -346,7 +346,7 @@ namespace Game{
                 do
                 {
                     //second number in Next() is exclusive so we want [1,NUM_FLOORS+1)
-                    randNum = Constants.randGen.Next(1, Constants.NUM_FLOORS+1);
+                    randNum = Constants.randGen.Next(2, Constants.NUM_FLOORS+1);
 
                 }while(checks[randNum-1]);
 

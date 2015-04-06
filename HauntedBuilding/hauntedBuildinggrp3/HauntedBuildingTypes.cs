@@ -505,7 +505,7 @@ namespace Game
 
         public override int go_up()
         {
-            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS);
+            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS+1);
             return randAbove;
         }
 
