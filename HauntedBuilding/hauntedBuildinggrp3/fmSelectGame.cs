@@ -115,7 +115,8 @@ namespace hauntedBuildinggrp3
                 CaseHint = Convert.ToString(oCmd.Parameters["@CaseHint"].Value);
                 ScareMeter = Convert.ToInt16(oCmd.Parameters["@ScareMeter"].Value);
 
-                fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+                //fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+                fmPlayGame fPG = new fmPlayGame();
                 this.Hide();
                 fPG.ShowDialog();
                 this.Close();
@@ -149,7 +150,8 @@ namespace hauntedBuildinggrp3
             HaveAudio = 0;
 
 
-            fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+            //fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+            fmPlayGame fPG = new fmPlayGame();
             this.Hide();
             fPG.ShowDialog();
             this.Close();

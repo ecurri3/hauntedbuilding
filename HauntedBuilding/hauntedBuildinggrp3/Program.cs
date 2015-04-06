@@ -16,7 +16,7 @@ namespace hauntedBuildinggrp3
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fmStartGame());
+            Application.Run(new fmPlayGame());
         }
     }
 }

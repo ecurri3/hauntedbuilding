@@ -291,14 +291,17 @@ namespace Game{
             switch (difficulty)
             {
                 case 0: //easy
+                    Constants.NUM_FLOORS = 10;
                     Constants.FLOOR_LENGTH = 10;
                     Constants.FLOOR_WIDTH = 10;
                     break;
                 case 1: //medium
+                    Constants.NUM_FLOORS = 15;
                     Constants.FLOOR_LENGTH = 15;
                     Constants.FLOOR_WIDTH = 15;
                     break;
                 case 2: //hard
+                    Constants.NUM_FLOORS = 20;
                     Constants.FLOOR_LENGTH = 20;
                     Constants.FLOOR_WIDTH = 20;
                     break;
@@ -327,26 +330,27 @@ namespace Game{
             bool[] checks = new bool[numFloors];
             for (int i = 0; i < numFloors; i++)
             {
-                bool[i] = false;
+                checks[i] = false;
             }
 
             //the first and last have to be 1 and numFloors respectively
             seq[0] = 1;
-            bool[0] = true;
+            checks[0] = true;
 
             seq[numFloors-1] = numFloors;
-            bool[numFloors-1] = true;
+            checks[numFloors-1] = true;
 
             for (int i = 1; i < (numFloors-1); i++)
             {
                 int randNum;
                 do
                 {
-                    randNum = Constants.randGen.Next(1, Constants.NUM_FLOORS);
+                    //second number in Next() is exclusive so we want [1,NUM_FLOORS+1)
+                    randNum = Constants.randGen.Next(1, Constants.NUM_FLOORS+1);
 
-                }while(bool[randNum-1] != true);
+                }while(checks[randNum-1]);
 
-                bool[randNum-1] = true;
+                checks[randNum-1] = true;
                 seq[i] = randNum;
             }
 
@@ -361,8 +365,8 @@ namespace Game{
 
             // Generate Elevator sequence
             //generate a random sequence of correct elevators
-            int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
-            //int[] correct_seq = generateRandomSequence(Constants.NUM_FLOORS);
+            //int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
+            int[] correct_seq = generateRandomSequence(Constants.NUM_FLOORS);
 
             int numFloors = Constants.NUM_FLOORS;
             int x1, y1, x2, y2;
@@ -414,24 +418,25 @@ namespace Game{
         {
             floors = new Floor[Constants.NUM_FLOORS]; //Creating 10 foors
 
-            /* may be needed later
-            bool[,] taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+            Constants.taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
 
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                    taken[i, j] = false;
-             */
-
-            Coordinate[] elevators = new Coordinate[Constants.NUM_ELEVATORS];
+            Coordinate[] elevCoord = new Coordinate[Constants.NUM_ELEVATORS];
             for (int i = 0; i < Constants.NUM_FLOORS; i++)
             {
-                elevators[0] = correct_elevator[i].getCoord();
-                elevators[1] = wrong_elevator[i].getCoord();
+                //Get the elevator coordinates, pass them to Floor constructor
+                for (int j = 0; j < Constants.NUM_ELEVATORS; j++)
+                {
+                    if(j == 0) //Stored at index 0, the correct elevator
+                        elevCoord[j] = correct_elevator[i].getCoord();
+                    else
+                        elevCoord[j] = wrong_elevator[i].getCoord();
+                }
+                    
 
                 if (gs.floorNumber == i + 1) //Only restore settings of one floor
-                    floors[i] = new Floor(i + 1, gs.pc, gs.have, elevators);
+                    floors[i] = new Floor(i + 1, gs.pc, gs.have, elevCoord);
                 else
-                    floors[i] = new Floor(i + 1, null, null, elevators);
+                    floors[i] = new Floor(i + 1, null, null, elevCoord);
             }
         }
 

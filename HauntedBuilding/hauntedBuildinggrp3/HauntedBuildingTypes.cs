@@ -15,14 +15,20 @@ namespace Game
     static class Constants
     {
 
-        static public int FLOOR_LENGTH = 10; //X
-        static public int FLOOR_WIDTH = 10; //Y
+        //Change with difficulty
+        static public int FLOOR_LENGTH; //X
+        static public int FLOOR_WIDTH; //Y
+        static public int NUM_FLOORS = 10; 
+
+        //Builder helpers
+        static public Random randGen = new Random();
+        static public bool[,] taken;
+
+        //Other
         public const int NUM_ELEVATORS = 2; //Per Floor
-        public const int NUM_FLOORS = 10; 
         public const int NUM_ITEMS = 5;
         public const int CODE_LENGTH = 3;
         static public String[] ITEMS = new String[] { "Note", "Phone", "Audio", "Secret Case", "Monster" };
-        static public Random randGen = new Random();
         static public int nextObjID = 1; //Used by floor to give each tile object a unique ID, helpful for reference
         static public int[,] hourglassTypes = new int[,] { { 5, 10 , 20}, {5, 3, 1} }; //hourglass timer bonus times and upper limit amount per floor
     }
@@ -275,7 +281,18 @@ namespace Game
         {
             this.playerName = playerName;
             this.difficulty = difficulty;
-            floorNumber = Constants.NUM_FLOORS;
+            switch (difficulty)
+            {
+                case 0: //easy
+                    floorNumber = 10;
+                    break;
+                case 1: //medium
+                    floorNumber = 15;
+                    break;
+                case 2: //hard
+                    floorNumber = 20;
+                    break;
+            }
             pc = null;
             coord = new Coordinate(0, 0);
             caseLocked = true;

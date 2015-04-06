@@ -48,100 +48,179 @@ namespace Game
 
         private delegate void Arch(Floor f, bool[,] taken);
         //array of "pointers" to functions. Used to build walls
-        static private Arch[] architect = new Arch[] {architect1, architect2};
+        static private Arch[] architect = 
+                                          {
+                                          architect1, 
+                                          architect2, 
+                                          architect3
+                                          };
 
-        public String getCaseHint() { return caseHint; }
 
+        /*
+         * Gives each place in the Floor a Tile class
+         * 
+         * See Tile for more information
+         */
+        public Floor(int number, PassCode pc, bool[] have, Coordinate[] elevators)
+        {
+            this.number = number;
+            this.elevators = new Coordinate[Constants.NUM_ELEVATORS];
+            this.coordinates = new ArrayList();
+
+            //Prevent certain items from overlapping on the same tile
+
+            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                {
+                    floor[i, j] = new Tile();
+                    Constants.taken[i, j] = false;
+                }
+
+            for (int i = 0; i < Constants.NUM_ELEVATORS; i++)
+            {
+                Constants.taken[elevators[i].x, elevators[i].y] = true;
+            }
+
+            //Call a random architect function
+            int x = Constants.randGen.Next(0, architect.GetUpperBound(0) + 1);
+            architect[x](this, Constants.taken);
+
+            if (number == 1) firstFloorSetup(Constants.taken);
+
+            storeElevatorCoords(Constants.taken, elevators);
+            setUpPassCode(pc);
+
+            putItems(Constants.taken, have);
+            putHourglasses(Constants.taken);
+        }
+
+
+        //helper for architect
+        private static bool markTaken(bool[,] taken, Coordinate[] list)
+        {
+            for (int i = 0; i < list.GetUpperBound(0)+1; i++)
+            {
+                if (taken[list[i].x, list[i].y]) return false; //failed already taken
+
+                taken[list[i].x, list[i].y] = true;
+            }
+
+            return true;
+        }
+
+        //helper for architect
+        private static void buildWalls(Floor f, Coordinate[] place)
+        {
+            Tile[,] floor = f.floor;
+            ArrayList coordinates = f.coordinates;
+
+            for (int i = 0; i < place.GetUpperBound(0) + 1; i++)
+            {
+                int x = place[i].x;
+                int y = place[i].y;
+                floor[x, y].Obj = new Wall();
+                coordinates.Add(new NamedCoord("Wall", new Coordinate(x,y), 0));
+            }
+        }
 
         //prototype for making floors complex with rooms
         //NOTE: Buggy, elevators are placed where there are walls
         //TODO find a better way to create this
         private static void architect1(Floor f, bool[,] taken)
         {
-            Tile[,] floor = f.floor;
-            ArrayList coordinates = f.coordinates;
-
             //too small to design on that floor
             if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
 
-            //int fl = Constants.FLOOR_LENGTH;
-            //int fw = Constants.FLOOR_WIDTH;
 
-            taken[0, 3] = true;
+            Coordinate[] takenList = 
+            {
+                new Coordinate(0,3),
+                new Coordinate(1,3),
+                new Coordinate(1,2),
+                new Coordinate(1,4),
+                new Coordinate(2,3),
+                new Coordinate(3,3),
+                new Coordinate(3,2),
+                new Coordinate(3,1),
+                new Coordinate(3,0),
+            };
 
-            //Avoids entrance being blocked
-            taken[1, 3] = true;
-            taken[1, 2] = true;
-            taken[1, 4] = true;
+            //Check to see if elevator is on building coordinate
+            //If so, we can't build
+            if(!markTaken(taken, takenList)) return;
 
-            taken[2, 3] = true;
-            taken[3, 3] = true;
-            taken[3, 2] = true;
-            taken[3, 1] = true;
-            taken[3, 0] = true;
-
-            //Add wall objects
-            floor[0, 3].Obj = new Wall();
-
-            floor[2, 3].Obj = new Wall();
-            floor[3, 3].Obj = new Wall();
-            floor[3, 2].Obj = new Wall();
-            floor[3, 1].Obj = new Wall();
-            floor[3, 0].Obj = new Wall();
+            Coordinate[] wallList = 
+            {
+                new Coordinate(0,3),
+                new Coordinate(2,3),
+                new Coordinate(3,3),
+                new Coordinate(3,2),
+                new Coordinate(3,1),
+                new Coordinate(3,0)
+            };
 
 
-            //add to floor coordinates list, useful for displaying to graphic
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(0,3), 0));
-            
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(2, 3), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 3), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 2), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 1), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, 0), 0));
+            buildWalls(f, wallList);
         }
 
         private static void architect2(Floor f, bool[,] taken)
         {
-            Tile[,] floor = f.floor;
-            ArrayList coordinates = f.coordinates;
 
             //too small to design on that floor
             if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
 
-            //int fl = Constants.FLOOR_LENGTH - 1; //floor length index based
             int fw = Constants.FLOOR_WIDTH - 1; //floor width index based
 
-            taken[0, fw - 3] = true;
+            Coordinate[] takenList = 
+            {
+                new Coordinate(0,fw - 3),
+                new Coordinate(1,fw - 3),
+                new Coordinate(1,fw - 2),
+                new Coordinate(1,fw - 4),
+                new Coordinate(2,fw - 3),
+                new Coordinate(3,fw - 3),
+                new Coordinate(3,fw - 2),
+                new Coordinate(3,fw - 1),
+                new Coordinate(3,fw - 0),
+            };
 
-            //Avoids entrance being blocked
-            taken[1, fw - 3] = true;
-            taken[1, fw - 2] = true;
-            taken[1, fw - 4] = true;
+            if(!markTaken(taken, takenList)) return;
 
-            taken[2, fw - 3] = true;
-            taken[3, fw - 3] = true;
-            taken[3, fw - 2] = true;
-            taken[3, fw - 1] = true;
-            taken[3, fw - 0] = true;
-
-            //Add wall objects
-            floor[0, fw - 3].Obj = new Wall();
-
-            floor[2, fw - 3].Obj = new Wall();
-            floor[3, fw - 3].Obj = new Wall();
-            floor[3, fw - 2].Obj = new Wall();
-            floor[3, fw - 1].Obj = new Wall();
-            floor[3, fw - 0].Obj = new Wall();
+            Coordinate[] wallList = 
+            {
+                new Coordinate(0,fw - 3),
+                new Coordinate(2,fw - 3),
+                new Coordinate(3,fw - 3),
+                new Coordinate(3,fw - 2),
+                new Coordinate(3,fw - 1),
+                new Coordinate(3,fw - 0)
+            };
 
 
-            //add to floor coordinates list, useful for displaying to graphic
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(0, fw-3), 0));
+            buildWalls(f, wallList);
+        }
 
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(2, fw-3), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-3), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-2), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-1), 0));
-            coordinates.Add(new NamedCoord("Wall", new Coordinate(3, fw-0), 0));
+        private static void architect3(Floor f, bool[,] taken)
+        {
+            architect1(f, taken);
+            architect2(f, taken);
+
+            int mid = Constants.FLOOR_WIDTH / 2;
+            int end = Constants.FLOOR_LENGTH-1; //other end
+
+
+            //Build a simple wall
+            Coordinate[] takenList =
+            {
+                new Coordinate(end, mid),
+                new Coordinate(end-1, mid),
+                new Coordinate(end-2, mid),
+                new Coordinate(end-3, mid)
+            };
+
+            if(!markTaken(taken, takenList)) return;
+
+            buildWalls(f, takenList);
         }
 
         private void firstFloorSetup(bool[,] taken)
@@ -265,36 +344,6 @@ namespace Game
             }
 
         }
-        /*
-         * Gives each place in the Floor a Tile class
-         * 
-         * See Tile for more information
-         */
-        public Floor(int number, PassCode pc, bool[] have, Coordinate[] elevators)
-        {
-            this.number = number;
-            this.elevators = new Coordinate[Constants.NUM_ELEVATORS];
-            this.coordinates = new ArrayList();
-
-            //Prevent certain items from overlapping on the same tile
-            bool[,] taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
-
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
-                {
-                    floor[i, j] = new Tile();
-                    taken[i, j] = false;
-                }
-
-            //Call a random architect function
-            int x = Constants.randGen.Next(0,architect.GetUpperBound(0) + 1);
-            architect[x](this, taken);
-            if (number == 1) firstFloorSetup(taken);
-            storeElevatorCoords(taken, elevators);
-            setUpPassCode(pc);
-            putItems(taken, have);
-            putHourglasses(taken);
-        }
 
         //Picks up item at a given tile and removes the item from that tile
         public Item pickupItem(Coordinate c)
@@ -338,6 +387,8 @@ namespace Game
 
         //returns passcode
         public PassCode getPassCode() { return pc; }
+
+        public String getCaseHint() { return caseHint; }
 
         //Helper to get random elevator coord
         public Coordinate randElevatorCoord()

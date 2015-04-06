@@ -25,29 +25,30 @@ namespace hauntedBuildinggrp3
         private String scores;
 
         //N
-        private string DffValue;
-        private int Dffint;
-        private int gStatus;
-        private string gPlayer;
-        private int gFloorNo;
-        private int gFloorX;
-        private int gFloorY;
-        private int gFirstDgt;
-        private int gSecDgt;
-        private int gThirdDgt;
-        private bool gCaseStatus;
-        private bool gHaveCase;
-        private bool gHaveNote;
-        private bool gHavePhone;
-        private bool gHaveAudio;
-        private int gDifficulty;
-        private int gTimeRemain;
-        private string gCaseHint;
-        private int gScareMeter;
+        //private string DffValue;
+        //private int Dffint;
+        //private int gStatus;
+        //private string gPlayer;
+        //private int gFloorNo;
+        //private int gFloorX;
+        //private int gFloorY;
+        //private int gFirstDgt;
+        //private int gSecDgt;
+        //private int gThirdDgt;
+        //private bool gCaseStatus;
+        //private bool gHaveCase;
+        //private bool gHaveNote;
+        //private bool gHavePhone;
+        //private bool gHaveAudio;
+        //private int gDifficulty;
+        //private int gTimeRemain;
+        //private string gCaseHint;
+        //private int gScareMeter;
         //N
 
-        //N changed fmplayGame()
-        public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio, int sDifficulty, int sTimeRemain, string sCaseHint, int sScareMeter)
+        //N changed 
+        public fmPlayGame()
+        //public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio, int sDifficulty, int sTimeRemain, string sCaseHint, int sScareMeter)
         {
             //N
             //public fmPlayGame(int sStatus, string sPlayer, int sFloorNo, int sFloorX, int sFloorY, int sFirstDgtPass, int sSecDgtPass, int sThirdDgtPass, int sCaseStatus, int sHaveCase, int sHaveNote, int sHavePhone, int sHaveAudio )
@@ -58,23 +59,23 @@ namespace hauntedBuildinggrp3
 
             InitializeComponent();
             //N
-            gStatus = sStatus;
-            gPlayer = sPlayer;
-            gFloorNo = sFloorNo;
-            gFloorX = sFloorX;
-            gFloorY = sFloorY;
-            gFirstDgt = sFirstDgtPass;
-            gSecDgt = sSecDgtPass;
-            gThirdDgt = sThirdDgtPass;
-            gCaseStatus = Convert.ToBoolean(sCaseStatus);
-            gHaveCase = Convert.ToBoolean(sHaveCase);
-            gHaveNote = Convert.ToBoolean(sHaveNote);
-            gHavePhone = Convert.ToBoolean(sHavePhone);
-            gHaveAudio = Convert.ToBoolean(sHaveAudio);
-            gDifficulty = sDifficulty;
-            gTimeRemain = sTimeRemain;
-            gCaseHint = sCaseHint;
-            gScareMeter = sScareMeter;
+            //gStatus = sStatus;
+            //gPlayer = sPlayer;
+            //gFloorNo = sFloorNo;
+            //gFloorX = sFloorX;
+            //gFloorY = sFloorY;
+            //gFirstDgt = sFirstDgtPass;
+            //gSecDgt = sSecDgtPass;
+            //gThirdDgt = sThirdDgtPass;
+            //gCaseStatus = Convert.ToBoolean(sCaseStatus);
+            //gHaveCase = Convert.ToBoolean(sHaveCase);
+            //gHaveNote = Convert.ToBoolean(sHaveNote);
+            //gHavePhone = Convert.ToBoolean(sHavePhone);
+            //gHaveAudio = Convert.ToBoolean(sHaveAudio);
+            //gDifficulty = sDifficulty;
+            //gTimeRemain = sTimeRemain;
+            //gCaseHint = sCaseHint;
+            //gScareMeter = sScareMeter;
             //N
             currentGraphic = new Game.Graphic("");
             enteringCode = false;
@@ -119,12 +120,10 @@ namespace hauntedBuildinggrp3
             //sql
             //if user wanted a new game;
             //change "Johnny" to real account username
-            
-            //writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny")));
 
             //N
-            if (gStatus == 0)
-            {
+            //if (gStatus == 0)
+            //{
                 //difficulty as int 0 = easy, 1 = medium, 2 = hard
                 int difficulty;
                 if (difficultyBox.Text == "Easy") difficulty = 0;
@@ -133,10 +132,10 @@ namespace hauntedBuildinggrp3
 
                 resetTime(); //Sets hour,min,sec to default
                 progressBar1.Increment(-20);
-                writeGraphic(hb.startGame(new Game.GameState(difficulty,gPlayer.ToString())));
+                writeGraphic(hb.startGame(new Game.GameState(difficulty,"Johnny".ToString())));
 
                 
-            }
+            //}
             //N
 
             //else
@@ -157,29 +156,29 @@ namespace hauntedBuildinggrp3
             
 
             //N
-            if (gStatus == 1)
-            {
-                sec = gTimeRemain % 60;
-                min = gTimeRemain / 60;
-                hour = min / 60;
-                min %= 60;
-                progressBar1.Value = gScareMeter;
+            //if (gStatus == 1)
+            //{
+            //    sec = gTimeRemain % 60;
+            //    min = gTimeRemain / 60;
+            //    hour = min / 60;
+            //    min %= 60;
+            //    progressBar1.Value = gScareMeter;
 
-                bool[] have = new bool[Game.Constants.NUM_ITEMS];
-                have[(int)Game.iName.NOTE] = gHaveNote;
-                //have[(int)iName.NOTE] = ghaveNote;
-                have[(int)Game.iName.PHONE] = gHavePhone;
-                have[(int)Game.iName.AUDIO] = gHaveAudio;
-                have[(int)Game.iName.SECRETCASE] = gHaveCase;
+            //    bool[] have = new bool[Game.Constants.NUM_ITEMS];
+            //    have[(int)Game.iName.NOTE] = gHaveNote;
+            //    //have[(int)iName.NOTE] = ghaveNote;
+            //    have[(int)Game.iName.PHONE] = gHavePhone;
+            //    have[(int)Game.iName.AUDIO] = gHaveAudio;
+            //    have[(int)Game.iName.SECRETCASE] = gHaveCase;
 
 
-                Game.GameState gs = new Game.GameState(gDifficulty,gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
-                                                      new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have, gCaseHint);
-                writeGraphic(hb.startGame(gs));
+            //    Game.GameState gs = new Game.GameState(gDifficulty,gPlayer, gFloorNo, new Game.PassCode(gFirstDgt, gSecDgt, gThirdDgt),
+            //                                          new Game.Coordinate(gFloorX, gFloorY), gCaseStatus, have, gCaseHint);
+            //    writeGraphic(hb.startGame(gs));
 
 
                 
-            }
+            //}
             //N
 
             lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
@@ -533,42 +532,42 @@ namespace hauntedBuildinggrp3
 
             if (currentGraphic.ExtraFlag == 1)
             {
-                endGame("Congraluations you win!", true);
+                endGame("Congratulations you win!", true);
                 //N
-                SqlConnection Cnn = new SqlConnection();
-                Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
-                SqlCommand oCmd = new SqlCommand();
+                //SqlConnection Cnn = new SqlConnection();
+                //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+                //SqlCommand oCmd = new SqlCommand();
 
-                oCmd.Connection = Cnn;
-                oCmd.CommandTimeout = 0;
-                oCmd.CommandType = CommandType.StoredProcedure;
-                oCmd.CommandText = "spSaveScore";
-                oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
-                oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
-                oCmd.Parameters.Add("@Difficulty", SqlDbType.Int);
-                oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
-                oCmd.Parameters.Add("@Score", SqlDbType.Int);
-                oCmd.Parameters["@UserName"].Value = gPlayer;
-                oCmd.Parameters["@DatePlayed"].Value = label1.Text;
-                oCmd.Parameters["@Difficulty"].Value = Dffint;
-                oCmd.Parameters["@TimePlayed"].Value = 3600*hour+60*min+sec;
-                oCmd.Parameters["@Score"].Value = "100"+ Convert.ToString(3600 * hour + 60 * min + sec);
-
-
-                try
-                {
-                    Cnn.Open();
-                    oCmd.ExecuteNonQuery();
-                    this.Close();
+                //oCmd.Connection = Cnn;
+                //oCmd.CommandTimeout = 0;
+                //oCmd.CommandType = CommandType.StoredProcedure;
+                //oCmd.CommandText = "spSaveScore";
+                //oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+                //oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
+                //oCmd.Parameters.Add("@Difficulty", SqlDbType.Int);
+                //oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
+                //oCmd.Parameters.Add("@Score", SqlDbType.Int);
+                //oCmd.Parameters["@UserName"].Value = gPlayer;
+                //oCmd.Parameters["@DatePlayed"].Value = label1.Text;
+                //oCmd.Parameters["@Difficulty"].Value = Dffint;
+                //oCmd.Parameters["@TimePlayed"].Value = 3600*hour+60*min+sec;
+                //oCmd.Parameters["@Score"].Value = "100"+ Convert.ToString(3600 * hour + 60 * min + sec);
 
 
-                }
-                catch (SqlException ex)
-                {
+                //try
+                //{
+                //    Cnn.Open();
+                //    oCmd.ExecuteNonQuery();
+                //    this.Close();
 
-                    MessageBox.Show(ex.Message);
+
+                //}
+                //catch (SqlException ex)
+                //{
+
+                //    MessageBox.Show(ex.Message);
                     
-                }
+                //}
            //N
             }
         }
@@ -591,8 +590,8 @@ namespace hauntedBuildinggrp3
         private void resetTime()
         {
             hour = 0;
-            min = 60;   //was 1min
-            sec = 10;
+            min = 5;   //was 1min
+            sec = 0;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -612,7 +611,9 @@ namespace hauntedBuildinggrp3
             }
 
 
-            lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2");
+            lbTimer.Text = hour.ToString("D2") + ":" + 
+                           min.ToString("D2") + ":" + 
+                           sec.ToString("D2");
 
             if ((hour * 60 * 60) + (min * 60) + sec < 60)
                 lbTimer.ForeColor = System.Drawing.Color.Red;
@@ -660,26 +661,26 @@ namespace hauntedBuildinggrp3
 
         private void difficultyBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            DffValue = difficultyBox.SelectedItem.ToString();
-            switch (DffValue)
-            {
-                case "easy":
-                    {
-                        Dffint = 0;
-                        break;
-                    }
-                case "medium":
-                    {
-                        Dffint = 1;
-                        break;
-                    }
-                case "hard":
-                    {
-                        Dffint = 2;
-                        break;
-                    }
+            //DffValue = difficultyBox.SelectedItem.ToString();
+            //switch (DffValue)
+            //{
+            //    case "easy":
+            //        {
+            //            Dffint = 0;
+            //            break;
+            //        }
+            //    case "medium":
+            //        {
+            //            Dffint = 1;
+            //            break;
+            //        }
+            //    case "hard":
+            //        {
+            //            Dffint = 2;
+            //            break;
+            //        }
 
-            }
+            //}
         }
     }
  
