@@ -363,15 +363,14 @@ namespace Game{
             correct_elevator = new CorrectElevator[Constants.NUM_FLOORS];
             wrong_elevator = new WrongElevator[Constants.NUM_FLOORS];
 
-            // Generate Elevator sequence
-            //generate a random sequence of correct elevators
+            //Generate a random sequence of correct elevators needed to reach the first floor
             //int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
             int[] correct_seq = generateRandomSequence(Constants.NUM_FLOORS);
 
             int numFloors = Constants.NUM_FLOORS;
             int x1, y1, x2, y2;
 
-            //initializes the elevators on each floor with an indication of its path
+            //Initialize the elevators on each floor on a particular point on a floor
             for (int i = numFloors - 1; i >= 0; i--)
             {     
                 x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
@@ -388,6 +387,34 @@ namespace Game{
                 wrong_elevator[i] = new WrongElevator(x2, y2, i + 1);
             }
 
+
+            /*
+             * Maps the random generated sequence to the correct elevators
+             * Floors are mapped to indices. Thus correct elevator in the first floor
+             * is in correct_elevator[0].
+             * Ex.
+             *   correct_seq[5] = {1, 3, 4, 2 , 5}
+             *   
+             *   correct_elevator [first_floor]
+             *   cameFrom =  3
+             *   goingTo  = -1 (since you cant advance any further)
+             *   
+             *   correct_elevator [second_floor]
+             *   cameFrom =  2
+             *   goingTo  =  3
+             *   
+             *   correct_elevator [third_floor]
+             *   camefrom =  4
+             *   goingTo  =  1
+             *   
+             *   correct_elevator [fourth_floor]
+             *   cameFrom =  2
+             *   goingTo  =  3
+             *   
+             *   correct_elevator [fifth_floor]
+             *   cameFrom =  -1 (Since you can't go up any higher than 5 floors)
+             *   goingTo  =   2
+             * */
             for (int i = 0; i < numFloors; i++)
             {
                 int currloc = correct_seq[i];
