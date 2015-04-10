@@ -61,7 +61,7 @@ namespace Game
          * 
          * See Tile for more information
          */
-        public Floor(int number, PassCode pc, bool[] have, Coordinate[] elevators)
+        public Floor(int number, PassCode pc, bool[] have, Coordinate[] elevators, GameState gs)
         {
             this.number = number;
             this.elevators = new Coordinate[Constants.NUM_ELEVATORS];
@@ -90,7 +90,7 @@ namespace Game
             storeElevatorCoords(Constants.taken, elevators);
             setUpPassCode(pc);
 
-            putItems(Constants.taken, have);
+            putItems(Constants.taken, have, gs);
             putHourglasses(Constants.taken);
         }
 
@@ -277,8 +277,24 @@ namespace Game
             else this.pc = pc;
         }
 
-        private void putItems(bool[,] taken, bool[] have)
+        //helper function for generating monsters
+        private void addMonster(int current, bool[,] taken, bool[] have, GameState gs)
         {
+            int x, y;
+            do
+            {
+                x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            } while (taken[x, y]);
+
+            floor[x, y].Obj = new Zombie();
+            this.coordinates.Add(new NamedCoord(Constants.ITEMS[current], new Coordinate(x, y), floor[x, y].Obj.getID()));
+            taken[x, y] = true;
+        }
+
+        private void putItems(bool[,] taken, bool[] have, GameState gs)
+        {
+            int monsterCount = 0;
             int x, y;
             for (int i = 0; i < Constants.NUM_ITEMS; i++)
             {
@@ -303,9 +319,51 @@ namespace Game
                                                         "Your way out is " + this.doorPC.code[0] + ", " + this.doorPC.code[1] + ", " + this.doorPC.code[2],
                                                         this.pc, true);
                     }
+                    //generate monsters
+                    /*
+                     *  The program will check what difficulty the game is set to
+                     *  and spawn an appropiate amount of monsters to match the
+                     *  difficulty.
+                     *  
+                     *  The code will loop until the correct number of monsters have been generated.
+                     *  
+                     *  When the loop ends, a continue statement is issued so the loop is reset
+                     *  This is needed because the code will try to add a NamedCoord to a coordiante
+                     *  position already filled up at the end of the function.
+                     *  
+                     *  the continue statement omits this and carrys on with the rest of the for loop.
+                     * 
+                     */
                     else if (i == (int)iName.MONSTER)
                     {
-                        floor[x, y].Obj = new Zombie();
+                        if (gs.difficulty == 0)
+                        {
+                            while (monsterCount < 3)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            //refresh for loop
+                            continue;
+                        }
+                        else if (gs.difficulty == 1)
+                        {
+                            while (monsterCount < 6)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            continue;
+                        }
+                        else
+                        {
+                            while (monsterCount < 9)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            continue;
+                        }
                     }
                     else
                     {

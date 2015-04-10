@@ -461,9 +461,9 @@ namespace Game{
                     
 
                 if (gs.floorNumber == i + 1) //Only restore settings of one floor
-                    floors[i] = new Floor(i + 1, gs.pc, gs.have, elevCoord);
+                    floors[i] = new Floor(i + 1, gs.pc, gs.have, elevCoord, gs);
                 else
-                    floors[i] = new Floor(i + 1, null, null, elevCoord);
+                    floors[i] = new Floor(i + 1, null, null, elevCoord, gs);
             }
         }
 
