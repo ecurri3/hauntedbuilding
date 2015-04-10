@@ -25,7 +25,7 @@ namespace hauntedBuildinggrp3
         private String scores;
 
         //N
-        //private string DffValue;
+       private string DffValue;
         //private int Dffint;
         //private int gStatus;
         //private string gPlayer;
@@ -534,40 +534,40 @@ namespace hauntedBuildinggrp3
             {
                 endGame("Congratulations you win!", true);
                 //N
-                //SqlConnection Cnn = new SqlConnection();
-                //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
-                //SqlCommand oCmd = new SqlCommand();
+                SqlConnection Cnn = new SqlConnection();
+                Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+                SqlCommand oCmd = new SqlCommand();
 
-                //oCmd.Connection = Cnn;
-                //oCmd.CommandTimeout = 0;
-                //oCmd.CommandType = CommandType.StoredProcedure;
-                //oCmd.CommandText = "spSaveScore";
-                //oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
-                //oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
-                //oCmd.Parameters.Add("@Difficulty", SqlDbType.Int);
-                //oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
-                //oCmd.Parameters.Add("@Score", SqlDbType.Int);
-                //oCmd.Parameters["@UserName"].Value = gPlayer;
-                //oCmd.Parameters["@DatePlayed"].Value = label1.Text;
-                //oCmd.Parameters["@Difficulty"].Value = Dffint;
-                //oCmd.Parameters["@TimePlayed"].Value = 3600*hour+60*min+sec;
-                //oCmd.Parameters["@Score"].Value = "100"+ Convert.ToString(3600 * hour + 60 * min + sec);
-
-
-                //try
-                //{
-                //    Cnn.Open();
-                //    oCmd.ExecuteNonQuery();
-                //    this.Close();
+                oCmd.Connection = Cnn;
+                oCmd.CommandTimeout = 0;
+                oCmd.CommandType = CommandType.StoredProcedure;
+                oCmd.CommandText = "spSaveScore";
+                oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@Difficulty", SqlDbType.NVarChar);
+                oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
+                oCmd.Parameters.Add("@Score", SqlDbType.Int);
+                oCmd.Parameters["@UserName"].Value = "noosh";
+                oCmd.Parameters["@DatePlayed"].Value = DateTime.Now.Date.Month.ToString() + "/" + DateTime.Now.Date.Day.ToString() + "/" + DateTime.Now.Date.Year.ToString();
+                oCmd.Parameters["@Difficulty"].Value = difficultyBox.Text;
+                oCmd.Parameters["@TimePlayed"].Value = 3600 * hour + 60 * min + sec;
+                oCmd.Parameters["@Score"].Value = "100" + Convert.ToString(3600 * hour + 60 * min + sec);
 
 
-                //}
-                //catch (SqlException ex)
-                //{
+                try
+                {
+                    Cnn.Open();
+                    oCmd.ExecuteNonQuery();
+                    this.Close();
 
-                //    MessageBox.Show(ex.Message);
-                    
-                //}
+
+                }
+                catch (SqlException ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+
+                }
            //N
             }
         }
@@ -661,7 +661,7 @@ namespace hauntedBuildinggrp3
 
         private void difficultyBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            //DffValue = difficultyBox.SelectedItem.ToString();
+            DffValue = difficultyBox.SelectedItem.ToString();
             //switch (DffValue)
             //{
             //    case "easy":
@@ -679,6 +679,45 @@ namespace hauntedBuildinggrp3
             //            Dffint = 2;
             //            break;
             //        }
+
+            //}
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            endGame("you won", true);
+            //SqlConnection Cnn = new SqlConnection();
+            //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            //SqlCommand oCmd = new SqlCommand();
+
+            //oCmd.Connection = Cnn;
+            //oCmd.CommandTimeout = 0;
+            //oCmd.CommandType = CommandType.StoredProcedure;
+            //oCmd.CommandText = "spSaveScore";
+            //oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
+            //oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
+            //oCmd.Parameters.Add("@Difficulty", SqlDbType.NVarChar);
+            //oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
+            //oCmd.Parameters.Add("@Score", SqlDbType.Int);
+            //oCmd.Parameters["@UserName"].Value = "noosh";
+            //oCmd.Parameters["@DatePlayed"].Value = DateTime.Now.Date.Month.ToString() + "/" + DateTime.Now.Date.Day.ToString() + "/" + DateTime.Now.Date.Year.ToString();
+            //oCmd.Parameters["@Difficulty"].Value = "easy";
+            //oCmd.Parameters["@TimePlayed"].Value = 3600 * hour + 60 * min + sec;
+            //oCmd.Parameters["@Score"].Value = "100" + Convert.ToString(3600 * hour + 60 * min + sec);
+
+
+            //try
+            //{
+            //    Cnn.Open();
+            //    oCmd.ExecuteNonQuery();
+            //    this.Close();
+
+
+            //}
+            //catch (SqlException ex)
+            //{
+
+            //    MessageBox.Show(ex.Message);
 
             //}
         }

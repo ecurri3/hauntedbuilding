@@ -284,7 +284,7 @@ namespace Game
             switch (difficulty)
             {
                 case 0: //easy
-                    floorNumber = 10;
+                    floorNumber = 2;
                     break;
                 case 1: //medium
                     floorNumber = 15;

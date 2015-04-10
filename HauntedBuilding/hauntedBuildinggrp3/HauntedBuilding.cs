@@ -291,7 +291,7 @@ namespace Game{
             switch (difficulty)
             {
                 case 0: //easy
-                    Constants.NUM_FLOORS = 10;
+                    Constants.NUM_FLOORS = 2;
                     Constants.FLOOR_LENGTH = 10;
                     Constants.FLOOR_WIDTH = 10;
                     break;
