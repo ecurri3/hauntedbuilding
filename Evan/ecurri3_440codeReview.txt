@@ -1,0 +1,163 @@
+MONSTER CLASS CODE	
+
+	//helper function for generating monsters
+        private void addMonster(int current, bool[,] taken, bool[] have, GameState gs)
+        {
+            int x, y;
+            do
+            {
+                x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            } while (taken[x, y]);
+
+            floor[x, y].Obj = new Zombie();
+            this.coordinates.Add(new NamedCoord(Constants.ITEMS[current], new Coordinate(x, y), floor[x, y].Obj.getID()));
+            taken[x, y] = true;
+        }
+
+        private void putItems(bool[,] taken, bool[] have, GameState gs)
+        {
+            int monsterCount = 0;
+            int x, y;
+            for (int i = 0; i < Constants.NUM_ITEMS; i++)
+            {
+                do
+                {
+                    x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
+                    y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                } while (taken[x, y]);
+
+                //Place item at random tile
+                if (have == null || !have[i])
+                {
+                    if (i == (int)iName.SECRETCASE)
+                    {
+                        if (number != 1)
+                        {
+                            this.caseHint = "Check at position (" + this.elevators[0].x + "," + this.elevators[0].y + ")";
+                            floor[x, y].Obj = new Case(Constants.ITEMS[i], this.caseHint, this.pc, true);
+                        }
+                        else //The case has a hint on how to unlock the door on the first floor
+                            floor[x, y].Obj = new Case(Constants.ITEMS[i],
+                                                        "Your way out is " + this.doorPC.code[0] + ", " + this.doorPC.code[1] + ", " + this.doorPC.code[2],
+                                                        this.pc, true);
+                    }
+                    //generate monsters
+                    /*
+                     *  The program will check what difficulty the game is set to
+                     *  and spawn an appropiate amount of monsters to match the
+                     *  difficulty.
+                     *  
+                     *  The code will loop until the correct number of monsters have been generated.
+                     *  
+                     *  When the loop ends, a continue statement is issued so the loop is reset
+                     *  This is needed because the code will try to add a NamedCoord to a coordiante
+                     *  position already filled up at the end of the function.
+                     *  
+                     *  the continue statement omits this and carrys on with the rest of the for loop.
+                     * 
+                     */
+                    else if (i == (int)iName.MONSTER)
+                    {
+                        if (gs.difficulty == 0)
+                        {
+                            while (monsterCount < 3)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            //refresh for loop
+                            continue;
+                        }
+                        else if (gs.difficulty == 1)
+                        {
+                            while (monsterCount < 6)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            continue;
+                        }
+                        else
+                        {
+                            while (monsterCount < 9)
+                            {
+                                addMonster(i, Constants.taken, have, gs);
+                                monsterCount++;
+                            }
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        floor[x, y].Obj = new Record(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + this.pc.code[i]);
+                    }
+
+                    this.coordinates.Add(new NamedCoord(Constants.ITEMS[i], new Coordinate(x, y), floor[x, y].Obj.getID()));
+                    taken[x, y] = true;
+                }
+            }
+        }
+
+FLASHLIGHT CODE
+
+	//Helper for useFlashLight(). true if player within distance 1.
+        private bool nearMe(Coordinate what)
+        {
+            return Math.Abs(what.x - coord.x) <= 1 && Math.Abs(what.y - coord.y) <= 1;
+        }
+        //Return a list of NamedCoord that are near the current player's coordinate;
+        public ArrayList useFlashLight(Graphic graphic)
+        {
+            ArrayList marks = new ArrayList();
+
+            foreach (NamedCoord mark in floor.Coordinates)
+            {
+                if (nearMe(mark.coord))
+                {
+                    marks.Add(mark);
+                    if (mark.name == "Monster")
+                    {
+                        graphic.Text += "Monster!" + System.Environment.NewLine;
+                    }
+                }
+            }
+
+            return marks;
+        }
+
+FRIGHTENED METER CODE
+
+	//Sets frightened meter max and min
+        //Increment by a set amount to increase and decrease how scared player is
+        progressBar1.Maximum = 20;
+        progressBar1.Minimum = 0;
+
+	.
+	.
+	.
+
+        progressBar1.Increment(-20);
+
+	.
+	.
+	.
+
+        private void flashlight_Click(object sender, EventArgs e)
+        {
+            writeGraphic(hb.enterCommand("FLASHLIGHT"));
+
+            //If monster was revealed, increment scared meter
+            if (currentGraphic.Text.Contains("Monster"))
+            {
+                gameScreen.Show();
+                gameScreen.Image = Properties.Resources.monsterEncounter;
+
+                progressBar1.Increment(1);
+
+                //If scared meter is too high, the game is over
+                if (gameStarted && progressBar1.Value >= 20)
+                    endGame("Game Over!", false);
+            }
+
+        }
