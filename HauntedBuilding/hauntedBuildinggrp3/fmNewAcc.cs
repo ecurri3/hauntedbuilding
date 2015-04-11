@@ -36,8 +36,15 @@ namespace hauntedBuildinggrp3
 
             int UserStatus;
 
-            SqlConnection Cnn = new SqlConnection();
-            Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            string filename = "HauntedBuilding.mdf";
+            string connectionInfo = String.Format(@"Data Source=(LocalDB)\v11.0;
+                AttachDbFilename=|DataDirectory|\{0};Integrated Security=True;", filename);
+
+            SqlConnection Cnn = new SqlConnection(connectionInfo);
+
+            //SqlConnection Cnn = new SqlConnection();
+            //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            
             SqlCommand oCmd = new SqlCommand();
 
             oCmd.Connection = Cnn;
@@ -69,6 +76,10 @@ namespace hauntedBuildinggrp3
                 txtDefUser.Clear();
                 txtDefPass.Clear();
                 txtDefUser.Focus();
+            }
+            finally
+            {
+                Cnn.Close();
             }
            
             

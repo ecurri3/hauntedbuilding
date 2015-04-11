@@ -49,9 +49,30 @@ namespace hauntedBuildinggrp3
 
             fmLogin loginUser = new fmLogin();
 
+            // Justo - Working with the dataset, may be easier to get stuff this way
+            //HBDataSet hbData = new HBDataSet();
+            //HBDataSetTableAdapters.PlayerHistoryTableAdapter playerHistory = new HBDataSetTableAdapters.PlayerHistoryTableAdapter();
+            //playerHistory.Fill(hbData.PlayerHistory);
 
-            SqlConnection Cnn = new SqlConnection();
-            Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            //foreach (DataRow dr in hbData.PlayerHistory)
+            //{
+            //    if ((string)dr["UserName"] == PlayerName)
+            //    {
+            //        FloorNo = (int)dr["FloorNo"];
+            //        FloorX = (int)dr["FloorX"];
+            //        FloorY = (int)dr["FloorY"];
+            //    }
+            //}
+
+            string filename = "HauntedBuilding.mdf";
+            string connectionInfo = String.Format(@"Data Source=(LocalDB)\v11.0;
+                AttachDbFilename=|DataDirectory|\{0};Integrated Security=True;", filename);
+
+            SqlConnection Cnn = new SqlConnection(connectionInfo);
+
+            //SqlConnection Cnn = new SqlConnection();
+            //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+            
             SqlCommand oCmd = new SqlCommand();
             //SqlDataReader DR= oCmd.ExecuteReader();
             //oCmd.Connection.ConnectionString="Data Source=WIN-PC; Initial Ctalog=HauntedBuilding; Integrated Security=True"; //oConn is a Module which create a connection to sql
@@ -115,8 +136,8 @@ namespace hauntedBuildinggrp3
                 CaseHint = Convert.ToString(oCmd.Parameters["@CaseHint"].Value);
                 ScareMeter = Convert.ToInt16(oCmd.Parameters["@ScareMeter"].Value);
 
-                //fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
-                fmPlayGame fPG = new fmPlayGame();
+                fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+                //fmPlayGame fPG = new fmPlayGame();
                 this.Hide();
                 fPG.ShowDialog();
                 this.Close();
@@ -127,6 +148,10 @@ namespace hauntedBuildinggrp3
 
                 MessageBox.Show(ex.Message);
                 this.btnPlaySaved.Enabled = false;
+            }
+            finally
+            {
+                Cnn.Close();
             }
             
             
@@ -150,8 +175,8 @@ namespace hauntedBuildinggrp3
             HaveAudio = 0;
 
 
-            //fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
-            fmPlayGame fPG = new fmPlayGame();
+            fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
+            //fmPlayGame fPG = new fmPlayGame();
             this.Hide();
             fPG.ShowDialog();
             this.Close();

@@ -24,8 +24,13 @@ namespace hauntedBuildinggrp3
         {
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.CenterToScreen();
-            SqlConnection Cnn = new SqlConnection();
-            Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+
+            string filename = "HauntedBuilding.mdf";
+            string connectionInfo = String.Format(@"Data Source=(LocalDB)\v11.0;
+                AttachDbFilename=|DataDirectory|\{0};Integrated Security=True;", filename);
+
+            SqlConnection Cnn = new SqlConnection(connectionInfo);
+
             SqlCommand oCmd = new SqlCommand();
             oCmd.Connection = Cnn;
             oCmd.CommandTimeout = 0;

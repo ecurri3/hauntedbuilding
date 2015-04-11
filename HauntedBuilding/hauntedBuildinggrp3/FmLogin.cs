@@ -48,8 +48,15 @@ namespace hauntedBuildinggrp3
             Player = txtUser.Text;
             int UStatus;
 
-            SqlConnection Cnn = new SqlConnection();
-            Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+
+            string filename = "HauntedBuilding.mdf";
+            string connectionInfo = String.Format(@"Data Source=(LocalDB)\v11.0;
+                AttachDbFilename=|DataDirectory|\{0};Integrated Security=True;", filename);
+
+            SqlConnection Cnn = new SqlConnection(connectionInfo);
+
+            //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
+
             SqlCommand oCmd = new SqlCommand();
             oCmd.Connection = Cnn;
             oCmd.CommandTimeout = 0;
@@ -89,6 +96,10 @@ namespace hauntedBuildinggrp3
                 txtUser.Clear();
                 txtPass.Clear();
                 txtUser.Focus();
+            }
+            finally
+            {
+                Cnn.Close();
             }
            
         }

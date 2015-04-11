@@ -280,8 +280,8 @@ namespace Game{
         {
             //TODO error check gs floor number, coord, and pass code digits
             //error check coord
-            if (gs.coord.x < 0 || gs.coord.x > Constants.FLOOR_LENGTH - 1 ||
-                gs.coord.y < 0 || gs.coord.y > Constants.FLOOR_WIDTH - 1)
+            if (gs.coord.x < 0 ||
+                gs.coord.y < 0)
                 gs.coord = new Coordinate(0, 0); //change bad coord to default
         }
 
@@ -291,7 +291,7 @@ namespace Game{
             switch (difficulty)
             {
                 case 0: //easy
-                    Constants.NUM_FLOORS = 2;
+                    Constants.NUM_FLOORS = 10;
                     Constants.FLOOR_LENGTH = 10;
                     Constants.FLOOR_WIDTH = 10;
                     break;
