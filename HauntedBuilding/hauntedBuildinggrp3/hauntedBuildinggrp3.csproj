@@ -105,11 +105,6 @@
     </Compile>
     <Compile Include="HauntedBuilding.cs" />
     <Compile Include="HauntedBuildingTypes.cs" />
-    <Compile Include="HBDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HBDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,17 +139,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="HBDataSet.xsc">
-      <DependentUpon>HBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="HBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>HBDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="HBDataSet.xss">
-      <DependentUpon>HBDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -171,13 +155,6 @@
   <ItemGroup>
     <None Include="Resources\monsterEncounter.gif" />
     <None Include="Resources\enteringCodeImg.gif" />
-    <Content Include="HauntedBuilding.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HauntedBuilding_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>HauntedBuilding.mdf</DependentUpon>
-    </Content>
     <Content Include="Resources\gameOver.gif" />
   </ItemGroup>
   <ItemGroup>
