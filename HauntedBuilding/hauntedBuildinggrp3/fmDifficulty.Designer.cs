@@ -35,9 +35,10 @@
             // 
             // easy
             // 
-            this.easy.Location = new System.Drawing.Point(67, 27);
+            this.easy.Location = new System.Drawing.Point(134, 52);
+            this.easy.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.easy.Name = "easy";
-            this.easy.Size = new System.Drawing.Size(137, 53);
+            this.easy.Size = new System.Drawing.Size(274, 102);
             this.easy.TabIndex = 0;
             this.easy.Text = "Easy";
             this.easy.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@
             // 
             // medium
             // 
-            this.medium.Location = new System.Drawing.Point(67, 98);
+            this.medium.Location = new System.Drawing.Point(134, 188);
+            this.medium.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.medium.Name = "medium";
-            this.medium.Size = new System.Drawing.Size(137, 53);
+            this.medium.Size = new System.Drawing.Size(274, 102);
             this.medium.TabIndex = 1;
             this.medium.Text = "Medium";
             this.medium.UseVisualStyleBackColor = true;
@@ -55,9 +57,10 @@
             // 
             // hard
             // 
-            this.hard.Location = new System.Drawing.Point(67, 169);
+            this.hard.Location = new System.Drawing.Point(134, 325);
+            this.hard.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.hard.Name = "hard";
-            this.hard.Size = new System.Drawing.Size(137, 53);
+            this.hard.Size = new System.Drawing.Size(274, 102);
             this.hard.TabIndex = 2;
             this.hard.Text = "Hard";
             this.hard.UseVisualStyleBackColor = true;
@@ -65,15 +68,17 @@
             // 
             // fmDifficulty
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(568, 504);
             this.Controls.Add(this.hard);
             this.Controls.Add(this.medium);
             this.Controls.Add(this.easy);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "fmDifficulty";
             this.Text = "fmDifficulty";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.fmDifficulty_Load);
             this.ResumeLayout(false);
 
         }

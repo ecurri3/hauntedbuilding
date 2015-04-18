@@ -45,5 +45,11 @@ namespace hauntedBuildinggrp3
             launchGame(2);
         }
 
+        private void fmDifficulty_Load(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.CenterToScreen();
+        }
+
     }
 }
