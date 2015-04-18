@@ -348,7 +348,7 @@ namespace Game
                     }
                     else
                     {
-                        floor[x, y].Obj = new Record(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + this.pc.code[i]);
+                        floor[x, y].Obj = new Record(Constants.ITEMS[i], "Digit " + (i + 1) + " = " + this.pc.code[i]);
                     }
 
                     this.coordinates.Add(new NamedCoord(Constants.ITEMS[i], new Coordinate(x, y), floor[x, y].Obj.getID()));

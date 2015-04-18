@@ -64,6 +64,12 @@
   <ItemGroup>
     <Compile Include="ComplexFloor.cs" />
     <Compile Include="Floor.cs" />
+    <Compile Include="fmDifficulty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmDifficulty.Designer.cs">
+      <DependentUpon>fmDifficulty.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmHowToPlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,17 +106,20 @@
     <Compile Include="fmStartGame.Designer.cs">
       <DependentUpon>fmStartGame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="fmPlayGame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="fmPlayGame.Designer.cs">
+      <DependentUpon>fmPlayGame.cs</DependentUpon>
     </Compile>
     <Compile Include="HauntedBuilding.cs" />
     <Compile Include="HauntedBuildingTypes.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="fmDifficulty.resx">
+      <DependentUpon>fmDifficulty.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fmHowToPlay.resx">
       <DependentUpon>fmHowToPlay.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,8 +138,8 @@
     <EmbeddedResource Include="fmStartGame.resx">
       <DependentUpon>fmStartGame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="fmPlayGame.resx">
+      <DependentUpon>fmPlayGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

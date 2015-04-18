@@ -159,26 +159,10 @@ namespace hauntedBuildinggrp3
 
         private void btnPlayNew_Click(object sender, EventArgs e)
         {
-            //fmPlayGame fg = new fmPlayGame();
-            //fg.Show();
-            StartGameStatus = 0;
-            FloorNo = 0;
-            FloorX = 0;
-            FloorY = 0;
-            FirstDgtPass = 0;
-            SecDgtPass = 0;
-            ThirdDgtPass = 0;
-            CaseStatus = 0;
-            HaveCase = 0;
-            HaveNote = 0;
-            HavePhone = 0;
-            HaveAudio = 0;
+            fmDifficulty fDiff = new fmDifficulty(PlayerName);
 
-
-            fmPlayGame fPG = new fmPlayGame(StartGameStatus, PlayerName, FloorNo, FloorX, FloorY, FirstDgtPass, SecDgtPass, ThirdDgtPass, CaseStatus, HaveCase, HaveNote, HavePhone, HaveAudio,Difficulty,TimeRemain,CaseHint,ScareMeter);
-            //fmPlayGame fPG = new fmPlayGame();
             this.Hide();
-            fPG.ShowDialog();
+            fDiff.ShowDialog();
             this.Close();
         }
 

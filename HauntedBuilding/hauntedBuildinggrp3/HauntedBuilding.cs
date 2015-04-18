@@ -480,7 +480,7 @@ namespace Game{
                     if (i == (int)iName.SECRETCASE)
                         items.Add(new Case(Constants.ITEMS[i], gs.caseHint, gs.pc, gs.caseLocked)); //get real hint form DB
                     else
-                        items.Add(new Record(Constants.ITEMS[i], "Digit " + (i + 1) + ": " + gs.pc.code[i]));
+                        items.Add(new Record(Constants.ITEMS[i], "Digit " + (i + 1) + " = " + gs.pc.code[i]));
                 }
 
             player = new Player(gs.playerName, floors[gs.floorNumber - 1], gs.coord, items);
@@ -496,7 +496,7 @@ namespace Game{
             setupFloors(gs);
             setupPlayer(gs);
 
-            return new Graphic(player.Coord, null,player.Name + " is on floor " +  player.Floor.Number + System.Environment.NewLine);
+            return new Graphic(player.Coord, null, "Find your way out!");
         }
 
         public void endGame()

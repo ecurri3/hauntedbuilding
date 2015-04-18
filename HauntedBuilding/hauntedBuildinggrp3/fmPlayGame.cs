@@ -22,11 +22,10 @@ namespace hauntedBuildinggrp3
         private int hour;
         private int min;
         private int sec;
-        private String scores;
 
         //N
-       private string DffValue;
-       private int Dffint;
+       private string DffValue; //For use in saving scores to database
+
        private int gStatus;
        private string gPlayer;
        private int gFloorNo;
@@ -76,12 +75,24 @@ namespace hauntedBuildinggrp3
             gTimeRemain = sTimeRemain;
             gCaseHint = sCaseHint;
             gScareMeter = sScareMeter;
+
+            //Set DffValue, difficulty as string
+            switch (gDifficulty)
+            {
+                case 0:
+                    DffValue = "Easy"; break;
+                case 1:
+                    DffValue = "Medium"; break;
+                case 2:
+                    DffValue = "Hard"; break;
+                default:
+                    DffValue = "Error: DffVal"; break;
+            }
             //N
             currentGraphic = new Game.Graphic("");
             enteringCode = false;
             helping = true;
             gameStarted = false;
-            scores = "";
 
             //Sets frightened meter max and min
             //Increment by a set amount to increase and decrease how scared player is
@@ -125,14 +136,16 @@ namespace hauntedBuildinggrp3
             if (gStatus == 0)
             {
                 //difficulty as int 0 = easy, 1 = medium, 2 = hard
+                /*
                 int difficulty;
                 if (difficultyBox.Text == "Easy") difficulty = 0;
                 else if (difficultyBox.Text == "Medium") difficulty = 1;
                 else difficulty = 2;
+                */
 
                 resetTime(); //Sets hour,min,sec to default
                 progressBar1.Increment(-20);
-                writeGraphic(hb.startGame(new Game.GameState(difficulty,gPlayer)));
+                writeGraphic(hb.startGame(new Game.GameState(gDifficulty,gPlayer)));
 
                 
             }
@@ -142,20 +155,6 @@ namespace hauntedBuildinggrp3
             //N
             if (gStatus == 1)
             {
-                //Since they are loading from database, they shouldn't be allowed to change to difficulty anymore
-                switch (gDifficulty)
-                {
-                    case 0:
-                        difficultyBox.Text = "Easy"; break;
-                    case 1:
-                        difficultyBox.Text = "Medium"; break;
-                    case 2:
-                        difficultyBox.Text = "Hard"; break;
-                    default:
-                        difficultyBox.Text = "Error"; break;
-                }
-                //Don't allow them to change the difficulty box, prevents a Save click bug
-                difficultyBox.Enabled = false;
 
                 sec = gTimeRemain % 60;
                 min = gTimeRemain / 60;
@@ -179,6 +178,8 @@ namespace hauntedBuildinggrp3
 
             lbTimer.Text = hour.ToString("D2") + ":" + min.ToString("D2") + ":" + sec.ToString("D2"); //start with 5 minutes, may change with difficulty
             timer1.Start();
+
+            playerDisplay.Text = hb.getPlayer().Name;
             pFloorLabel.Text = hb.getPlayer().Floor.Number.ToString();
             pCoordLabel.Text = "(" + hb.getPlayer().Coord.x.ToString() + ", " + hb.getPlayer().Coord.y.ToString() + ")";
             
@@ -193,7 +194,6 @@ namespace hauntedBuildinggrp3
                 gameScreen.Image = Properties.Resources.gameOver;
             }
 
-            scores += hb.getPlayer().Name + ": " + (won ? "Win" : "Loss") + "   Time Left: " + lbTimer.Text + "   Difficulty: " + hb.getDifficulty() + System.Environment.NewLine;
             hb.endGame();
             timer1.Stop();
             gameStarted = false;
@@ -561,7 +561,7 @@ namespace hauntedBuildinggrp3
                 oCmd.Parameters.Add("@Score", SqlDbType.Int);
                 oCmd.Parameters["@UserName"].Value = gPlayer;
                 oCmd.Parameters["@DatePlayed"].Value = DateTime.Now.Date.Month.ToString() + "/" + DateTime.Now.Date.Day.ToString() + "/" + DateTime.Now.Date.Year.ToString();
-                oCmd.Parameters["@Difficulty"].Value = difficultyBox.Text;
+                oCmd.Parameters["@Difficulty"].Value = DffValue;
                 oCmd.Parameters["@TimePlayed"].Value = 3600 * hour + 60 * min + sec;
                 oCmd.Parameters["@Score"].Value = "100" + Convert.ToString(3600 * hour + 60 * min + sec); //Not an INT?
 
@@ -640,10 +640,6 @@ namespace hauntedBuildinggrp3
 
         }
 
-        private void scoresButton_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(scores);
-        }
 
         private void pFloorLabel_Click(object sender, EventArgs e)
         {
@@ -655,68 +651,6 @@ namespace hauntedBuildinggrp3
 
         }
 
-        private void difficultyBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            DffValue = difficultyBox.SelectedItem.ToString();
-            //switch (DffValue)
-            //{
-            //    case "easy":
-            //        {
-            //            Dffint = 0;
-            //            break;
-            //        }
-            //    case "medium":
-            //        {
-            //            Dffint = 1;
-            //            break;
-            //        }
-            //    case "hard":
-            //        {
-            //            Dffint = 2;
-            //            break;
-            //        }
-
-            //}
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            endGame("you won", true);
-            //SqlConnection Cnn = new SqlConnection();
-            //Cnn.ConnectionString = "Data Source=WIN-PC;Initial Catalog=HauntedBuilding;Integrated Security=True";
-            //SqlCommand oCmd = new SqlCommand();
-
-            //oCmd.Connection = Cnn;
-            //oCmd.CommandTimeout = 0;
-            //oCmd.CommandType = CommandType.StoredProcedure;
-            //oCmd.CommandText = "spSaveScore";
-            //oCmd.Parameters.Add("@UserName", SqlDbType.NVarChar);
-            //oCmd.Parameters.Add("@DatePlayed", SqlDbType.NVarChar);
-            //oCmd.Parameters.Add("@Difficulty", SqlDbType.NVarChar);
-            //oCmd.Parameters.Add("@TimePlayed", SqlDbType.Int);
-            //oCmd.Parameters.Add("@Score", SqlDbType.Int);
-            //oCmd.Parameters["@UserName"].Value = "noosh";
-            //oCmd.Parameters["@DatePlayed"].Value = DateTime.Now.Date.Month.ToString() + "/" + DateTime.Now.Date.Day.ToString() + "/" + DateTime.Now.Date.Year.ToString();
-            //oCmd.Parameters["@Difficulty"].Value = "easy";
-            //oCmd.Parameters["@TimePlayed"].Value = 3600 * hour + 60 * min + sec;
-            //oCmd.Parameters["@Score"].Value = "100" + Convert.ToString(3600 * hour + 60 * min + sec);
-
-
-            //try
-            //{
-            //    Cnn.Open();
-            //    oCmd.ExecuteNonQuery();
-            //    this.Close();
-
-
-            //}
-            //catch (SqlException ex)
-            //{
-
-            //    MessageBox.Show(ex.Message);
-
-            //}
-        }
     }
  
 }
