@@ -39,9 +39,9 @@ namespace Game
     class Floor
     {
         private int number;           //floor number
-        private Tile[,] floor = new Tile[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+        private Tile[,] floor;
         private PassCode pc; //passcode for case
-        private PassCode doorPC = null; //be default only first floor has a doorPC
+        private PassCode doorPC; //be default only first floor has a doorPC
         private Coordinate[] elevators;
         private ArrayList coordinates; //has coordinates for all items/elevators
         private String caseHint;
@@ -64,13 +64,15 @@ namespace Game
         public Floor(int number, PassCode pc, bool[] have, Coordinate[] elevators, GameState gs)
         {
             this.number = number;
+            this.floor = new Tile[Globals.FLOOR_LENGTH, Globals.FLOOR_WIDTH];
+            this.doorPC = null;
             this.elevators = new Coordinate[Constants.NUM_ELEVATORS];
             this.coordinates = new ArrayList();
 
             //Prevent certain items from overlapping on the same tile
 
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+            for (int i = 0; i < Globals.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Globals.FLOOR_WIDTH; j++)
                 {
                     floor[i, j] = new Tile();
                     Constants.taken[i, j] = false;
@@ -90,7 +92,7 @@ namespace Game
             storeElevatorCoords(Constants.taken, elevators);
             setUpPassCode(pc);
 
-            putItems(Constants.taken, have, gs);
+            putItems(Constants.taken, have);
             putHourglasses(Constants.taken);
         }
 
@@ -129,7 +131,7 @@ namespace Game
         private static void architect1(Floor f, bool[,] taken)
         {
             //too small to design on that floor
-            if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
+            if (Globals.FLOOR_LENGTH < 10 || Globals.FLOOR_WIDTH < 10) return;
 
 
             Coordinate[] takenList = 
@@ -167,9 +169,9 @@ namespace Game
         {
 
             //too small to design on that floor
-            if (Constants.FLOOR_LENGTH < 10 || Constants.FLOOR_WIDTH < 10) return;
+            if (Globals.FLOOR_LENGTH < 10 || Globals.FLOOR_WIDTH < 10) return;
 
-            int fw = Constants.FLOOR_WIDTH - 1; //floor width index based
+            int fw = Globals.FLOOR_WIDTH - 1; //floor width index based
 
             Coordinate[] takenList = 
             {
@@ -205,8 +207,8 @@ namespace Game
             architect1(f, taken);
             architect2(f, taken);
 
-            int mid = Constants.FLOOR_WIDTH / 2;
-            int end = Constants.FLOOR_LENGTH-1; //other end
+            int mid = Globals.FLOOR_WIDTH / 2;
+            int end = Globals.FLOOR_LENGTH - 1; //other end
 
 
             //Build a simple wall
@@ -235,8 +237,8 @@ namespace Game
 
             do
             {
-                x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                x = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                y = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
             } while (taken[x, y]);
 
             floor[x, y].Obj = new Door(this.doorPC, true);
@@ -278,21 +280,21 @@ namespace Game
         }
 
         //helper function for generating monsters
-        private void addMonster(int current, bool[,] taken, bool[] have, GameState gs)
+        private void addMonster(bool[,] taken)
         {
             int x, y;
             do
             {
-                x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                x = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                y = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
             } while (taken[x, y]);
 
             floor[x, y].Obj = new Zombie();
-            this.coordinates.Add(new NamedCoord(Constants.ITEMS[current], new Coordinate(x, y), floor[x, y].Obj.getID()));
+            this.coordinates.Add(new NamedCoord(Constants.ITEMS[(int)iName.MONSTER], new Coordinate(x, y), floor[x, y].Obj.getID()));
             taken[x, y] = true;
         }
 
-        private void putItems(bool[,] taken, bool[] have, GameState gs)
+        private void putItems(bool[,] taken, bool[] have)
         {
             int monsterCount = 0;
             int x, y;
@@ -300,8 +302,8 @@ namespace Game
             {
                 do
                 {
-                    x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                    y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                    x = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                    y = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
                 } while (taken[x, y]);
 
                 //Place item at random tile
@@ -336,34 +338,13 @@ namespace Game
                      */
                     else if (i == (int)iName.MONSTER)
                     {
-                        if (gs.difficulty == 0)
+                        while (monsterCount < Globals.NUM_MONSTERS)
                         {
-                            while (monsterCount < 3)
-                            {
-                                addMonster(i, Constants.taken, have, gs);
-                                monsterCount++;
-                            }
-                            //refresh for loop
-                            continue;
+                            addMonster(Constants.taken);
+                            monsterCount++;
                         }
-                        else if (gs.difficulty == 1)
-                        {
-                            while (monsterCount < 6)
-                            {
-                                addMonster(i, Constants.taken, have, gs);
-                                monsterCount++;
-                            }
-                            continue;
-                        }
-                        else
-                        {
-                            while (monsterCount < 9)
-                            {
-                                addMonster(i, Constants.taken, have, gs);
-                                monsterCount++;
-                            }
-                            continue;
-                        }
+
+                        continue;
                     }
                     else
                     {
@@ -390,8 +371,8 @@ namespace Game
                 {
                     do
                     {
-                        x = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                        y = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                        x = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                        y = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
                     } while (taken[x, y]);
 
                     floor[x, y].Obj = new Hourglass(Constants.hourglassTypes[0, j]); //time bonus given by this hourglass

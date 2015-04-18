@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmStartGame));
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnHowToPlay = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
@@ -35,9 +36,10 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(289, 138);
+            this.btnPlay.Location = new System.Drawing.Point(144, 72);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(242, 87);
+            this.btnPlay.Size = new System.Drawing.Size(121, 45);
             this.btnPlay.TabIndex = 0;
             this.btnPlay.Text = "&Play";
             this.btnPlay.UseVisualStyleBackColor = true;
@@ -45,9 +47,10 @@
             // 
             // btnHowToPlay
             // 
-            this.btnHowToPlay.Location = new System.Drawing.Point(289, 274);
+            this.btnHowToPlay.Location = new System.Drawing.Point(144, 142);
+            this.btnHowToPlay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnHowToPlay.Name = "btnHowToPlay";
-            this.btnHowToPlay.Size = new System.Drawing.Size(242, 87);
+            this.btnHowToPlay.Size = new System.Drawing.Size(121, 45);
             this.btnHowToPlay.TabIndex = 0;
             this.btnHowToPlay.Text = "&How To Play";
             this.btnHowToPlay.UseVisualStyleBackColor = true;
@@ -55,9 +58,10 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(289, 409);
+            this.btnExit.Location = new System.Drawing.Point(144, 213);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(242, 87);
+            this.btnExit.Size = new System.Drawing.Size(121, 45);
             this.btnExit.TabIndex = 0;
             this.btnExit.Text = "E&xit";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -65,12 +69,14 @@
             // 
             // fmStartGame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(860, 648);
+            this.ClientSize = new System.Drawing.Size(430, 337);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnHowToPlay);
             this.Controls.Add(this.btnPlay);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "fmStartGame";
             this.Text = "fmStartGame";
             this.Load += new System.EventHandler(this.fmStartGame_Load);

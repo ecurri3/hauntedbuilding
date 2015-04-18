@@ -46,6 +46,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Iconstreet-Halloween-Haunted-house.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -155,6 +158,7 @@
   <ItemGroup>
     <None Include="Resources\monsterEncounter.gif" />
     <None Include="Resources\enteringCodeImg.gif" />
+    <Content Include="Iconstreet-Halloween-Haunted-house.ico" />
     <Content Include="Resources\gameOver.gif" />
   </ItemGroup>
   <ItemGroup>

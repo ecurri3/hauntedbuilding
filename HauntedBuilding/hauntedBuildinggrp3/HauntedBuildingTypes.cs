@@ -12,13 +12,36 @@ namespace Game
     enum CaseState { STALL, UNLOCKED, LOCKED, NOTHAVE };//For use in tryCase methods
     enum DoorState { STALL, UNLOCKED, LOCKED, NOTNEAR};
 
-    static class Constants
+    static class Globals
     {
-
         //Change with difficulty
         static public int FLOOR_LENGTH; //X
         static public int FLOOR_WIDTH; //Y
-        static public int NUM_FLOORS = 10; 
+        static public int NUM_FLOORS;
+        static public int NUM_MONSTERS;
+        
+    }
+    static class Constants
+    {
+        //Difficulty number of floors
+        public const int EASY_NUM_FLOORS = 10;
+        public const int MED_NUM_FLOORS = 15;
+        public const int HARD_NUM_FLOORS = 20;
+
+        //Difficulty floor dimensions
+        public const int EASY_FLOOR_LENGTH = 10;
+        public const int EASY_FLOOR_WIDTH = 10;
+
+        public const int MED_FLOOR_LENGTH = 15;
+        public const int MED_FLOOR_WIDTH = 15;
+
+        public const int HARD_FLOOR_LENGTH = 20;
+        public const int HARD_FLOOR_WIDTH = 20;
+
+        public const int EASY_NUM_MONSTERS = 3;
+        public const int MED_NUM_MONSTERS = 6;
+        public const int HARD_NUM_MONSTERS = 9;
+         
 
         //Builder helpers
         static public Random randGen = new Random();
@@ -91,10 +114,10 @@ namespace Game
             this.pCoord = new Coordinate(pCoord.x, pCoord.y);
             this.marks = marks != null ? new ArrayList(marks) : null;
 
-            this.image = new char[Constants.FLOOR_LENGTH,Constants.FLOOR_WIDTH];
+            this.image = new char[Globals.FLOOR_LENGTH,Globals.FLOOR_WIDTH];
 
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+            for (int i = 0; i < Globals.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Globals.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
             labelMarks(marks);
@@ -113,10 +136,10 @@ namespace Game
             this.pCoord = null;
             this.marks = null;
 
-            this.image = new char[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+            this.image = new char[Globals.FLOOR_LENGTH, Globals.FLOOR_WIDTH];
 
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+            for (int i = 0; i < Globals.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Globals.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
             this.imageSet = false;
@@ -130,10 +153,10 @@ namespace Game
             this.pCoord = null;
             this.marks = null;
 
-            this.image = new char[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+            this.image = new char[Globals.FLOOR_LENGTH, Globals.FLOOR_WIDTH];
 
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+            for (int i = 0; i < Globals.FLOOR_LENGTH; i++)
+                for (int j = 0; j < Globals.FLOOR_WIDTH; j++)
                     image[i, j] = '-';
 
             this.imageSet = false;
@@ -169,9 +192,9 @@ namespace Game
         public String getImage()
         { 
             String image_t = "";
-            for (int i = 0; i < Constants.FLOOR_LENGTH; i++)
+            for (int i = 0; i < Globals.FLOOR_LENGTH; i++)
             {
-                for (int j = 0; j < Constants.FLOOR_WIDTH; j++)
+                for (int j = 0; j < Globals.FLOOR_WIDTH; j++)
                 {
                     image_t += this.image[i, j] + "     ";
                 }
@@ -284,13 +307,13 @@ namespace Game
             switch (difficulty)
             {
                 case 0: //easy
-                    floorNumber = 10;
+                    floorNumber = Constants.EASY_NUM_FLOORS;
                     break;
                 case 1: //medium
-                    floorNumber = 15;
+                    floorNumber = Constants.MED_NUM_FLOORS;
                     break;
-                case 2: //hard
-                    floorNumber = 20;
+                default: //hard
+                    floorNumber = Constants.HARD_NUM_FLOORS;
                     break;
             }
             pc = null;
@@ -486,7 +509,7 @@ namespace Game
         public Boolean isThereElevator(int i, int j){ return x==i && y==j; }
 
         //Will make sure an elevator doesnt pass its boundary limits
-        public Boolean canGoUp() { return this.floor != Constants.NUM_FLOORS; }
+        public Boolean canGoUp() { return this.floor != Globals.NUM_FLOORS; }
 
         public Boolean canGoDown() { return this.floor != 1; }
 
@@ -505,7 +528,7 @@ namespace Game
 
         public override int go_up()
         {
-            randAbove = Constants.randGen.Next(this.floor, Constants.NUM_FLOORS+1);
+            randAbove = Constants.randGen.Next(this.floor, Globals.NUM_FLOORS+1);
             return randAbove;
         }
 

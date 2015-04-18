@@ -285,25 +285,29 @@ namespace Game{
                 gs.coord = new Coordinate(0, 0); //change bad coord to default
         }
 
+        //Init globals
         private void setupDifficulty(GameState gs)
         {
             difficulty = gs.difficulty;
             switch (difficulty)
             {
                 case 0: //easy
-                    Constants.NUM_FLOORS = 10;
-                    Constants.FLOOR_LENGTH = 10;
-                    Constants.FLOOR_WIDTH = 10;
+                    Globals.NUM_FLOORS = Constants.EASY_NUM_FLOORS;
+                    Globals.FLOOR_LENGTH = Constants.EASY_FLOOR_LENGTH;
+                    Globals.FLOOR_WIDTH = Constants.EASY_FLOOR_WIDTH;
+                    Globals.NUM_MONSTERS = Constants.EASY_NUM_MONSTERS;
                     break;
                 case 1: //medium
-                    Constants.NUM_FLOORS = 15;
-                    Constants.FLOOR_LENGTH = 15;
-                    Constants.FLOOR_WIDTH = 15;
+                    Globals.NUM_FLOORS = Constants.MED_NUM_FLOORS;
+                    Globals.FLOOR_LENGTH = Constants.MED_FLOOR_LENGTH;
+                    Globals.FLOOR_WIDTH = Constants.MED_FLOOR_WIDTH;
+                    Globals.NUM_MONSTERS = Constants.MED_NUM_MONSTERS;
                     break;
                 case 2: //hard
-                    Constants.NUM_FLOORS = 20;
-                    Constants.FLOOR_LENGTH = 20;
-                    Constants.FLOOR_WIDTH = 20;
+                    Globals.NUM_FLOORS = Constants.HARD_NUM_FLOORS;
+                    Globals.FLOOR_LENGTH = Constants.HARD_FLOOR_LENGTH;
+                    Globals.FLOOR_WIDTH = Constants.HARD_FLOOR_WIDTH;
+                    Globals.NUM_MONSTERS = Constants.HARD_NUM_MONSTERS;
                     break;
             }
         }
@@ -346,7 +350,7 @@ namespace Game{
                 do
                 {
                     //second number in Next() is exclusive so we want [1,NUM_FLOORS+1)
-                    randNum = Constants.randGen.Next(2, Constants.NUM_FLOORS+1);
+                    randNum = Constants.randGen.Next(2, Globals.NUM_FLOORS+1);
 
                 }while(checks[randNum-1]);
 
@@ -360,28 +364,28 @@ namespace Game{
 
         private void setupElevators()
         {
-            correct_elevator = new CorrectElevator[Constants.NUM_FLOORS];
-            wrong_elevator = new WrongElevator[Constants.NUM_FLOORS];
+            correct_elevator = new CorrectElevator[Globals.NUM_FLOORS];
+            wrong_elevator = new WrongElevator[Globals.NUM_FLOORS];
 
             //Generate a random sequence of correct elevators needed to reach the first floor
             //int[] correct_seq = new int[10] { 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
-            int[] correct_seq = generateRandomSequence(Constants.NUM_FLOORS);
+            int[] correct_seq = generateRandomSequence(Globals.NUM_FLOORS);
 
-            int numFloors = Constants.NUM_FLOORS;
+            int numFloors = Globals.NUM_FLOORS;
             int x1, y1, x2, y2;
 
             //Initialize the elevators on each floor on a particular point on a floor
             for (int i = numFloors - 1; i >= 0; i--)
-            {     
-                x1 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                y1 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+            {
+                x1 = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                y1 = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
 
                 correct_elevator[i] = new CorrectElevator(x1, y1, i + 1);
 
                 do
                 {
-                    x2 = Constants.randGen.Next(0, Constants.FLOOR_LENGTH);
-                    y2 = Constants.randGen.Next(0, Constants.FLOOR_WIDTH);
+                    x2 = Constants.randGen.Next(0, Globals.FLOOR_LENGTH);
+                    y2 = Constants.randGen.Next(0, Globals.FLOOR_WIDTH);
                 } while ((x2 == x1) && (y2 == y1));
 
                 wrong_elevator[i] = new WrongElevator(x2, y2, i + 1);
@@ -443,12 +447,12 @@ namespace Game{
 
         private void setupFloors(GameState gs)
         {
-            floors = new Floor[Constants.NUM_FLOORS]; //Creating 10 foors
+            floors = new Floor[Globals.NUM_FLOORS]; //Creating 10 foors
 
-            Constants.taken = new bool[Constants.FLOOR_LENGTH, Constants.FLOOR_WIDTH];
+            Constants.taken = new bool[Globals.FLOOR_LENGTH, Globals.FLOOR_WIDTH];
 
             Coordinate[] elevCoord = new Coordinate[Constants.NUM_ELEVATORS];
-            for (int i = 0; i < Constants.NUM_FLOORS; i++)
+            for (int i = 0; i < Globals.NUM_FLOORS; i++)
             {
                 //Get the elevator coordinates, pass them to Floor constructor
                 for (int j = 0; j < Constants.NUM_ELEVATORS; j++)

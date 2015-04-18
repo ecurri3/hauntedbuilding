@@ -73,11 +73,11 @@ namespace Game
                     if (isBarrier(coord.x - 1, coord.y)) return false;
                     coord.x--; break;
 
-                case Move.RIGHT: if (coord.y + 1 > Constants.FLOOR_WIDTH - 1) return false;
+                case Move.RIGHT: if (coord.y + 1 > Globals.FLOOR_WIDTH - 1) return false;
                     if (isBarrier(coord.x, coord.y + 1)) return false;
                     coord.y++; break;
 
-                case Move.BACKWARD: if (coord.x + 1 > Constants.FLOOR_LENGTH - 1) return false;
+                case Move.BACKWARD: if (coord.x + 1 > Globals.FLOOR_LENGTH - 1) return false;
                     if (isBarrier(coord.x + 1, coord.y)) return false;
                     coord.x++; break;
 
