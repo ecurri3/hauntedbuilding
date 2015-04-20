@@ -92,7 +92,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "fmStartGame";
             this.Text = "fmStartGame";
-            this.TransparencyKey = System.Drawing.Color.Transparent;
+            this.TransparencyKey = System.Drawing.Color.White;
             this.Load += new System.EventHandler(this.fmStartGame_Load);
             this.ResumeLayout(false);
 
