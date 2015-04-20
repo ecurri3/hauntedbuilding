@@ -165,9 +165,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\gycomp.gif" />
+    <None Include="Resources\Haunted_House_by_DaakSM.jpg" />
+    <None Include="Resources\q8667511_1281140_345_tn_the-brown-lady-haunts-raynh.jpg" />
+    <None Include="Resources\Haunted-House-With-Cat.jpg" />
+    <None Include="Resources\main_3595fca5-b038-4f8f-ab73a5ae3ef5e023.jpg" />
     <None Include="Resources\monsterEncounter.gif" />
     <None Include="Resources\enteringCodeImg.gif" />
     <Content Include="Iconstreet-Halloween-Haunted-house.ico" />
+    <None Include="Resources\da7e89d01535977a6d3d2c6b18e43a18.jpg" />
     <Content Include="Resources\gameOver.gif" />
   </ItemGroup>
   <ItemGroup>

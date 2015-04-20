@@ -34,14 +34,20 @@
             // 
             // rtxtHelp
             // 
+            this.rtxtHelp.BackColor = System.Drawing.SystemColors.ControlText;
+            this.rtxtHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtxtHelp.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.rtxtHelp.Location = new System.Drawing.Point(56, 54);
             this.rtxtHelp.Name = "rtxtHelp";
-            this.rtxtHelp.Size = new System.Drawing.Size(559, 585);
+            this.rtxtHelp.Size = new System.Drawing.Size(424, 576);
             this.rtxtHelp.TabIndex = 0;
             this.rtxtHelp.Text = "";
             // 
             // btnCloseHelp
             // 
+            this.btnCloseHelp.BackgroundImage = global::hauntedBuildinggrp3.Properties.Resources.q8667511_1281140_345_tn_the_brown_lady_haunts_raynh;
+            this.btnCloseHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCloseHelp.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnCloseHelp.Location = new System.Drawing.Point(712, 281);
             this.btnCloseHelp.Name = "btnCloseHelp";
             this.btnCloseHelp.Size = new System.Drawing.Size(195, 94);
@@ -54,11 +60,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::hauntedBuildinggrp3.Properties.Resources.q8667511_1281140_345_tn_the_brown_lady_haunts_raynh;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1017, 697);
+            this.ControlBox = false;
             this.Controls.Add(this.btnCloseHelp);
             this.Controls.Add(this.rtxtHelp);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Name = "fmHowToPlay";
-            this.Text = "fmHowToPlay";
             this.Load += new System.EventHandler(this.fmHowToPlay_Load);
             this.ResumeLayout(false);
 

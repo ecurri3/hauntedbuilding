@@ -263,6 +263,7 @@ namespace hauntedBuildinggrp3
         //When form loads
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.CenterToScreen();
             label3.Text = DateTime.Now.Date.Month.ToString()+"/"+DateTime.Now.Date.Day.ToString()+"/"+DateTime.Now.Date.Year.ToString();
             lbTimer.Visible = false;
             textBox2.Text = hb.getTitle() + System.Environment.NewLine +
@@ -435,7 +436,7 @@ namespace hauntedBuildinggrp3
                 }
 
             }
-            //this.Close();
+            this.Close();
             //N
         }
 

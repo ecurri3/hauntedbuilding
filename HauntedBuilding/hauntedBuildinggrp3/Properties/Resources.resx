@@ -118,13 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="enteringCodeImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\enteringCodeImg.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="main_3595fca5-b038-4f8f-ab73a5ae3ef5e023" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\main_3595fca5-b038-4f8f-ab73a5ae3ef5e023.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gycomp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gycomp.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="gameOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\gameover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="q8667511_1281140_345_tn_the-brown-lady-haunts-raynh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\q8667511_1281140_345_tn_the-brown-lady-haunts-raynh.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Haunted_House_by_DaakSM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Haunted_House_by_DaakSM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enteringCodeImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enteringCodeImg.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Haunted-House-With-Cat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Haunted-House-With-Cat.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="monsterEncounter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\monsterEncounter.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="da7e89d01535977a6d3d2c6b18e43a18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\da7e89d01535977a6d3d2c6b18e43a18.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

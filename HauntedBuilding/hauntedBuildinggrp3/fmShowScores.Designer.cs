@@ -49,7 +49,7 @@
             this.ClientSize = new System.Drawing.Size(873, 618);
             this.Controls.Add(this.DGVScores);
             this.Name = "fmShowScores";
-            this.Text = "fmShowScores";
+            this.Text = "Scores";
             this.Load += new System.EventHandler(this.fmShowScores_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGVScores)).EndInit();
             this.ResumeLayout(false);

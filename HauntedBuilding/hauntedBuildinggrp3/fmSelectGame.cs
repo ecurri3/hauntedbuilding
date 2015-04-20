@@ -182,5 +182,10 @@ namespace hauntedBuildinggrp3
             fmShowScores fscore = new fmShowScores(PlayerName);
             fscore.Show();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
