@@ -436,7 +436,7 @@ namespace hauntedBuildinggrp3
                 }
 
             }
-            this.Close();
+            //this.Close();
             //N
         }
 
